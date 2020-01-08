@@ -39,10 +39,9 @@ public class GUIController {
     }
 
     //Opdaterer balance i GUI'en
-    public void updatePlayerBalance(int numberOfPlayers) {
-        for (int i = 0; i < numberOfPlayers; i++) {
-        gui_player[i].setBalance(gui_player[i].getBalance());
-        }
+    public void updatePlayerBalance(int playerNumber, int newBalance) {
+        gui_player[playerNumber].setBalance(newBalance);
+
     }
 
     //Antal spillere
