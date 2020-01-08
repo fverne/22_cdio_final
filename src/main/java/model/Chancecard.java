@@ -8,9 +8,10 @@ import java.util.Arrays;
 import java.lang.*;
 
 
-/*
 
 public class Chancecard  {
+}
+/*
 
 private static model.Wallet trans = new Wallet;
 private static model.Player move = new model.Player;
