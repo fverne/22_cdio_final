@@ -18,6 +18,10 @@ public class GUIController {
         gui = gameBoard.initGUI();
     }
 
+    public int getNumberOfPlayers(){
+        return numberOfPlayers;
+    }
+
     public void initPlayers() {
         numberOfPlayers = setNumberOfPlayers();
         gui_player = new GUI_Player[numberOfPlayers];
@@ -26,7 +30,7 @@ public class GUIController {
     }
 
     public void displayRollGUI(int faceValue1, int faceValue2){
-        gui.getUserButtonPressed("Kast terningerne!");
+        gui.getUserButtonPressed("Kast terningerne!","Ok");
         gui.setDice(faceValue1,faceValue2);
     }
 

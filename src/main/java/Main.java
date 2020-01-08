@@ -2,9 +2,9 @@ import GUI.GUIController;
 
 public class Main {
     public static void main(String[] args) {
-
-        GUIController test = new GUIController();
-        test.initPlayers();
+        TurnController turnController = new TurnController();
+        turnController.startGame();
+        turnController.playGame();
 
     }
 }
