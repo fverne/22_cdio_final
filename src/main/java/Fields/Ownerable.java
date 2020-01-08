@@ -14,7 +14,11 @@ public abstract class Ownerable extends Field {
         this.rent = rent;
 
     }
-    public void buy(){
+    public void buy(Player pl){
+        if (pl.getBalance() - this.getCost() >= 0 && this.getOwnedBy() == null) {
+            pl.addToBalance(- this.getCost());
+            setOwnedBy(pl);
+        }
 
     }
 

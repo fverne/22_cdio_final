@@ -1,6 +1,7 @@
 package Fields.Ownable;
 
 import Fields.Ownerable;
+import model.Player;
 
 public class Property extends Ownerable {
 
@@ -8,7 +9,7 @@ public class Property extends Ownerable {
         super(name, text, cost, rent);
     }
 
-    public void buy(){
+    public void buy(Player pl){
 
     }
 }
