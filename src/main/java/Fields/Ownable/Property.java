@@ -1,6 +1,6 @@
-package main.java.Feilds.Ownable;
+package Fields.Ownable;
 
-import main.java.Feilds.Ownerable;
+import Fields.Ownerable;
 
 public class Property extends Ownerable {
 
