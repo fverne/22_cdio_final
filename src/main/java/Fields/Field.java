@@ -1,5 +1,7 @@
 package Fields;
 
+import model.Player;
+
 public abstract class Field {
 
     private String name;
@@ -9,6 +11,9 @@ public abstract class Field {
         this.name = name;
         this.text = text;
     }
+
+    public abstract Field landOnField(Player player);
+
 
     public String getName() {
         return name;
