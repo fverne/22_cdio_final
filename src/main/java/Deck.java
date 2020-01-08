@@ -10,5 +10,4 @@ public class Deck {
 
         return single_instance;
     }
-
 }
