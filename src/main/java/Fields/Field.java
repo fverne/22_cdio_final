@@ -1,5 +1,6 @@
 package Fields;
 
+
 public abstract class Field {
 
     private String name;
@@ -9,7 +10,9 @@ public abstract class Field {
         this.name = name;
         this.text = text;
     }
+    public void landOn(Player pl){
 
+    }
     public String getName() {
         return name;
     }
