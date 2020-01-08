@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class Player {
 
+    private static GUI.Board fieldID = new GUI.Board;
+
     //information holding variables
     private int balance;
     private int position;
@@ -66,6 +68,9 @@ public class Player {
         } else{
             return false;
         }
+    }
+    public void setSpecificPosition(int fieldID) {
+        position = fieldID;
     }
 
 }
