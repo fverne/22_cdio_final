@@ -13,6 +13,10 @@ public class MovementController {
         }
     }
 
+    public int getLatestRoll(){
+        return dice.getFaceValues();
+    }
+
     public Player makeMove(int player){
         /*if (Player.getInJail){
 

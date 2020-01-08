@@ -15,4 +15,8 @@ public class DiceHolder {
         die2.rollDie();
         return die1.getFaceValue() + die2.getFaceValue();
     }
+
+    public  int getFaceValues(){
+        return  die1.getFaceValue() + die2.getFaceValue();
+    }
 }
