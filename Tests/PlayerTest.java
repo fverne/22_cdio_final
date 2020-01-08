@@ -1,4 +1,4 @@
-import main.java.model.Player;
+import model.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
