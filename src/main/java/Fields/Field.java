@@ -1,6 +1,5 @@
 package Fields;
 
-
 public abstract class Field {
 
     private String name;

@@ -9,8 +9,8 @@ public class Board {
     private GUI_Field[] fields = new GUI_Field[40];
 
     public Board() {
-        fields[0] = new GUI_Start("Start","SUBTEXT","BESRKIVELSE",Color.red,Color.BLACK);
-        fields[1] = new GUI_Street("Title","SubText","Beskrivelse","PRIS",Color.WHITE,Color.BLACK);
+        fields[0] = new GUI_Start("Start","SUBTEXT","Hver gang start passeres modtages 4000 kr.",Color.red,Color.BLACK);
+        fields[1] = new GUI_Street("Rødovrevej","Pris: ","Beskrivelse","PRIS",Color.WHITE,Color.BLACK);
         fields[2] = new GUI_Chance("Title","SubText","Beskrivelse",Color.WHITE,Color.BLACK);
         fields[3] = new GUI_Street("Title","SubText","Beskrivelse","PRIS",Color.WHITE,Color.BLACK);
         fields[4] = new GUI_Tax("Title","SubText","Beskrivelse",Color.WHITE,Color.BLACK);
@@ -55,7 +55,6 @@ public class Board {
 
     //returnrere gui objektet så spilbrættet kan initialiseres
     public GUI initGUI() {
-        GUI gui = new GUI(fields, Color.white);
-        return gui;
+        return new GUI(fields, Color.white);
     }
 }

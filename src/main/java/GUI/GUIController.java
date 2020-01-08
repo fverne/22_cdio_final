@@ -1,4 +1,5 @@
 package GUI;
+
 import gui_fields.GUI_Player;
 import gui_main.GUI;
 import java.awt.*;
@@ -8,7 +9,7 @@ public class GUIController {
     private GUI gui;
     public GUI_Player[] gui_player;
 
-    private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN};
+    private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN, Color.CYAN, Color.DARK_GRAY};
     int numberOfPlayers;
 
     public GUIController() {
@@ -19,7 +20,7 @@ public class GUIController {
         numberOfPlayers = setNumberOfPlayers();
         gui_player = new GUI_Player[numberOfPlayers];
         setPlayerName();
-        createGUIPlayers();
+        addGUIPlayers();
     }
 
     //Opdaterer balance i GUI'en
@@ -50,7 +51,7 @@ public class GUIController {
     }
 
     //Adder spillerne til GUI
-    public void createGUIPlayers() {
+    public void addGUIPlayers() {
         for (int i = 0; i < numberOfPlayers; i++) {
             gui_player[i].getName();
             gui_player[i] = new GUI_Player(gui_player[i].getName(), gui_player[i].getBalance());
@@ -59,5 +60,3 @@ public class GUIController {
         }
     }
 }
-
-
