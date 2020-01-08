@@ -18,6 +18,9 @@ public class Board {
         fields[5] = new GUI_Shipping("Billede","Øresund","subtext","beskrivelse","leje",Color.YELLOW,Color.BLACK);
         fields[6] = new GUI_Street("Roskildevej","SubText","Beskrivelse","PRIS",Color.RED,Color.BLACK);
         fields[7] = new GUI_Chance("?","Prøv lykken","Beskrivelse",Color.WHITE,Color.BLACK);
+        fields[8] = new GUI_Street("Valby langgade","SubText","Beskrivelse","PRIS",Color.WHITE,Color.BLACK);
+        fields[9] = new GUI_Street("Allégade","SubText","Beskrivelse","PRIS",Color.WHITE,Color.BLACK);
+        fields[10] = new GUI_Refuge("Billede","I Fængsel","subtext","beskrivelse",Color.BLACK,Color.BLACK);
         fields[8] = new GUI_Street("Valby langgade","SubText","Beskrivelse","PRIS",Color.RED,Color.BLACK);
         fields[9] = new GUI_Street("Allégade","SubText","Beskrivelse","PRIS",Color.RED,Color.BLACK);
         fields[10] = new GUI_Jail("Billede","I Fængsel","subtext","beskrivelse",Color.BLACK,Color.BLACK);
