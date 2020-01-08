@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Player {
 
-    private static GUI.Board fieldID = new GUI.Board;
+    private static GUI.Board fieldID = new GUI.Board();
 
     //information holding variables
     private int balance;

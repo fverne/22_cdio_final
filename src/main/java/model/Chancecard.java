@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import model.Wallet;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.lang.*;
 
 
-
+/*
 
 public class Chancecard  {
 
@@ -198,6 +198,6 @@ private static model.Player move = new model.Player;
 
     }
 
-
+*/
 
 
