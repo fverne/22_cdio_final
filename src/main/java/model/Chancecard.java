@@ -26,24 +26,7 @@ private static model.Player move = new model.Player;
 
             }
     public static int giveChanceCard(int rndChanceCardValue){
-        String fileName = "TekstChanceKort/ChanceCardText.txt";
-        File file = new File(fileName);
-        String line;
-        String[] text = new String[32];
-        try {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            for (int i = 0; (line = bufferedReader.readLine()) != null; i++){
-                text[i] = line;
-            }
-            bufferedReader.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to open file '" + fileName + "'");
-        } catch (IOException ex){
-            System.out.println("error reading file '" + fileName + "'");
-        }
         switch(rndChanceCardValue){
 
             //betal penge
@@ -57,7 +40,7 @@ private static model.Player move = new model.Player;
             case 3:
                 trans.withdraw(200);
                 break;
-            case 4
+            case 4:
                 trans.withdraw(3000);
                 break;
             case 5:
