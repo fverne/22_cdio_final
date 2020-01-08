@@ -13,7 +13,7 @@ import java.lang.*;
 public class Chancecard  {
 
 private static model.Wallet trans = new Wallet;
-private static Player move = new Player;
+private static model.Player move = new model.Player;
 
 
     private static Object ArrayUtils;
@@ -137,17 +137,51 @@ private static Player move = new Player;
                 move.setSpecificPosition(11);
                 break;
             case 27:
+                move.setSpecificPosition(24);
                 break;
+                //Ryk frem eller tilbage med et antal felter
             case 28:
+                move.setPosition(-3);
                 break;
+                // Ryk frem til nærmeste rederi
+            //Betal dobbelt leje hvis rederiet er ejet.
             case 29:
+                if( 36 <= move.getPosition() || move.getPosition() <= 4){
+                    move.setSpecificPosition(5);
+                 }
+                if( 6 <= move.getPosition() && move.getPosition() <= 14){
+                    move.setSpecificPosition(15);
+                }
+                if(16 <= move.getPosition() && move.getPosition() <= 24){
+                    move.setSpecificPosition(25);
+                }
+                if(26 <= move.getPosition() && move.getPosition() <= 34){
+                    move.setSpecificPosition(35);
+                }
                 break;
+
             case 30:
+                if( 36 <= move.getPosition() || move.getPosition() <= 4){
+                    move.setSpecificPosition(5);
+                }
+                if( 6 <= move.getPosition() && move.getPosition() <= 14){
+                    move.setSpecificPosition(15);
+                }
+                if(16 <= move.getPosition() && move.getPosition() <= 24){
+                    move.setSpecificPosition(25);
+                }
+                if(26 <= move.getPosition() && move.getPosition() <= 34){
+                    move.setSpecificPosition(35);
+                }
                 break;
+                //fængselskort
             case 31:
+                move.setSpecificPosition(35);
                 break;
             case 32:
                 break;
+            case 33:
+            case 34:
 
 
 
