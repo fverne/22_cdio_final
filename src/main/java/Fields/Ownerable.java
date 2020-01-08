@@ -1,6 +1,6 @@
-package main.java.Feilds;
+package Fields;
 
-import main.java.model.Player;
+import model.*;
 
 
 public abstract class Ownerable extends Field {

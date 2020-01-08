@@ -1,4 +1,5 @@
-package main.java.Feilds;
+package Fields;
+
 
 public abstract class NotOwnerable extends Field {
 
