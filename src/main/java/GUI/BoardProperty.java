@@ -9,6 +9,7 @@ public class BoardProperty {
     private Field[] fieldProperty = new Field[40];
 
     public void initBoardProperty(Player player){
+        /*
         fieldProperty[0] = new GUI_Street();
         fieldProperty[1] = new
         fieldProperty[2] = new
@@ -49,5 +50,7 @@ public class BoardProperty {
         fieldProperty[37] = new
         fieldProperty[38] = new
         fieldProperty[39] = new
+
+         */
     }
 }

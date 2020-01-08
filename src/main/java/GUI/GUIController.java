@@ -2,6 +2,8 @@ package GUI;
 
 import gui_fields.GUI_Player;
 import gui_main.GUI;
+import model.Player;
+
 import java.awt.*;
 
 public class GUIController {
@@ -23,9 +25,24 @@ public class GUIController {
         addGUIPlayers();
     }
 
+    public void displayRollGUI(int faceValue1, int faceValue2){
+        gui.setDice(faceValue1,faceValue2);
+    }
+
+    public void movePlayer(int playerNumber, int newLocation){
+
+        int deleteCarFromField = newLocation-1;
+        for (int i = 0; i <= deleteCarFromField; i++) {
+            gui.getFields()[i].setCar(gui_player[playerNumber], false);
+        }
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber],true);
+    }
+
     //Opdaterer balance i GUI'en
-    public void updatePlayerBalance() {
-        gui_player[numberOfPlayers].setBalance(gui_player[numberOfPlayers].getBalance());
+    public void updatePlayerBalance(int numberOfPlayers) {
+        for (int i = 0; i < numberOfPlayers; i++) {
+        gui_player[i].setBalance(gui_player[i].getBalance());
+        }
     }
 
     //Antal spillere
