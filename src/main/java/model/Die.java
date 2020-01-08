@@ -4,9 +4,8 @@ import model.*;
 public class Die {
     private int faceValue;
 
-    public int rollDie() {
+    public void rollDie() {
         faceValue = (int) (Math.random() * 6 + 1);
-        return faceValue;
     }
 
     public int getFaceValue() {
