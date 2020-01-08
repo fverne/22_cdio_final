@@ -1,6 +1,6 @@
-package Feilds.NotOwnable;
+package main.java.Feilds.NotOwnable;
 
-import Feilds.NotOwnerable;
+import main.java.Feilds.NotOwnerable;
 
 public class GoToJail extends NotOwnerable {
 }

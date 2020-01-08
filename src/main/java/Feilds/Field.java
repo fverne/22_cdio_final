@@ -1,10 +1,32 @@
-package Feilds;
-import
+package main.java.Feilds;
+
+import main.java.model.Player;
 
 public abstract class Field {
+
     private String name;
-    private int cost;
-    private Player ownedBy;
+    private String text;
+
+    public Field(String name, String text){
+        this.name = name;
+        this.text = text;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
 
 }
