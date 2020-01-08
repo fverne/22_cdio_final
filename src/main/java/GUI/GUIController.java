@@ -1,4 +1,5 @@
 package GUI;
+
 import model.*;
 
 import gui_fields.GUI_Player;
@@ -10,7 +11,7 @@ public class GUIController {
     private Board gameBoard = new Board();
     private GUI gui;
     public GUI_Player[] gui_player;
-    private String playerName;
+
     private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN};
     int numberOfPlayers;
 
@@ -18,14 +19,15 @@ public class GUIController {
         gui = gameBoard.initGUI();
     }
 
-    public void initGUIPlayers(){
+    public void initPlayers() {
         numberOfPlayers = setNumberOfPlayers();
-        setPlayerName(numberOfPlayers);
-        createGUIPlayers(numberOfPlayers);
+        gui_player = new GUI_Player[numberOfPlayers];
+        setPlayerName();
+        createGUIPlayers();
     }
 
     public void updatePlayerBalance(int playerNum) {
-        gui_player[playerNum].setBalance(gui_player[playerNum].getBalance());
+        //gui_player[playerNum].setBalance(gui_player[playerNum].getBalance());
     }
 
     //beder brugeren om et antal spillere, udskriver fejl meddelelse hvis der indtastes for få eller for mange spilelre
@@ -38,25 +40,20 @@ public class GUIController {
         return numberOfPlayers;
     }
 
-    public void setPlayerName(int numberOfPlayers) {
+    public void setPlayerName() {
         for (int i = 0; i < numberOfPlayers; i++) {
-            playerName = gui.getUserString("Indtast navn: ");
-            while (playerName.length() > 25) {
+            String name = gui.getUserString("Indtast navn: ");
+            gui_player[i] = new GUI_Player(name);
+
+            while (gui_player[i].getName().length() > 25) {
                 gui.showMessage("Indtast venligst et navne på færre end 25 karakterer");
-                playerName = gui.getUserString("Indtast navn: ");
+                gui_player[i].setName(name);
             }
         }
     }
 
-    public String getPlayerName() {
-        return playerName;
-    }
-
-
     //initialiserer alle spillerne og dertilhørende informationer
-    public void createGUIPlayers(int numberOfPlayers) {
-
-        gui_player = new GUI_Player[numberOfPlayers];
+    public void createGUIPlayers() {
 
         for (int i = 0; i < numberOfPlayers; i++) {
             gui_player[i].getName();
@@ -65,8 +62,6 @@ public class GUIController {
             gui.addPlayer(gui_player[i]);
         }
     }
-
-
 }
 
 
