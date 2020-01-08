@@ -1,3 +1,5 @@
+import main.java.model.Player;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {

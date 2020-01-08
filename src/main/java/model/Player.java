@@ -1,24 +1,71 @@
-package model;
+package main.java.model;
 
-
-import gui_fields.GUI_Player;
+import java.util.Arrays;
 
 public class Player {
-    public Wallet wallet;
-    private String name;
-    public Player[] players;
 
-    public Player(String playerName) {
-        name = playerName;
-        wallet = new Wallet(30000);
+    //information holding variables
+    private int balance;
+    private int position;
+    private int[] ownedFields = new int[0];
+
+    public Player(){
+        position = 0;
+        balance = 30000;
     }
 
-    //public void setPlayerName(){
-    //}
-
-    public String getPlayerName() {
-        return name;
+    public int getBalance() {
+        return balance;
     }
 
+    public void addToBalance(int modifier) {
+        if (balance + modifier < 0){
+            balance = 0;
+        } else{
+          balance += modifier;
+        }
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int moveLength) {
+        if (moveLength + position > 39){
+            position = (position + moveLength) - 40;
+            balance += 4000;
+        } else {
+            position += moveLength;
+        }
+
+    }
+
+    public void setOwnership(int field){
+        if (ownedFields.length == 0){
+            ownedFields = new int[1];
+            ownedFields[0] = field;
+        } else{
+            int temp = ownedFields.length;
+
+            ownedFields = Arrays.copyOf(ownedFields, ownedFields.length + 1);
+            ownedFields[temp] = field;
+        }
+    }
+
+    public boolean getOwnership(int field){
+        int temp = 0;
+        for (int i = 0; ownedFields.length > i; i++){
+            if (ownedFields[i] == field){
+                temp++;
+                break;
+            }
+        }
+
+        if (temp > 0){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
 }
