@@ -17,6 +17,20 @@ public class MovementController {
         return dice.getFaceValues();
     }
 
+    public int getLatestPosition(Player player){
+        if (player.getPosition() - getLatestRoll() < 0){
+            return 40 + player.getPosition() - getLatestRoll();
+        } else {
+
+            return player.getPosition() - getLatestRoll();
+        }
+    }
+
+    public int lastPos(Player player, int faceValue){
+        int lastFieldIndex =+ faceValue;
+        return lastFieldIndex;
+    }
+
     public Player makeMove(int player){
         /*if (Player.getInJail){
 

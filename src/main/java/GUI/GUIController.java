@@ -38,10 +38,9 @@ public class GUIController {
     }
 
 
-    public void movePlayer(int playerNumber, int newLocation){
+    public void movePlayer(int playerNumber, int newLocation, int lastLocation){
 
-        int deleteCarFromField = newLocation-1;
-        for (int i = 0; i <= deleteCarFromField; i++) {
+        for (int i = 0; i <= lastLocation; i++) {
             gui.getFields()[i].setCar(gui_player[playerNumber], false);
         }
         gui.getFields()[newLocation].setCar(gui_player[playerNumber],true);

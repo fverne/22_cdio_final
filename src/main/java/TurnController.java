@@ -14,13 +14,13 @@ public class TurnController {
     public void playGame(){
         int winCondition = 0;
         for (int turnTimer = 0; winCondition == 0; turnTimer++ ){
-            guiController.displayRollGUI(2,3);
+            guiController.displayDie();
             model.Player player = movementController.makeMove(turnTimer);
-            guiController.movePlayer(turnTimer, player.getPosition());
+            guiController.movePlayer(turnTimer, player.getPosition(),movementController.getLatestPosition(player));
             guiController.updatePlayerBalance(turnTimer, player.getBalance());
 
             if (turnTimer == guiController.getNumberOfPlayers() -1){
-                turnTimer = 0;
+                turnTimer = -1;
             }
         }
 
