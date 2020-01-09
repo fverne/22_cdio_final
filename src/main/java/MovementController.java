@@ -1,4 +1,5 @@
 import model.DiceHolder;
+import model.Die;
 import model.Player;
 
 public class MovementController {
@@ -13,16 +14,16 @@ public class MovementController {
         }
     }
 
-    public int getLatestRoll(){
+    public Die[] getLatestRoll(){
         return dice.getFaceValues();
     }
 
     public int getLatestPosition(Player player){
-        if (player.getPosition() - getLatestRoll() < 0){
-            return 40 + player.getPosition() - getLatestRoll();
+        if (player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue() < 0){
+            return 40 + player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
         } else {
 
-            return player.getPosition() - getLatestRoll();
+            return player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
         }
     }
 
@@ -35,7 +36,7 @@ public class MovementController {
         /*if (Player.getInJail){
 
         } */
-        players[player].setPosition(dice.rollDice());
+        players[player].setPosition(dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
 
         return players[player];
     }
