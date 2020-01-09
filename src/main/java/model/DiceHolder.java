@@ -2,21 +2,20 @@ package model;
 
 public class DiceHolder {
 
-    private Die die1;
-    private Die die2;
+    private Die[] die = new Die[2];
 
     public DiceHolder(){
-        die1 = new Die();
-        die2 = new Die();
+        die[0] = new Die();
+        die[1] = new Die();
     }
 
-    public int rollDice(){
-        die1.rollDie();
-        die2.rollDie();
-        return die1.getFaceValue() + die2.getFaceValue();
+    public Die[] rollDice(){
+        die[0].rollDie();
+        die[1].rollDie();
+        return die;
     }
 
-    public  int getFaceValues(){
-        return  die1.getFaceValue() + die2.getFaceValue();
+    public  Die[] getFaceValues(){
+        return  die;
     }
 }
