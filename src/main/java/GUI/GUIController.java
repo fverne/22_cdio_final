@@ -2,6 +2,7 @@ package GUI;
 
 import gui_fields.GUI_Player;
 import gui_main.GUI;
+import model.Language;
 import model.Player;
 
 import java.awt.*;
@@ -54,7 +55,7 @@ public class GUIController {
 
     //Antal spillere
     public int setNumberOfPlayers() {
-        int numberOfPlayers = gui.getUserInteger("Indtast antal spillere: ");
+        int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount()+": ");
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
             gui.showMessage("Indtast mellem 3-6 spillere");
             numberOfPlayers = gui.getUserInteger("Indtast antal spillere: ");
