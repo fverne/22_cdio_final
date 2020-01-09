@@ -2,7 +2,6 @@ package GUI;
 
 import gui_fields.GUI_Player;
 import gui_main.GUI;
-import model.Player;
 
 import java.awt.*;
 
@@ -61,7 +60,9 @@ public class GUIController {
         }
         return numberOfPlayers;
     }
-
+    public String yesOrNo(String text){
+        return gui.getUserSelection(text, "ja", "nej");
+    }
     //Spiller navne
     public void setPlayerName() {
         for (int i = 0; i < numberOfPlayers; i++) {

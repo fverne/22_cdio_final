@@ -1,4 +1,6 @@
 import Fields.Field;
+import Fields.Ownable.Property;
+import Fields.Ownerable;
 import GUI.FieldProperty;
 import GUI.GUIController;
 
@@ -6,12 +8,12 @@ public class TurnController {
 
     private GUIController guiController;
     private MovementController movementController;
-
+    private FieldProperty FieldBoard;
     public void startGame(){
        guiController = new GUIController();
        guiController.initPlayers();
        movementController = new MovementController(guiController.getNumberOfPlayers());
-       FieldProperty FieldBoard = new FieldProperty();
+       FieldBoard = new FieldProperty();
     }
 
     public void playGame(){
@@ -22,7 +24,19 @@ public class TurnController {
 
             guiController.movePlayer(turnTimer, player.getPosition(),movementController.getLatestPosition(player));
 
-            if(FieldBoard)
+            Field plField = FieldBoard.getField(player.getPosition());
+            if(plField instanceof Ownerable){
+                 if(((Ownerable) plField).getOwnedBy() == null){
+                     if(guiController.yesOrNo("Vil du købe "+ plField.getText()).equals("ja")){
+                         Calculater.buyField(player, plField);
+                     }
+                 }else if(plField instanceof Property && player.equals(((Ownerable) plField).getOwnedBy()) &&  ((Property) plField).isCanBuild()) {
+                     if(guiController.yesOrNo("Vil du bygge hus").equals("ja"))
+                         Calculater.buyHouse(player, plField);
+                 }else{
+                     Calculater.rent(player, plField);
+                 }
+            }
 
             guiController.updatePlayerBalance(turnTimer, player.getBalance());
 

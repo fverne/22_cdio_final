@@ -23,8 +23,15 @@ public class Property extends Ownerable {
         }
     }
 
+    public boolean isCanBuild() {
+        return canBuild;
+    }
 
-    public Property(String name, String text, int cost, int[] rentList, int pairType,int houseCost) {
+    public void setCanBuild(boolean canBuild) {
+        this.canBuild = canBuild;
+    }
+
+    public Property(String name, String text, int cost, int[] rentList, int pairType, int houseCost) {
         super(name, text, cost, rentList[0]);
         this.rentList = rentList;
         this.pairType = pairType;
