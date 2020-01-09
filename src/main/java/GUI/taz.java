@@ -2,7 +2,7 @@ package GUI;
 
 import model.Player;
 
-public class Tax extends Fields {
+public class taz extends Fields {
     String name, message;
     int taxPayment;
     boolean isOwned;
@@ -12,7 +12,7 @@ public class Tax extends Fields {
         return null;
     }
 
-    public Tax(String name, String message, int taxPayment) {
+    public taz(String name, String message, int taxPayment) {
         this.name = name;
         this.message = message;
         this.taxPayment = taxPayment;
