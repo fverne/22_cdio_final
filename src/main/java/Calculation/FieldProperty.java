@@ -1,10 +1,11 @@
-package GUI.FieldProperties;
+package Calculation;
 
 import Fields.Field;
 import Fields.NotOwnable.ChanceField;
 import Fields.NotOwnable.Tax;
 import Fields.NotOwnable.Useless;
 import Fields.Ownable.Property;
+import Fields.Ownerable;
 
 
 public class FieldProperty {
@@ -60,6 +61,36 @@ public class FieldProperty {
 
     public Field getField(int fieldNumber) {
         return fieldProperty[fieldNumber];
+    }
+
+    public int getPrice(int fieldNumber){
+        Ownerable field = (Ownerable) fieldProperty[fieldNumber];
+        return field.getCost();
+    }
+
+    public void setOwned(model.Player player, int fieldNumber){
+        Ownerable field = (Ownerable) fieldProperty[fieldNumber];
+        field.setOwnedBy(player);
+    }
+
+    public int getRent(int fieldNumber){
+        Ownerable field = (Ownerable) fieldProperty[fieldNumber];
+        return field.getRent();
+    }
+
+    public model.Player getOwner(int fieldNumber){
+        Ownerable field = (Ownerable) fieldProperty[fieldNumber];
+        return field.getOwnedBy();
+    }
+
+    public int getHousePrice(int fieldNumber){
+        Fields.Ownable.Property field = (Fields.Ownable.Property) fieldProperty[fieldNumber];
+        return field.getHouseCost();
+    }
+
+    public void changeHouseAmount(int fieldNumber, model.Player player){
+        Fields.Ownable.Property field = (Fields.Ownable.Property) fieldProperty[fieldNumber];
+        field.changeHouseAmount(1, player);
     }
 
 }

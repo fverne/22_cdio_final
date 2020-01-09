@@ -1,19 +1,17 @@
-import Fields.Field;
-import Fields.Ownable.Property;
-import Fields.Ownerable;
-import GUI.FieldProperty;
 import GUI.GUIController;
+import Calculation.Calculator;
 
 public class TurnController {
 
     private GUIController guiController;
     private MovementController movementController;
-    private FieldProperty FieldBoard;
+    private Calculator calculator;
+
     public void startGame(){
        guiController = new GUIController();
        guiController.initPlayers();
        movementController = new MovementController(guiController.getNumberOfPlayers());
-       FieldBoard = new FieldProperty();
+       calculator = new Calculator();
     }
 
     public void playGame(){
@@ -24,17 +22,23 @@ public class TurnController {
 
             guiController.movePlayer(turnTimer, player.getPosition(),movementController.getLatestPosition(player));
 
-            Field plField = FieldBoard.getField(player.getPosition());
-            if(plField instanceof Ownerable){
-                 if(((Ownerable) plField).getOwnedBy() == null){
+            int fieldNumber = player.getPosition();
+            Fields.Field plField = calculator.getField(fieldNumber);
+
+            if(plField instanceof Fields.Ownerable){
+                 if((((Fields.Ownerable) plField).getOwnedBy() == null)){
                      if(guiController.yesOrNo("Vil du købe "+ plField.getText()).equals("ja")){
-                         Calculater.buyField(player, plField);
+                         calculator.buyField(player, fieldNumber);
                      }
-                 }else if(plField instanceof Property && player.equals(((Ownerable) plField).getOwnedBy()) &&  ((Property) plField).isCanBuild()) {
-                     if(guiController.yesOrNo("Vil du bygge hus").equals("ja"))
-                         Calculater.buyHouse(player, plField);
-                 }else{
-                     Calculater.rent(player, plField);
+                 }else {
+                     if(plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+                             &&  ((Fields.Ownable.Property) plField).isCanBuild()) {
+                         if (guiController.yesOrNo("Vil du bygge hus").equals("ja")) {
+                             calculator.buyHouse(player, fieldNumber);
+                         }
+                     }else {
+                         calculator.payRent(player, fieldNumber);
+                     }
                  }
             }
 
