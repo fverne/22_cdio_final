@@ -19,6 +19,10 @@ public class GUIController {
         gui = gameBoard.initGUI();
     }
 
+    public String yesOrNo(String text){
+        return gui.getUserSelection(text,"ja","nej");
+    }
+
     public int getNumberOfPlayers(){
         return numberOfPlayers;
     }
