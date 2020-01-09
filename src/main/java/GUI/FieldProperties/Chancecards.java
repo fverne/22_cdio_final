@@ -1,6 +1,5 @@
-package GUI;
+package GUI.FieldProperties;
 
-import model.Chancecard;
 import model.Player;
 
 import java.util.Random;
