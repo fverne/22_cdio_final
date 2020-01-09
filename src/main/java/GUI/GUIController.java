@@ -29,10 +29,14 @@ public class GUIController {
         addGUIPlayers();
     }
 
-    public void displayRollGUI(int faceValue1, int faceValue2){
+    public void displayDie(){
         gui.getUserButtonPressed("Kast terningerne!","Ok");
+    }
+
+    public void displayRollGUI(int faceValue1, int faceValue2){
         gui.setDice(faceValue1,faceValue2);
     }
+
 
     public void movePlayer(int playerNumber, int newLocation){
 

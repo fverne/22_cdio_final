@@ -57,4 +57,13 @@ public class Board {
     public GUI initGUI() {
         return new GUI(fields, Color.white);
     }
+
+    //Ændrer border på feltet hvis det er ejet
+    public void setOwnedBorder(GUI_Field gui_field, String name) {
+        if (gui_field instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gui_field;
+            street.setBorder(Color.BLACK, Color.red);
+            street.setSubText("Ejes af: " + " " + name);
+        }
+    }
 }
