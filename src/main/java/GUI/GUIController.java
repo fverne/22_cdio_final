@@ -42,7 +42,6 @@ public class GUIController {
         gui.setDice(faceValue1,faceValue2);
     }
 
-
     public void movePlayer(int playerNumber, int newLocation, int lastLocation){
 
         for (int i = 0; i <= lastLocation; i++) {
@@ -51,10 +50,22 @@ public class GUIController {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber],true);
     }
 
+    public void teleportPlayer(int playerNumber, int newLocation){
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber],true);
+    }
+
+    public void removeCar(int playerNumber, int newLocation){
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber],false);
+    }
+
     //Opdaterer balance i GUI'en
     public void updatePlayerBalance(int playerNumber, int newBalance) {
         gui_player[playerNumber].setBalance(newBalance);
+    }
 
+    public int getUserInt(){
+        int price;
+        return price = gui.getUserInteger("Indtast pris/bud");
     }
 
     //Antal spillere
