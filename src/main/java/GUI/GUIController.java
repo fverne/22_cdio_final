@@ -25,6 +25,14 @@ public class GUIController {
         return gui.getUserSelection(text, "ja", "nej");
     }
 
+    //Ændrer border på feltet hvis det er ejet
+    public void addHouse(GUI_Field gui_field, int amount) {
+        if (gui_field instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gui_field;
+            street.setHouses(amount);
+        }
+    }
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -68,7 +76,6 @@ public class GUIController {
         }
     }
 
-
     //Opdaterer balance i GUI'en
     public void updatePlayerBalance(int playerNumber, int newBalance) {
         gui_player[playerNumber].setBalance(newBalance);
@@ -76,7 +83,6 @@ public class GUIController {
 
     public int getUserInt() {
         int price = gui.getUserInteger("Indtast pris/bud");
-        ;
         return price;
     }
 
