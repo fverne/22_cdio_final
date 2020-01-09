@@ -1,6 +1,8 @@
 package GUI;
 
+import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
+import gui_fields.GUI_Street;
 import gui_main.GUI;
 import model.Language;
 import model.Player;
@@ -19,11 +21,11 @@ public class GUIController {
         gui = gameBoard.initGUI();
     }
 
-    public String yesOrNo(String text){
-        return gui.getUserSelection(text,"ja","nej");
+    public String yesOrNo(String text) {
+        return gui.getUserSelection(text, "ja", "nej");
     }
 
-    public int getNumberOfPlayers(){
+    public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
@@ -34,43 +36,53 @@ public class GUIController {
         addGUIPlayers();
     }
 
-    public void displayDie(){
-        gui.getUserButtonPressed("Kast terningerne!","Ok");
+    public void displayDie() {
+        gui.getUserButtonPressed("Kast terningerne!", "Ok");
     }
 
-    public void displayRollGUI(int faceValue1, int faceValue2){
-        gui.setDice(faceValue1,faceValue2);
+    public void displayRollGUI(int faceValue1, int faceValue2) {
+        gui.setDice(faceValue1, faceValue2);
     }
 
-    public void movePlayer(int playerNumber, int newLocation, int lastLocation){
+    public void movePlayer(int playerNumber, int newLocation, int lastLocation) {
 
         for (int i = 0; i <= lastLocation; i++) {
             gui.getFields()[i].setCar(gui_player[playerNumber], false);
         }
-        gui.getFields()[newLocation].setCar(gui_player[playerNumber],true);
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
-    public void teleportPlayer(int playerNumber, int newLocation){
-        gui.getFields()[newLocation].setCar(gui_player[playerNumber],true);
+    public void teleportPlayer(int playerNumber, int newLocation) {
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
-    public void removeCar(int playerNumber, int newLocation){
-        gui.getFields()[newLocation].setCar(gui_player[playerNumber],false);
+    public void removeCar(int playerNumber, int newLocation) {
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber], false);
     }
+
+    public void setFieldBorder(GUI_Field gui_field, Player player) {
+        if (gui_field instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gui_field;
+            street.setBorder(Color.BLACK, Color.red);
+            //street.setSubText("Ejes af: " + String.valueOf(player.getName()));
+        }
+    }
+
 
     //Opdaterer balance i GUI'en
     public void updatePlayerBalance(int playerNumber, int newBalance) {
         gui_player[playerNumber].setBalance(newBalance);
     }
 
-    public int getUserInt(){
-        int price;
-        return price = gui.getUserInteger("Indtast pris/bud");
+    public int getUserInt() {
+        int price = gui.getUserInteger("Indtast pris/bud");
+        ;
+        return price;
     }
 
     //Antal spillere
     public int setNumberOfPlayers() {
-        int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount()+": ");
+        int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount() + ": ");
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
             gui.showMessage("Indtast mellem 3-6 spillere");
             numberOfPlayers = gui.getUserInteger("Indtast antal spillere: ");
