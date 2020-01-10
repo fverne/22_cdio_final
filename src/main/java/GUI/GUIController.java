@@ -68,12 +68,16 @@ public class GUIController {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], false);
     }
 
-    public void setFieldBorder(GUI_Field gui_field, Player player) {
+    public void setFieldBorder(GUI_Field gui_field, int playerNumber) {
         if (gui_field instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gui_field;
             street.setBorder(Color.BLACK, Color.red);
-            //street.setSubText("Ejes af: " + String.valueOf(player.getName()));
+            street.setSubText("Ejes af: " + String.valueOf(gui_player[playerNumber].getName()));
         }
+    }
+
+    public void displayChancecard(String text){
+        gui.displayChanceCard(text);
     }
 
     //Opdaterer balance i GUI'en
