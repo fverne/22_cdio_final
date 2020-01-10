@@ -1,5 +1,6 @@
 package GUI;
 
+import Calculation.FieldProperty;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
@@ -26,9 +27,9 @@ public class GUIController {
     }
 
     //Ændrer border på feltet hvis det er ejet
-    public void addHouse(GUI_Field gui_field, int amount) {
-        if (gui_field instanceof GUI_Street) {
-            GUI_Street street = (GUI_Street) gui_field;
+    public void addHouse(int fieldNumber, int amount) {
+        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setHouses(amount);
         }
     }
@@ -68,11 +69,11 @@ public class GUIController {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], false);
     }
 
-    public void setFieldBorder(GUI_Field gui_field, int playerNumber) {
-        if (gui_field instanceof GUI_Street) {
-            GUI_Street street = (GUI_Street) gui_field;
+    public void setFieldBorder(int fieldNumber, int playerNumber) {
+        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.red);
-            street.setSubText("Ejes af: " + String.valueOf(gui_player[playerNumber].getName()));
+            street.setSubText("Ejes af: " + gui_player[playerNumber].getName());
         }
     }
 
@@ -93,10 +94,13 @@ public class GUIController {
     //Antal spillere
     public int setNumberOfPlayers() {
         int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount() + ": ");
+        /*
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
             gui.showMessage("Indtast mellem 3-6 spillere");
             numberOfPlayers = gui.getUserInteger("Indtast antal spillere: ");
         }
+
+         */
         return numberOfPlayers;
     }
 

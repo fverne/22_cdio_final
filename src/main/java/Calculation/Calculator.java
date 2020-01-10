@@ -17,7 +17,7 @@ public class Calculator {
     }
 
     public void buyField(model.Player player, int fieldNumber){
-        player.addToBalance(fieldProperty.getPrice(fieldNumber));
+        player.withdraw(fieldProperty.getPrice(fieldNumber));
         fieldProperty.setOwned(player, fieldNumber);
         player.setOwnership(fieldNumber);
     }
@@ -25,10 +25,10 @@ public class Calculator {
     public void payRent(model.Player player, int fieldNumber){
         int rent = fieldProperty.getRent(fieldNumber);
 
-        player.addToBalance(- rent);
+        player.withdraw(rent);
 
         model.Player owner = fieldProperty.getOwner(fieldNumber);
-        owner.addToBalance(rent);
+        owner.deposit(rent);
     }
 
     public Field getField(int fieldNumber){
@@ -37,7 +37,7 @@ public class Calculator {
 
     public void buyHouse(Player player, int fieldNumber){
         int price = fieldProperty.getHousePrice(fieldNumber);
-        player.addToBalance(-price);
+        player.withdraw(price);
         fieldProperty.changeHouseAmount(fieldNumber, player);
     }
 }

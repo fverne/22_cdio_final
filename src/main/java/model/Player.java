@@ -20,11 +20,19 @@ public class Player {
         return balance;
     }
 
-    public void addToBalance(int modifier) {
+    public void deposit(int modifier) {
         if (balance + modifier < 0){
             balance = 0;
         } else{
-          balance += modifier;
+            balance += modifier;
+        }
+    }
+
+    public void withdraw(int modifier) {
+        if (balance - modifier < 0){
+            balance = 0;
+        } else{
+            balance -= modifier;
         }
     }
 
@@ -35,7 +43,7 @@ public class Player {
     public void setPosition(int moveLength) {
         if (moveLength + position > 39){
             position = (position + moveLength) - 40;
-            addToBalance(4000);
+            deposit(4000);
         } else {
             position += moveLength;
         }

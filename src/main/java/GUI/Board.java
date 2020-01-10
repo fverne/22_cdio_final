@@ -1,5 +1,6 @@
 package GUI;
 
+import Fields.Field;
 import gui_fields.*;
 import gui_main.GUI;
 
@@ -57,5 +58,7 @@ public class Board {
     public GUI initGUI() {
         return new GUI(fields, Color.white);
     }
-
+    public GUI_Field getGUIField(int fieldNumber) {
+        return fields[fieldNumber];
+    }
 }

@@ -7,10 +7,10 @@ class PlayerTest {
     @org.junit.jupiter.api.Test
     void addToBalance(){
         Player testPlayer = new Player();
-        testPlayer.addToBalance(-35000);
+        testPlayer.deposit(-35000);
         assertEquals(0, testPlayer.getBalance());
 
-        testPlayer.addToBalance(355);
+        testPlayer.deposit(355);
         assertEquals(355, testPlayer.getBalance());
     }
 

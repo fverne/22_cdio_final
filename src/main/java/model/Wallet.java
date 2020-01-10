@@ -1,5 +1,5 @@
 package model;
-
+/*
 public class Wallet {
     public int balance;
 
@@ -23,3 +23,5 @@ public class Wallet {
         setBalance(getBalance() - value);
     }
 }
+
+ */

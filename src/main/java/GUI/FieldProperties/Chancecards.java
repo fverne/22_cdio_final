@@ -68,7 +68,7 @@ public class Chancecards extends Fields {
     @Override
     public Fields landOnField(Player player) {
         Chancecards card = Chancecards.getRandomCard();
-        player.addToBalance(card.getReward());
+        player.deposit(card.getReward());
         return this;
     }
 }
