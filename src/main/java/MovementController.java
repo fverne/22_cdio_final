@@ -27,17 +27,32 @@ public class MovementController {
         }
     }
 
-    public int lastPos(Player player, int faceValue){
-        int lastFieldIndex =+ faceValue;
-        return lastFieldIndex;
-    }
-
     public Player makeMove(int player){
         /*if (Player.getInJail){
 
         } */
-        players[player].setPosition(dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+        setPosition(players[player],dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
 
         return players[player];
     }
+
+    public void setPosition(Player player, int moveLength) {
+        int position = player.getPosition();
+
+        if (moveLength + position > 39){
+            player.setPosition((position + moveLength) - 40);
+            player.deposit(4000);
+        } else {
+            player.setPosition(player.getPosition()+moveLength);
+        }
+    }
+
+    public String passedStart(int lastPos, int newPos){
+        String msg;
+        if (lastPos>newPos){
+            msg = "Du har passeret start, modtag 4000 kr.";
+        } else msg = "";
+        return msg;
+    }
+
 }

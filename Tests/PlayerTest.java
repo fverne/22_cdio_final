@@ -30,10 +30,13 @@ class PlayerTest {
     @org.junit.jupiter.api.Test
     void setPosition() {
        Player testPlayer = new Player();
-       testPlayer.setPosition(34);
+       MovementController movementController = new MovementController(1);
+       movementController.setPosition(testPlayer,34);
+       //testPlayer.setPosition(34);
        assertEquals(34,testPlayer.getPosition());
 
-       testPlayer.setPosition(7);
+       movementController.setPosition(testPlayer,7);
+       //testPlayer.setPosition(7);
        assertEquals(1,testPlayer.getPosition());
     }
 }

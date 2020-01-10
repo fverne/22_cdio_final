@@ -45,6 +45,10 @@ public class GUIController {
         addGUIPlayers();
     }
 
+    public void displayGUIMsg(String message){
+        gui.showMessage(message);
+    }
+
     public void displayDie() {
         gui.getUserButtonPressed("Kast terningerne!", "Ok");
     }
@@ -119,6 +123,7 @@ public class GUIController {
     //Adder spillerne til GUI
     public void addGUIPlayers() {
         for (int i = 0; i < numberOfPlayers; i++) {
+            gui_player[i].setBalance(30000);
             gui_player[i].getName();
             gui_player[i] = new GUI_Player(gui_player[i].getName(), gui_player[i].getBalance());
             gui_player[i].getCar().setPrimaryColor(colors[i]);

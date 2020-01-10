@@ -22,6 +22,7 @@ public class TurnController {
             guiController.displayDie();
             model.Player player = movementController.makeMove(turnTimer);
 
+            guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player),player.getPosition()));
             guiController.movePlayer(turnTimer, player.getPosition(),movementController.getLatestPosition(player));
 
             int fieldNumber = player.getPosition();

@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 public class Player {
 
-    private static GUI.Board fieldID = new GUI.Board();
-
     //information holding variables
     private int balance;
     private int position;
@@ -36,10 +34,15 @@ public class Player {
         }
     }
 
+    public void setPosition(int position){
+        this.position = position;
+    }
+
     public int getPosition() {
         return position;
     }
 
+/*
     public void setPosition(int moveLength) {
         if (moveLength + position > 39){
             position = (position + moveLength) - 40;
@@ -47,8 +50,9 @@ public class Player {
         } else {
             position += moveLength;
         }
-
     }
+
+ */
 
     public void setOwnership(int field){
         if (ownedFields.length == 0){
