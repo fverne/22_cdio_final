@@ -49,7 +49,7 @@ public class FieldProperty {
         fieldProperty[25] = new Ferry("Mols-Linien","vej",4000, new int[] {5, 15, 35},rentListFerry);
         fieldProperty[26] = new Property("Bredgade","vej",5200,new int[] {450, 2200, 6600, 16000, 19500, 23000},new int[] {27, 29},3000);
         fieldProperty[27] = new Property("Kgs. Nytorv","vej",5200,new int[] {450, 2200, 6600, 16000, 19500, 23000},new int[] {26, 29},3000);
-        fieldProperty[27] = new Brewery("Carlsberg","vej",3000, new int[] {12},rentlistBrewery);
+        fieldProperty[28] = new Brewery("Carlsberg","vej",3000, new int[] {12},rentlistBrewery);
         fieldProperty[29] = new Property("Østergade","vej",5600,new int[] {500, 2400, 7200, 17000, 20500, 24000},new int[] {25, 27},3000);
         fieldProperty[30] = new Useless("I Fængsel","Jail");
         fieldProperty[31] = new Property("Amagertorv","vej",6000,new int[] {550, 2600, 7800, 18000, 22000, 25000},new int[] {32, 34},4000);
