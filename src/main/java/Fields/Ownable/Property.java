@@ -23,6 +23,14 @@ public class Property extends Ownerable {
         }
     }
 
+    public int getPairType() {
+        return pairType;
+    }
+
+    public void setPairType(int pairType) {
+        this.pairType = pairType;
+    }
+
     public int getHouseCost(){
         return this.houseCost;
     }

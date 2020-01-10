@@ -6,6 +6,7 @@ import Fields.NotOwnable.Tax;
 import Fields.NotOwnable.Useless;
 import Fields.Ownable.Property;
 import Fields.Ownerable;
+import model.Player;
 
 
 public class FieldProperty {
@@ -91,6 +92,15 @@ public class FieldProperty {
     public void changeHouseAmount(int fieldNumber, model.Player player){
         Fields.Ownable.Property field = (Fields.Ownable.Property) fieldProperty[fieldNumber];
         field.changeHouseAmount(1, player);
+    }
+
+    private boolean doubleRent(Player pl, int pairType){
+        for(Field field : fieldProperty){
+                if(field instanceof Property && ((Property) field).getPairType() == pairType && !((Property) field).getOwnedBy().equals(pl)){
+                    return false;
+                }
+        }
+        return true;
     }
 
 }
