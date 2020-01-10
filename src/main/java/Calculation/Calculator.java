@@ -35,8 +35,8 @@ public class Calculator {
         return fieldProperty.getField(fieldNumber);
     }
 
-    public void buyHouse(Player player, int fieldNumber){
-        int price = fieldProperty.getHousePrice(fieldNumber);
+    public void buyHouse(Player player, int fieldNumber, int amount){
+        int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
         player.withdraw(price);
         fieldProperty.changeHouseAmount(fieldNumber, player);
     }

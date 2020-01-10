@@ -98,6 +98,11 @@ public class GUIController {
         return price;
     }
 
+    public int getAmountOfHouses(){
+        int amount = gui.getUserInteger("Hvor mange huse ønskes:");
+        return amount;
+    }
+
     //Antal spillere
     public int setNumberOfPlayers() {
         int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount() + ": ");

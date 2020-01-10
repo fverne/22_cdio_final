@@ -40,8 +40,9 @@ public class TurnController {
                     if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
                         if (guiController.yesOrNo("Vil du bygge hus").equals("ja")) {
-                            guiController.addHouse(fieldNumber, 1);
-                            calculator.buyHouse(player, fieldNumber);
+                            int amount = guiController.getAmountOfHouses();
+                            guiController.addHouse(fieldNumber, amount);
+                            calculator.buyHouse(player, fieldNumber, amount);
                             guiController.setFieldBorder(fieldNumber, turnTimer);
                         }
                     } else {
