@@ -33,14 +33,15 @@ public class TurnController {
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
                     if (guiController.yesOrNo("Vil du købe " + plField.getText()).equals("ja")) {
                         calculator.buyField(player, fieldNumber);
+                        ((Fields.Ownable.Property) plField).setCanBuild(true);
                         guiController.setFieldBorder(fieldNumber, turnTimer);
                     }
                 } else {
                     if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
                         if (guiController.yesOrNo("Vil du bygge hus").equals("ja")) {
-                            calculator.buyHouse(player, fieldNumber);
                             guiController.addHouse(fieldNumber, 1);
+                            calculator.buyHouse(player, fieldNumber);
                             guiController.setFieldBorder(fieldNumber, turnTimer);
                         }
                     } else {
