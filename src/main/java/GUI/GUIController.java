@@ -45,11 +45,14 @@ public class GUIController {
         addGUIPlayers();
     }
 
-    public void displayGUIMsg(String message){
-        gui.showMessage(message);
+    public void displayGUIMsg(String message) {
+        if (message == null) {
+            //ja det er meningen det her er tomt #bugfixing
+        } else
+            gui.showMessage(message);
     }
 
-    public void displayDie() {
+    public void rollButton() {
         gui.getUserButtonPressed("Kast terningerne!", "Ok");
     }
 
@@ -81,7 +84,7 @@ public class GUIController {
         }
     }
 
-    public void displayChancecard(String text){
+    public void displayChancecard(String text) {
         gui.displayChanceCard(text);
     }
 

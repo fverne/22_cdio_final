@@ -19,7 +19,8 @@ public class TurnController {
     public void playGame(){
         int winCondition = 0;
         for (int turnTimer = 0; winCondition == 0; turnTimer++ ){
-            guiController.displayDie();
+            guiController.rollButton();
+            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(),movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
 
             guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player),player.getPosition()));
@@ -40,6 +41,7 @@ public class TurnController {
                          if (guiController.yesOrNo("Vil du bygge hus").equals("ja")) {
                              calculator.buyHouse(player, fieldNumber);
                              guiController.addHouse(fieldNumber,1);
+                             guiController.setFieldBorder(fieldNumber,turnTimer);
                          }
                      }else {
                          calculator.payRent(player, fieldNumber);
