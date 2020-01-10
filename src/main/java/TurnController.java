@@ -1,4 +1,6 @@
 import Fields.NotOwnable.ChanceField;
+import Fields.Ownable.Property;
+import Fields.Ownerable;
 import GUI.FieldProperties.Chancecards;
 import GUI.GUIController;
 import Calculation.Calculator;
@@ -31,7 +33,7 @@ public class TurnController {
 
             if (plField instanceof Fields.Ownerable) {
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if (guiController.yesOrNo("Vil du købe " + plField.getText()).equals("ja")) {
+                    if (guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
                         calculator.buyField(player, fieldNumber);
                         ((Fields.Ownable.Property) plField).setCanBuild(true);
                         guiController.setFieldBorder(fieldNumber, turnTimer);
@@ -39,11 +41,12 @@ public class TurnController {
                 } else {
                     if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
-                        if (guiController.yesOrNo("Vil du bygge hus").equals("ja")) {
+                        if (guiController.yesOrNo("Vil du bygge et hus? prisen er: "+((Property) plField).getHouseCost()+" kr.").equals("ja")) {
                             int amount = guiController.getAmountOfHouses();
-                            calculator.buyHouse(player, fieldNumber, amount);
-                            guiController.addHouse(fieldNumber, amount);
-                            guiController.setFieldBorder(fieldNumber, turnTimer);
+
+                                calculator.buyHouse(player, fieldNumber, amount);
+                                guiController.addHouse(fieldNumber, amount);
+                                guiController.setFieldBorder(fieldNumber, turnTimer);
                         }
                     } else {
                         calculator.payRent(player, fieldNumber);
