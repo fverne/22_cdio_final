@@ -7,12 +7,13 @@ public abstract class Ownerable extends Field {
     private Player ownedBy = null;
     private int cost;
     private int rent;
+    private int[] category;
 
-    public Ownerable(String name, String text, int cost, int rent){
+    public Ownerable(String name, String text, int cost, int rent, int[] category){
         super(name,text);
         this.cost = cost;
         this.rent = rent;
-
+        this.category = category;
     }
     public void buy(Player pl){
         if (pl.getBalance() - this.getCost() >= 0 && this.getOwnedBy() == null) {
