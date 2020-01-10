@@ -41,8 +41,8 @@ public class TurnController {
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
                         if (guiController.yesOrNo("Vil du bygge hus").equals("ja")) {
                             int amount = guiController.getAmountOfHouses();
-                            guiController.addHouse(fieldNumber, amount);
                             calculator.buyHouse(player, fieldNumber, amount);
+                            guiController.addHouse(fieldNumber, amount);
                             guiController.setFieldBorder(fieldNumber, turnTimer);
                         }
                     } else {
