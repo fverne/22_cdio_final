@@ -64,6 +64,7 @@ public class Chancecards extends Fields {
     public String getMessage() {
         return message;
     }
+
     @Override
     public Fields landOnField(Player player) {
         Chancecards card = Chancecards.getRandomCard();
