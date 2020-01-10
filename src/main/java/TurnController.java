@@ -35,7 +35,11 @@ public class TurnController {
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
                     if (guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
                         calculator.buyField(player, fieldNumber);
-                        ((Fields.Ownable.Property) plField).setCanBuild(true);
+
+                        if (plField instanceof Fields.Ownable.Property) {
+                            ((Fields.Ownable.Property) plField).setCanBuild(true);
+                        }
+
                         guiController.setFieldBorder(fieldNumber, turnTimer);
                     }
                 } else {
