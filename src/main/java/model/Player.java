@@ -35,7 +35,7 @@ public class Player {
     public void setPosition(int moveLength) {
         if (moveLength + position > 39){
             position = (position + moveLength) - 40;
-            balance += 4000;
+            addToBalance(4000);
         } else {
             position += moveLength;
         }

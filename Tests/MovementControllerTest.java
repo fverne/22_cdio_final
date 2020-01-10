@@ -9,6 +9,6 @@ class MovementControllerTest {
     void makeMove() {
         MovementController movementController = new MovementController(1);
         Player player = movementController.makeMove(0);
-        assertEquals(movementController.getLatestRoll(), player.getPosition());
+        assertEquals(movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue(), player.getPosition());
     }
 }
