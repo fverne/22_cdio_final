@@ -1,6 +1,6 @@
 package model;
 
-import model.Wallet;
+//import model.Wallet;
 
 import java.io.*;
 import java.util.Random;

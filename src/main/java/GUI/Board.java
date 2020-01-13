@@ -1,5 +1,4 @@
 package GUI;
-
 import gui_fields.*;
 import gui_main.GUI;
 
@@ -49,13 +48,13 @@ public class Board {
         fields[37] = new GUI_Street("Frederiksberggade","Pris: 7000","Leje m. hhv. 1,2,3,4 huse: 3500,10000,22000,26000 kr. 1 hotel: 30000. Pantsætning: 3500 kr.","PRIS",Color.PINK,Color.BLACK);
         fields[38] = new GUI_Tax("Ekstraordinær statsskat","","Betal 200 kr eller 10% af formue",Color.WHITE,Color.BLACK);
         fields[39] = new GUI_Street("Rådhuspladsen","Pris: 8000","Leje m. hhv. 1,2,3,4 huse: 4000,12000,28000,34000 kr. 1 hotel: 40000. Pantsætning: 4000 kr.","PRIS",Color.PINK,Color.BLACK);
-
-
     }
 
     //returnrere gui objektet så spilbrættet kan initialiseres
     public GUI initGUI() {
         return new GUI(fields, Color.white);
     }
-
+    public GUI_Field getGUIField(int fieldNumber) {
+        return fields[fieldNumber];
+    }
 }

@@ -11,13 +11,32 @@ public class Calculator {
         fieldProperty = new FieldProperty();
     }
 
-    public boolean getCredibility(model.Player player, int field){
+    public boolean getCredibilityBuy(model.Player player, int fieldNumber){
+        if (player.getBalance() < fieldProperty.getPrice(fieldNumber)){
+            return false;
+        } else {
+            return  true;
+        }
+    }
 
-        return true;
+    public boolean getCredibilityRent(model.Player player, int fieldNumber){
+        if (player.getBalance() < fieldProperty.getRent(fieldNumber)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean getCredibilityHouse(model.Player player, int fieldNumber, int amount){
+        if (player.getBalance() < fieldProperty.getHousePrice(fieldNumber) * amount){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void buyField(model.Player player, int fieldNumber){
-        player.addToBalance(fieldProperty.getPrice(fieldNumber));
+        player.withdraw(fieldProperty.getPrice(fieldNumber));
         fieldProperty.setOwned(player, fieldNumber);
         player.setOwnership(fieldNumber);
     }
@@ -25,19 +44,19 @@ public class Calculator {
     public void payRent(model.Player player, int fieldNumber){
         int rent = fieldProperty.getRent(fieldNumber);
 
-        player.addToBalance(- rent);
+        player.withdraw(rent);
 
         model.Player owner = fieldProperty.getOwner(fieldNumber);
-        owner.addToBalance(rent);
+        owner.deposit(rent);
     }
 
     public Field getField(int fieldNumber){
         return fieldProperty.getField(fieldNumber);
     }
 
-    public void buyHouse(Player player, int fieldNumber){
-        int price = fieldProperty.getHousePrice(fieldNumber);
-        player.addToBalance(-price);
+    public void buyHouse(Player player, int fieldNumber, int amount){
+        int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
+        player.withdraw(price);
         fieldProperty.changeHouseAmount(fieldNumber, player);
     }
 }

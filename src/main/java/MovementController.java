@@ -7,19 +7,19 @@ public class MovementController {
     private DiceHolder dice = new DiceHolder();
     private Player[] players;
 
-    public MovementController(int numberOfPlayers){
+    public MovementController(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
-        for (int i = 0; i < numberOfPlayers; i++){
+        for (int i = 0; i < numberOfPlayers; i++) {
             players[i] = new Player();
         }
     }
 
-    public Die[] getLatestRoll(){
+    public Die[] getLatestRoll() {
         return dice.getFaceValues();
     }
 
-    public int getLatestPosition(Player player){
-        if (player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue() < 0){
+    public int getLatestPosition(Player player) {
+        if (player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue() < 0) {
             return 40 + player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
         } else {
 
@@ -27,17 +27,32 @@ public class MovementController {
         }
     }
 
-    public int lastPos(Player player, int faceValue){
-        int lastFieldIndex =+ faceValue;
-        return lastFieldIndex;
-    }
-
-    public Player makeMove(int player){
+    public Player makeMove(int player) {
         /*if (Player.getInJail){
 
         } */
-        players[player].setPosition(dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+        setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
 
         return players[player];
+    }
+
+    public void setPosition(Player player, int moveLength) {
+        int position = player.getPosition();
+
+        if (moveLength + position > 39) {
+            player.setPosition((position + moveLength) - 40);
+            player.deposit(4000);
+        } else {
+            player.setPosition(player.getPosition() + moveLength);
+        }
+    }
+
+    public String passedStart(int lastPos, int newPos) {
+        String msg;
+        if (lastPos > newPos) {
+            msg = "Du har passeret start, modtag 4000 kr.";
+            return msg;
+        }
+        return null;
     }
 }

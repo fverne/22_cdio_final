@@ -7,10 +7,10 @@ class PlayerTest {
     @org.junit.jupiter.api.Test
     void addToBalance(){
         Player testPlayer = new Player();
-        testPlayer.addToBalance(-35000);
+        testPlayer.deposit(-35000);
         assertEquals(0, testPlayer.getBalance());
 
-        testPlayer.addToBalance(355);
+        testPlayer.deposit(355);
         assertEquals(355, testPlayer.getBalance());
     }
 
@@ -30,10 +30,13 @@ class PlayerTest {
     @org.junit.jupiter.api.Test
     void setPosition() {
        Player testPlayer = new Player();
-       testPlayer.setPosition(34);
+       MovementController movementController = new MovementController(1);
+       movementController.setPosition(testPlayer,34);
+       //testPlayer.setPosition(34);
        assertEquals(34,testPlayer.getPosition());
 
-       testPlayer.setPosition(7);
+       movementController.setPosition(testPlayer,7);
+       //testPlayer.setPosition(7);
        assertEquals(1,testPlayer.getPosition());
     }
 }
