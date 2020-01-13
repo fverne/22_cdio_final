@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Player {
 
     //information holding variables
+
     private int balance;
     private int position;
     private int[] ownedFields = new int[0];

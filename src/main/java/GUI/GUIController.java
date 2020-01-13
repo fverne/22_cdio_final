@@ -1,12 +1,9 @@
 package GUI;
 
-import Calculation.FieldProperty;
-import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
 import model.Language;
-import model.Player;
 
 import java.awt.*;
 
@@ -50,6 +47,9 @@ public class GUIController {
             //ja det er meningen det her er tomt #bugfixing
         } else
             gui.showMessage(message);
+    }
+    public String getName(int index){
+        return gui_player[index].getName();
     }
 
     public void rollButton() {
@@ -95,6 +95,10 @@ public class GUIController {
 
     public int getUserInt() {
         int price = gui.getUserInteger("Indtast pris/bud");
+        return price;
+    }
+    public int getUserIntWithString (String text ){
+        int price = gui.getUserInteger(text);
         return price;
     }
 
