@@ -33,7 +33,7 @@ public class TurnController {
 
             if (plField instanceof Fields.Ownerable) {
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
+                    if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja")) {
                         calculator.buyField(player, fieldNumber);
 
                         if (plField instanceof Fields.Ownable.Property) {
@@ -45,16 +45,16 @@ public class TurnController {
                 } else {
                     if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
-                        if (calculator.getCredibilityHouse(player, fieldNumber, 1) && guiController.yesOrNo("Vil du bygge et hus? prisen er: "+((Property) plField).getHouseCost()+" kr.").equals("ja")) {
+                        if (calculator.getCredibilityHouse(player, fieldNumber, 1) && guiController.yesOrNo("Vil du bygge et hus? prisen er: " + ((Property) plField).getHouseCost() + " kr.").equals("ja")) {
                             int amount = guiController.getAmountOfHouses();
 
-                                calculator.buyHouse(player, fieldNumber, amount);
-                                guiController.addHouse(fieldNumber, amount);
-                                guiController.setFieldBorder(fieldNumber, turnTimer);
+                            calculator.buyHouse(player, fieldNumber, amount);
+                            guiController.addHouse(fieldNumber, amount);
+                            guiController.setFieldBorder(fieldNumber, turnTimer);
                         }
                     } else {
-                        calculator.payRent(player, fieldNumber);
-                    }
+                        calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
+                        }
                 }
             }
             if (plField instanceof Fields.NotOwnable.ChanceField) {
@@ -65,15 +65,16 @@ public class TurnController {
             }
 
             guiController.updatePlayerBalance(turnTimer, player.getBalance());
-
+            /*
             if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
                 turnTimer =- 1;
-            }
+            }*/
             if (turnTimer == guiController.getNumberOfPlayers() - 1) {
                 turnTimer = -1;
             }
         }
     }
 }
+
 
 

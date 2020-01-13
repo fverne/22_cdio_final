@@ -4,6 +4,7 @@ import Fields.Field;
 import Fields.NotOwnable.ChanceField;
 import Fields.NotOwnable.Tax;
 import Fields.NotOwnable.Useless;
+import Fields.Ownable.Building;
 import Fields.Ownable.Buildings.Brewery;
 import Fields.Ownable.Buildings.Ferry;
 import Fields.Ownable.Property;
@@ -82,6 +83,11 @@ public class FieldProperty {
         return field.getRent();
     }
 
+    public int getRent(int fieldNumber, int amount){
+        Building field = (Building) fieldProperty[fieldNumber];
+        return  field.getRent(amount);
+    }
+
     public model.Player getOwner(int fieldNumber){
         Ownerable field = (Ownerable) fieldProperty[fieldNumber];
         return field.getOwnedBy();
@@ -92,10 +98,16 @@ public class FieldProperty {
         return field.getHouseCost();
     }
 
-    public void changeHouseAmount(int fieldNumber, model.Player player){
+    public void changeHouseAmount(int fieldNumber, model.Player player, int amount){
         Fields.Ownable.Property field = (Fields.Ownable.Property) fieldProperty[fieldNumber];
-        field.changeHouseAmount(1, player);
+        field.changeHouseAmount(amount, player);
     }
+
+    public int[] getFieldCategory(int fieldNumber){
+        Ownerable field = (Ownerable) fieldProperty[fieldNumber];
+        return field.getCategory();
+    }
+
 /*
     private boolean doubleRent(Player pl, int pairType){
         for(Field field : fieldProperty){

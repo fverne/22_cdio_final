@@ -1,6 +1,9 @@
 package Calculation;
 
 import Fields.Field;
+import Fields.Ownable.Building;
+import Fields.Ownable.Property;
+import model.Die;
 import model.Player;
 
 public class Calculator {
@@ -41,12 +44,29 @@ public class Calculator {
         player.setOwnership(fieldNumber);
     }
 
-    public void payRent(model.Player player, int fieldNumber){
+    public void payRent(model.Player player, int fieldNumber, Die[] die){
         int rent = fieldProperty.getRent(fieldNumber);
+        model.Player owner = fieldProperty.getOwner(fieldNumber);
+
+        int[] fields = fieldProperty.getFieldCategory(fieldNumber);
+        int temp = 0;
+        for (int i = 0; i < fields.length; i++){
+            if (owner.equals(fieldProperty.getOwner(fields[i]))){
+                temp++;
+            }
+        }
+        if (fieldProperty.getField(fieldNumber) instanceof Property && ((Property) fieldProperty.getField(fieldNumber)).getHouseAmount() == 0 &&
+        fields.length == temp){
+            rent = rent *2;
+        }
+        if (fieldProperty.getField(fieldNumber) instanceof Fields.Ownable.Buildings.Ferry){
+            rent = fieldProperty.getRent(fieldNumber, temp);
+        }
+        if (fieldProperty.getField(fieldNumber) instanceof  Fields.Ownable.Buildings.Brewery){
+            rent = fieldProperty.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
+        }
 
         player.withdraw(rent);
-
-        model.Player owner = fieldProperty.getOwner(fieldNumber);
         owner.deposit(rent);
     }
 
@@ -57,6 +77,6 @@ public class Calculator {
     public void buyHouse(Player player, int fieldNumber, int amount){
         int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
         player.withdraw(price);
-        fieldProperty.changeHouseAmount(fieldNumber, player);
+        fieldProperty.changeHouseAmount(fieldNumber, player, amount);
     }
 }
