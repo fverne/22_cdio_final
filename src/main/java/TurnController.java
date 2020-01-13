@@ -48,7 +48,8 @@ public class TurnController {
 
                     //ellers betal husleje
                 } else {
-                    calculator.payRent(player, fieldNumber);
+                    this.calculator.payRent(player, fieldNumber, this.movementController.getLatestRoll());
+
                 }
             }
 
