@@ -14,6 +14,10 @@ public class Calculator {
         fieldProperty = new FieldProperty();
     }
 
+    public void payTax(model.Player player, int fieldNumber){
+        player.withdraw(fieldProperty.getTax(fieldNumber));
+    }
+
     public boolean getCredibilityBuy(model.Player player, int fieldNumber){
         if (player.getBalance() < fieldProperty.getPrice(fieldNumber)){
             return false;
@@ -38,6 +42,12 @@ public class Calculator {
         }
     }
 
+    public void buyWithPrice(model.Player player, int fieldNumber, int price){
+        player.withdraw(price);
+        fieldProperty.setOwned(player, fieldNumber);
+        player.setOwnership(fieldNumber);
+    }
+
     public void buyField(model.Player player, int fieldNumber){
         player.withdraw(fieldProperty.getPrice(fieldNumber));
         fieldProperty.setOwned(player, fieldNumber);
@@ -50,6 +60,7 @@ public class Calculator {
 
         int[] fields = fieldProperty.getFieldCategory(fieldNumber);
         int temp = 0;
+
         for (int i = 0; i < fields.length; i++){
             if (owner.equals(fieldProperty.getOwner(fields[i]))){
                 temp++;
@@ -77,6 +88,24 @@ public class Calculator {
     public void buyHouse(Player player, int fieldNumber, int amount){
         int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
         player.withdraw(price);
-        fieldProperty.changeHouseAmount(fieldNumber, player, amount);
+        //fieldProperty.changeHouseAmount(fieldNumber, player, amount);
+    }
+
+    public boolean isBuildable(int fieldNumber){
+        boolean buildable = false;
+        int[] fields = fieldProperty.getFieldCategory(fieldNumber);
+        model.Player owner = fieldProperty.getOwner(fieldNumber);
+
+        int temp = 0;
+        for (int i = 0; i < fields.length; i++){
+            if (owner.equals(fieldProperty.getOwner(fields[i]))){
+                temp++;
+            }
+        }
+
+        if (fieldProperty.getField(fieldNumber) instanceof Property && fields.length==temp){
+            buildable = true;
+        }
+        return buildable;
     }
 }
