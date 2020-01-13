@@ -47,4 +47,8 @@ public abstract class Ownerable extends Field {
     public void setRent(int rent) {
         this.rent = rent;
     }
+
+    public int[] getCategory(){
+        return  category;
+    }
 }

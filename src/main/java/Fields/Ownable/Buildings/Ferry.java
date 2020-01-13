@@ -4,14 +4,8 @@ import Fields.Ownable.Building;
 
 public class Ferry extends Building {
 
-    private int[] rentList;
-
     public Ferry(String name, String text, int cost, int[] category, int[] rentList){
-        super(name, text, cost, rentList[0], category);
-        this.rentList = rentList;
+        super(name, text, cost, rentList[0], category, rentList);
     }
 
-    public int getRent(int fieldsOwned) {
-        return rentList[fieldsOwned];
-    }
 }
