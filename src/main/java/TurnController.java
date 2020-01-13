@@ -4,6 +4,7 @@ import Fields.Ownable.Property;
 import Fields.Ownerable;
 import GUI.FieldProperties.Chancecards;
 import GUI.GUIController;
+import model.Player;
 
 public class TurnController {
 
@@ -20,106 +21,105 @@ public class TurnController {
 
     public void playGame() {
         int winCondition = 0;
-        for (int turnTimer = 0; winCondition == 0; turnTimer++) {
-            guiController.rollButton();
-            model.Player player = movementController.makeMove(turnTimer);
-            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
+            for (int turnTimer = 0; winCondition == 0; turnTimer++) {
+                guiController.rollButton();
+                model.Player player = movementController.makeMove(turnTimer);
+                guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
+            if(!player.getInJail())
+                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
+                guiController.movePlayer(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
 
-            guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
-            guiController.movePlayer(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
+                int fieldNumber = player.getPosition();
+                Fields.Field plField = calculator.getField(fieldNumber);
 
-            int fieldNumber = player.getPosition();
-            Fields.Field plField = calculator.getField(fieldNumber);
+                if (plField instanceof Fields.Ownerable) {
+                    if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
+                        if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja")) {
+                            calculator.buyField(player, fieldNumber);
 
-            if (plField instanceof Fields.Ownerable) {
-                if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
-                        calculator.buyField(player, fieldNumber);
+                            if (plField instanceof Fields.Ownable.Property) {
+                                ((Fields.Ownable.Property) plField).setCanBuild(true);
+                            }
 
-                        if (plField instanceof Fields.Ownable.Property) {
-                            ((Fields.Ownable.Property) plField).setCanBuild(true);
-                        }
-
-                        guiController.setFieldBorder(fieldNumber, turnTimer);
-                    } else {
-                        int highestBid = ((Ownerable) plField).getCost();
-                        model.Player winner = null;
-                        boolean n = true;
-                        while (n) {
-                            model.Player[] in = movementController.getPlayers();
-                            for (model.Player pl : in) {
-                                //System.out.println("akgslakn");
-                                if (pl != null) {
-                                    if (!pl.equals(player)) {
-                                        if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
-                                            int bid = guiController.getUserInt();
-                                            if (bid >= highestBid && bid <= pl.getBalance()) {
-                                                winner = pl;
-                                                highestBid = bid;
-                                            }
-                                        } else {
-                                            System.out.println("der blev skrevet nej");
-                                            for (int i = 0; i < in.length; i++) {
-                                                if (pl.equals(in[i]))
-                                                    in[i] = null;
+                            guiController.setFieldBorder(fieldNumber, turnTimer);
+                        } else {
+                            int highestBid = ((Ownerable) plField).getCost();
+                            model.Player winner = null;
+                            boolean n = true;
+                            while (n) {
+                                model.Player[] in = movementController.getPlayers();
+                                for (model.Player pl : in) {
+                                    //System.out.println("akgslakn");
+                                    if (pl != null) {
+                                        if (!pl.equals(player)) {
+                                            if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
+                                                int bid = guiController.getUserInt();
+                                                if (bid >= highestBid && bid <= pl.getBalance()) {
+                                                    winner = pl;
+                                                    highestBid = bid;
+                                                }
+                                            } else {
+                                                System.out.println("der blev skrevet nej");
+                                                for (int i = 0; i < in.length; i++) {
+                                                    if (pl.equals(in[i]))
+                                                        in[i] = null;
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            int x=0;
-                            for (model.Player pl : in){
-                                if(pl != null)
-                                    x++;
-                            }
-                           //System.out.println("x is " + x);
-                            if((x == 0 || x == 1) && winner != null){
-                                calculator.buyWithPrice(winner, player.getPosition(), highestBid);
-                                System.out.println("fundet en køber");
-                                n = false;
-                                break;
-                            }
-                            if( winner == null){
-                                System.out.println("ikke fundet en køber");
-                                n = false;
-                                break;
+                                int x = 0;
+                                for (model.Player pl : in) {
+                                    if (pl != null)
+                                        x++;
+                                }
+                                //System.out.println("x is " + x);
+                                if ((x == 0 || x == 1) && winner != null) {
+                                    calculator.buyWithPrice(winner, player.getPosition(), highestBid);
+                                    System.out.println("fundet en køber");
+                                    n = false;
+                                    break;
+                                }
+                                if (winner == null) {
+                                    System.out.println("ikke fundet en køber");
+                                    n = false;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                } else {
-                    if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
-                            && ((Fields.Ownable.Property) plField).isCanBuild()) {
-                        if (calculator.getCredibilityHouse(player, fieldNumber, 1) && guiController.yesOrNo("Vil du bygge et hus? prisen er: "+((Property) plField).getHouseCost()+" kr.").equals("ja")) {
-                            int amount = guiController.getAmountOfHouses();
+                    } else {
+                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+                                && ((Fields.Ownable.Property) plField).isCanBuild()) {
+                            if (calculator.getCredibilityHouse(player, fieldNumber, 1) && guiController.yesOrNo("Vil du bygge et hus? prisen er: " + ((Property) plField).getHouseCost() + " kr.").equals("ja")) {
+                                int amount = guiController.getAmountOfHouses();
 
                                 calculator.buyHouse(player, fieldNumber, amount);
                                 guiController.addHouse(fieldNumber, amount);
                                 guiController.setFieldBorder(fieldNumber, turnTimer);
+                            }
+                        } else {
+                            calculator.payRent(player, fieldNumber);
                         }
-                    } else {
-                        calculator.payRent(player, fieldNumber);
                     }
                 }
-            }
-            if (plField instanceof Fields.NotOwnable.ChanceField) {
-                Chancecards card = ChanceField.getRandomCard();
+                if (plField instanceof Fields.NotOwnable.ChanceField) {
+                    Chancecards card = ChanceField.getRandomCard();
 
-            //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
-                guiController.displayChancecard(card.getMessage());
-                player.deposit(card.getReward());
-            }
+                    //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
+                    guiController.displayChancecard(card.getMessage());
+                    player.deposit(card.getReward());
+                }
 
-            guiController.updatePlayerBalance(turnTimer, player.getBalance());
+                guiController.updatePlayerBalance(turnTimer, player.getBalance());
 
-            if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
-                turnTimer =- 1;
-            }
-            if (turnTimer == guiController.getNumberOfPlayers() - 1) {
-                turnTimer = -1;
+                if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
+                    turnTimer = -1;
+                }
+                if (turnTimer == guiController.getNumberOfPlayers() - 1) {
+                    turnTimer = -1;
+                }
             }
         }
     }
-}
-
 

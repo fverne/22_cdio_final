@@ -9,6 +9,7 @@ public class Player {
     private int balance;
     private int position;
     private int[] ownedFields = new int[0];
+    private boolean inJail;
 
     public Player(){
         position = 0;
@@ -85,5 +86,11 @@ public class Player {
     public void setSpecificPosition(int fieldID) {
         position = fieldID;
     }
+    public boolean getInJail(){
+        return inJail;
+    }
 
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
 }
