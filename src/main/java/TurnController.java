@@ -33,7 +33,7 @@ public class TurnController {
 
             if (plField instanceof Fields.Ownerable) {
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if (guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
+                    if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
                         calculator.buyField(player, fieldNumber);
 
                         if (plField instanceof Fields.Ownable.Property) {
@@ -45,7 +45,7 @@ public class TurnController {
                 } else {
                     if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
-                        if (guiController.yesOrNo("Vil du bygge et hus? prisen er: "+((Property) plField).getHouseCost()+" kr.").equals("ja")) {
+                        if (calculator.getCredibilityHouse(player, fieldNumber, 1) && guiController.yesOrNo("Vil du bygge et hus? prisen er: "+((Property) plField).getHouseCost()+" kr.").equals("ja")) {
                             int amount = guiController.getAmountOfHouses();
 
                                 calculator.buyHouse(player, fieldNumber, amount);

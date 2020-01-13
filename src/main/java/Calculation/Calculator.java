@@ -11,9 +11,28 @@ public class Calculator {
         fieldProperty = new FieldProperty();
     }
 
-    public boolean getCredibility(model.Player player, int field){
+    public boolean getCredibilityBuy(model.Player player, int fieldNumber){
+        if (player.getBalance() < fieldProperty.getPrice(fieldNumber)){
+            return false;
+        } else {
+            return  true;
+        }
+    }
 
-        return true;
+    public boolean getCredibilityRent(model.Player player, int fieldNumber){
+        if (player.getBalance() < fieldProperty.getRent(fieldNumber)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean getCredibilityHouse(model.Player player, int fieldNumber, int amount){
+        if (player.getBalance() < fieldProperty.getHousePrice(fieldNumber) * amount){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void buyField(model.Player player, int fieldNumber){
