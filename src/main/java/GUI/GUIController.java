@@ -33,11 +33,6 @@ public class GUIController {
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setHouses((amountToAdd + housesAlreadyOnField));
-
-            if (housesAlreadyOnField == 4) {
-                yesOrNo("Vil du købe et hotel?").equals("Ja");
-                addHotel(fieldNumber);
-            }
         }
     }
 
@@ -113,10 +108,7 @@ public class GUIController {
     }
 
     public int amountOfHousesToBuy() {
-        int amount;
-        do {
-            amount = gui.getUserInteger("Du kan maks bygge 4 huse pr. felt");
-        } while (amount >= 4);
+        int amount = gui.getUserInteger("Du kan maks bygge 4 huse pr. felt");
         return amount;
     }
 

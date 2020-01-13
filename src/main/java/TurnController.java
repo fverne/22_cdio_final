@@ -44,12 +44,13 @@ public class TurnController {
                 } else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                         && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
-                    buildHouse(turnTimer, player, fieldNumber, (Property) plField);
+                    if (calculator.isBuildable(fieldNumber)) {
+                        buildHouse(turnTimer, player, fieldNumber, (Property) plField);
+                    }
 
                     //ellers betal husleje
                 } else {
                     this.calculator.payRent(player, fieldNumber, this.movementController.getLatestRoll());
-
                 }
             }
 
@@ -87,11 +88,20 @@ public class TurnController {
             int amount = guiController.amountOfHousesToBuy();
             int numberOfHousesAlreadyPlaced = plField.getHouseAmount();
 
-            plField.setHouseAmount(amount);
+            //IMPLEMENTER MAKS 4 HUSE
+            if (plField.getHouseAmount() == 4) {
+                if (guiController.yesOrNo("Vil du bygge et hotel??, prisen pr. stk er: IKKE IMPLEMENTERET ENDNU" + " kr.").equals("ja"))
+                    guiController.addHotel(fieldNumber);
+            }
 
-            calculator.buyHouse(player, fieldNumber, amount);
-            guiController.addHouse(fieldNumber, amount, numberOfHousesAlreadyPlaced);
-            guiController.setFieldBorder(fieldNumber, turnTimer);
+            if (plField.getHouseAmount() < 4) {
+                calculator.buyHouse(player, fieldNumber, amount);
+                guiController.addHouse(fieldNumber, amount, numberOfHousesAlreadyPlaced);
+                guiController.setFieldBorder(fieldNumber, turnTimer);
+                plField.setHouseAmount(amount);
+            }
+
+
         }
     }
 }

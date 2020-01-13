@@ -108,6 +108,8 @@ public class FieldProperty {
         return field.getCategory();
     }
 
+
+
 /*
     private boolean doubleRent(Player pl, int pairType){
         for(Field field : fieldProperty){

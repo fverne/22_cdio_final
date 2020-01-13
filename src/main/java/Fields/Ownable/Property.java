@@ -38,7 +38,6 @@ public class Property extends Ownerable {
         return this.houseCost;
     }
 
-
     public boolean isCanBuild() {
         return canBuild;
     }

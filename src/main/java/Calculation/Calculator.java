@@ -50,6 +50,7 @@ public class Calculator {
 
         int[] fields = fieldProperty.getFieldCategory(fieldNumber);
         int temp = 0;
+
         for (int i = 0; i < fields.length; i++){
             if (owner.equals(fieldProperty.getOwner(fields[i]))){
                 temp++;
@@ -77,6 +78,24 @@ public class Calculator {
     public void buyHouse(Player player, int fieldNumber, int amount){
         int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
         player.withdraw(price);
-        fieldProperty.changeHouseAmount(fieldNumber, player, amount);
+        //fieldProperty.changeHouseAmount(fieldNumber, player, amount);
+    }
+
+    public boolean isBuildable(int fieldNumber){
+        boolean buildable = false;
+        int[] fields = fieldProperty.getFieldCategory(fieldNumber);
+        model.Player owner = fieldProperty.getOwner(fieldNumber);
+
+        int temp = 0;
+        for (int i = 0; i < fields.length; i++){
+            if (owner.equals(fieldProperty.getOwner(fields[i]))){
+                temp++;
+            }
+        }
+
+        if (fieldProperty.getField(fieldNumber) instanceof Property && fields.length==temp){
+            buildable = true;
+        }
+        return buildable;
     }
 }
