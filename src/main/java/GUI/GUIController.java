@@ -118,13 +118,28 @@ public class GUIController {
 
     //Spiller navne
     public void setPlayerName() {
+        String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
+        boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
-            String name = gui.getUserString("Indtast navn: ");
-            gui_player[i] = new GUI_Player(name);
-            while (gui_player[i].getName().length() > 25) {
-                gui.showMessage("Indtast venligst et navne på færre end 25 karakterer");
-                gui_player[i].setName(name);
-            }
+            String name;
+            do {                                                 // do while checker om spillerens navn eksisterer i forvejen
+                name = gui.getUserString("Indtast navn: ");
+                nametaken = false;
+
+                if (name.length() > 25 || name.length() < 1) {
+                    gui.showMessage("Det indtastede navn er af ugyldig længde.");
+                }
+
+                for (String prevname : prevnames) {
+                    if (name.equals(prevname)) {
+                        nametaken = true;
+                        gui.showMessage("Navnet er taget af en anden spiller.");
+                    }
+                }
+            } while ((name.length() > 25 || name.length() < 1) || nametaken);
+
+            gui_player[i] = new GUI_Player(name);       // spilleren oprettes med det tilladte navn
+            prevnames[i] = name;
         }
     }
 
