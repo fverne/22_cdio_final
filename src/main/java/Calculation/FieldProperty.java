@@ -96,6 +96,7 @@ public class FieldProperty {
         Fields.Ownable.Property field = (Fields.Ownable.Property) fieldProperty[fieldNumber];
         field.changeHouseAmount(1, player);
     }
+
 /*
     private boolean doubleRent(Player pl, int pairType){
         for(Field field : fieldProperty){

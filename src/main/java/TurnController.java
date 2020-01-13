@@ -1,9 +1,11 @@
+import Fields.Field;
 import Fields.NotOwnable.ChanceField;
 import Fields.Ownable.Property;
 import Fields.Ownerable;
 import GUI.FieldProperties.Chancecards;
 import GUI.GUIController;
 import Calculation.Calculator;
+import model.Player;
 
 public class TurnController {
 
@@ -31,44 +33,64 @@ public class TurnController {
             int fieldNumber = player.getPosition();
             Fields.Field plField = calculator.getField(fieldNumber);
 
+            //købbart felt
             if (plField instanceof Fields.Ownerable) {
+
+                //Hvis feltet ikke er ejet, købes det
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if (guiController.yesOrNo("Vil du købe grunden? prisen er: "+((Ownerable) plField).getCost()+" kr.").equals("ja")) {
-                        calculator.buyField(player, fieldNumber);
+                    buyField(turnTimer, player, fieldNumber, plField);
 
-                        if (plField instanceof Fields.Ownable.Property) {
-                            ((Fields.Ownable.Property) plField).setCanBuild(true);
-                        }
+                    //Hvis feltet ejes og du er ejer, byg hus
+                } else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+                        && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
-                        guiController.setFieldBorder(fieldNumber, turnTimer);
-                    }
+                    buildHouse(turnTimer, player, fieldNumber, (Property) plField);
+
+                    //ellers betal husleje
                 } else {
-                    if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
-                            && ((Fields.Ownable.Property) plField).isCanBuild()) {
-                        if (guiController.yesOrNo("Vil du bygge et hus? prisen er: "+((Property) plField).getHouseCost()+" kr.").equals("ja")) {
-                            int amount = guiController.getAmountOfHouses();
-
-                                calculator.buyHouse(player, fieldNumber, amount);
-                                guiController.addHouse(fieldNumber, amount);
-                                guiController.setFieldBorder(fieldNumber, turnTimer);
-                        }
-                    } else {
-                        calculator.payRent(player, fieldNumber);
-                    }
+                    calculator.payRent(player, fieldNumber);
                 }
             }
-            if (plField instanceof Fields.NotOwnable.ChanceField) {
-                Chancecards card = ChanceField.getRandomCard();
-                //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
-                guiController.displayChancecard(card.getMessage());
-                player.deposit(card.getReward());
-            }
 
+            //chancekort
+            if (plField instanceof Fields.NotOwnable.ChanceField) {
+                landOnChancecard(player);
+            }
             guiController.updatePlayerBalance(turnTimer, player.getBalance());
 
             if (turnTimer == guiController.getNumberOfPlayers() - 1) {
                 turnTimer = -1;
             }
+        }
+    }
+
+    private void landOnChancecard(Player player) {
+        Chancecards card = ChanceField.getRandomCard();
+        guiController.displayChancecard(card.getMessage());
+        player.deposit(card.getReward());
+    }
+
+    private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
+        if (guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja")) {
+            calculator.buyField(player, fieldNumber);
+
+            if (plField instanceof Property) {
+                ((Property) plField).setCanBuild(true);
+            }
+            guiController.setFieldBorder(fieldNumber, turnTimer);
+        }
+    }
+
+    private void buildHouse(int turnTimer, Player player, int fieldNumber, Property plField) {
+        if (guiController.yesOrNo("Vil du bygge?, prisen pr. stk er: " + plField.getHouseCost() + " kr.").equals("ja")) {
+            int amount = guiController.amountOfHousesToBuy();
+            int numberOfHousesAlreadyPlaced = plField.getHouseAmount();
+
+            plField.setHouseAmount(amount);
+
+            calculator.buyHouse(player, fieldNumber, amount);
+            guiController.addHouse(fieldNumber, amount, numberOfHousesAlreadyPlaced);
+            guiController.setFieldBorder(fieldNumber, turnTimer);
         }
     }
 }

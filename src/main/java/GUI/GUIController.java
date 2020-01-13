@@ -1,6 +1,7 @@
 package GUI;
 
 import Calculation.FieldProperty;
+import Fields.Ownable.Property;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
@@ -27,10 +28,23 @@ public class GUIController {
     }
 
     //Ændrer border på feltet hvis det er ejet
-    public void addHouse(int fieldNumber, int amount) {
+    public void addHouse(int fieldNumber, int amountToAdd, int housesAlreadyOnField) {
+
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
-            street.setHouses(amount);
+            street.setHouses((amountToAdd + housesAlreadyOnField));
+
+            if (housesAlreadyOnField == 4) {
+                yesOrNo("Vil du købe et hotel?").equals("Ja");
+                addHotel(fieldNumber);
+            }
+        }
+    }
+
+    public void addHotel(int fieldNumber) {
+        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+            street.setHotel(true);
         }
     }
 
@@ -98,8 +112,11 @@ public class GUIController {
         return price;
     }
 
-    public int getAmountOfHouses(){
-        int amount = gui.getUserInteger("Hvor mange huse ønskes:");
+    public int amountOfHousesToBuy() {
+        int amount;
+        do {
+            amount = gui.getUserInteger("Du kan maks bygge 4 huse pr. felt");
+        } while (amount >= 4);
         return amount;
     }
 
