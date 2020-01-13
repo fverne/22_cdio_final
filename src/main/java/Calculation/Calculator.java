@@ -35,6 +35,12 @@ public class Calculator {
         }
     }
 
+    public void buyWithPrice(model.Player player, int fieldNumber, int price){
+        player.withdraw(price);
+        fieldProperty.setOwned(player, fieldNumber);
+        player.setOwnership(fieldNumber);
+    }
+
     public void buyField(model.Player player, int fieldNumber){
         player.withdraw(fieldProperty.getPrice(fieldNumber));
         fieldProperty.setOwned(player, fieldNumber);

@@ -1,9 +1,9 @@
+import Calculation.Calculator;
 import Fields.NotOwnable.ChanceField;
 import Fields.Ownable.Property;
 import Fields.Ownerable;
 import GUI.FieldProperties.Chancecards;
 import GUI.GUIController;
-import Calculation.Calculator;
 
 public class TurnController {
 
@@ -41,7 +41,52 @@ public class TurnController {
                         }
 
                         guiController.setFieldBorder(fieldNumber, turnTimer);
+                    } else {
+                        int highestBid = ((Ownerable) plField).getCost();
+                        model.Player winner = null;
+                        boolean n = true;
+                        while (n) {
+                            model.Player[] in = movementController.getPlayers();
+                            for (model.Player pl : in) {
+                                //System.out.println("akgslakn");
+                                if (pl != null) {
+                                    if (!pl.equals(player)) {
+                                        if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
+                                            int bid = guiController.getUserInt();
+                                            if (bid >= highestBid && bid <= pl.getBalance()) {
+                                                winner = pl;
+                                                highestBid = bid;
+                                            }
+                                        } else {
+                                            System.out.println("der blev skrevet nej");
+                                            for (int i = 0; i < in.length; i++) {
+                                                if (pl.equals(in[i]))
+                                                    in[i] = null;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            int x=0;
+                            for (model.Player pl : in){
+                                if(pl != null)
+                                    x++;
+                            }
+                           //System.out.println("x is " + x);
+                            if((x == 0 || x == 1) && winner != null){
+                                calculator.buyWithPrice(winner, player.getPosition(), highestBid);
+                                System.out.println("fundet en køber");
+                                n = false;
+                                break;
+                            }
+                            if( winner == null){
+                                System.out.println("ikke fundet en køber");
+                                n = false;
+                                break;
+                            }
+                        }
                     }
+
                 } else {
                     if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                             && ((Fields.Ownable.Property) plField).isCanBuild()) {
@@ -59,7 +104,8 @@ public class TurnController {
             }
             if (plField instanceof Fields.NotOwnable.ChanceField) {
                 Chancecards card = ChanceField.getRandomCard();
-                //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
+
+            //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
                 guiController.displayChancecard(card.getMessage());
                 player.deposit(card.getReward());
             }

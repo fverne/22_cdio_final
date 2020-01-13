@@ -7,11 +7,16 @@ public class MovementController {
     private DiceHolder dice = new DiceHolder();
     private Player[] players;
 
+
     public MovementController(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
             players[i] = new Player();
         }
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 
     public Die[] getLatestRoll() {
