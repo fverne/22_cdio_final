@@ -2,7 +2,7 @@ import Calculation.Calculator;
 import Fields.NotOwnable.ChanceField;
 import Fields.Ownable.Property;
 import Fields.Ownerable;
-import GUI.FieldProperties.Chancecards;
+import GUI.FieldProperties.ChanceCard;
 import GUI.GUIController;
 
 public class TurnController {
@@ -103,7 +103,7 @@ public class TurnController {
                 }
             }
             if (plField instanceof Fields.NotOwnable.ChanceField) {
-                Chancecards card = ChanceField.getRandomCard();
+                ChanceCard card = ((ChanceField) plField).getRandomCard();
 
             //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
                 guiController.displayChancecard(card.getMessage());
