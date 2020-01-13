@@ -22,8 +22,8 @@ public class TurnController {
         int winCondition = 0;
         for (int turnTimer = 0; winCondition == 0; turnTimer++) {
             guiController.rollButton();
-            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
+            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
 
             guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
             guiController.movePlayer(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
@@ -66,6 +66,9 @@ public class TurnController {
 
             guiController.updatePlayerBalance(turnTimer, player.getBalance());
 
+            if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
+                turnTimer =- 1;
+            }
             if (turnTimer == guiController.getNumberOfPlayers() - 1) {
                 turnTimer = -1;
             }
