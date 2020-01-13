@@ -109,12 +109,15 @@ public class TurnController {
                 guiController.displayChancecard(card.getMessage());
                 player.deposit(card.getReward());
             }
+            if (plField instanceof Fields.NotOwnable.Tax){
+                calculator.payTax(player, fieldNumber);
+            }
 
             guiController.updatePlayerBalance(turnTimer, player.getBalance());
-            /*
+
             if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
                 turnTimer =- 1;
-            }*/
+            }
             if (turnTimer == guiController.getNumberOfPlayers() - 1) {
                 turnTimer = -1;
             }
