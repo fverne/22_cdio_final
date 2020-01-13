@@ -33,14 +33,14 @@ public class TurnController {
             int fieldNumber = player.getPosition();
             Fields.Field plField = calculator.getField(fieldNumber);
 
-            //købbart felt
+            //hvis købbart felt
             if (plField instanceof Fields.Ownerable) {
 
                 //Hvis feltet ikke er ejet, købes det
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
                     buyField(turnTimer, player, fieldNumber, plField);
 
-                    //Hvis feltet ejes og du er ejer, byg hus
+                    //Hvis feltet ejes og du er ejer, kan du byg hus
                 } else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                         && ((Fields.Ownable.Property) plField).isCanBuild()) {
 

@@ -97,6 +97,10 @@ public class FieldProperty {
         field.changeHouseAmount(1, player);
     }
 
+    public void isBuildable(int fieldNumber){
+
+    }
+
 /*
     private boolean doubleRent(Player pl, int pairType){
         for(Field field : fieldProperty){
