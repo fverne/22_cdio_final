@@ -38,14 +38,20 @@ public class TurnController {
 
                 //Hvis feltet ikke er ejet, købes det
                 if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
+                    if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja")) {
+                    }
+                    calculator.buyField(player, fieldNumber);
+
                     buyField(turnTimer, player, fieldNumber, plField);
+
+                    //auction(player, plField);
 
                     //Hvis feltet ejes og du er ejer, kan du byg hus
                 } else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                         && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
                     if (calculator.isBuildable(fieldNumber)) {
-                        buildHouse(turnTimer, player, fieldNumber, (Property) plField);
+                        build(turnTimer, player, fieldNumber, (Property) plField);
                     }
 
                     //ellers betal husleje
@@ -59,17 +65,71 @@ public class TurnController {
                 landOnChancecard(player, plField);
             }
 
-            if (plField instanceof Fields.NotOwnable.Tax){
+            //tax
+            if (plField instanceof Fields.NotOwnable.Tax) {
                 calculator.payTax(player, fieldNumber);
             }
 
+            //opdaterer spiller balance i GUI
             guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
 
-            if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
-                turnTimer =- 1;
+            //giver ekstratur hvis der er slået dobbeltslag
+            turnTimer = evalTurnTimer(turnTimer);
+        }
+    }
+
+    private int evalTurnTimer(int turnTimer) {
+        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
+            turnTimer = -1;
+        }
+        if (turnTimer == guiController.getNumberOfPlayers() - 1) {
+            turnTimer = -1;
+        }
+        return turnTimer;
+    }
+
+    private void auction(Player player, Field plField) {
+        int highestBid = ((Ownerable) plField).getCost();
+        Player winner = null;
+
+        while (true) {
+            Player[] in = movementController.getPlayers();
+            for (Player pl : in) {
+                //System.out.println("akgslakn");
+                if (pl != null) {
+                    if (!pl.equals(player) && !pl.equals(winner)) {
+                        if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
+                            int bid = guiController.getUserIntGUI();
+                            if (bid >= highestBid && bid <= pl.getBalance()) {
+                                winner = pl;
+                                highestBid = bid;
+                            }
+                        } else {
+                            System.out.println("der blev skrevet nej");
+                            for (int i = 0; i < in.length; i++) {
+                                if (pl.equals(in[i]))
+                                    in[i] = null;
+                            }
+                        }
+                    }
+                }
             }
-            if (turnTimer == guiController.getNumberOfPlayers() - 1) {
-                turnTimer = -1;
+            int x = 0;
+            for (Player pl : in) {
+                if (pl != null)
+                    x++;
+            }
+            //System.out.println("x is " + x);
+            if ((x == 0 || x == 1) && winner != null) {
+                calculator.buyWithPrice(winner, player.getPosition(), highestBid);
+                System.out.println("fundet en køber");
+
+                break;
+            }
+            if (winner == null) {
+                System.out.println("ikke fundet en køber");
+
+                break;
             }
         }
     }
@@ -95,7 +155,7 @@ public class TurnController {
         }
     }
 
-    private void buildHouse(int turnTimer, Player player, int fieldNumber, Property plField) {
+    private void build(int turnTimer, Player player, int fieldNumber, Property plField) {
         int amount;
         int numberOfHousesAlreadyPlaced = plField.getHouseAmount();
 
