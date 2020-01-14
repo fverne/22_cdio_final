@@ -50,7 +50,7 @@ public class TurnController {
                             for (model.Player pl : in) {
                                 //System.out.println("akgslakn");
                                 if (pl != null) {
-                                    if (!pl.equals(player) && !pl.equals(winner)) {
+                                    if (!pl.equals(player) && !pl.equals(winner )) {
                                         if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
                                             int bid = guiController.getUserInt();
                                             if (bid >= highestBid && bid <= pl.getBalance()) {
