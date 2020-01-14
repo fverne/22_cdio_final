@@ -68,6 +68,10 @@ public class TurnController {
             if (plField instanceof Fields.NotOwnable.ChanceField) {
                 landOnChancecard(player, plField);
             }
+            //Gå i fængsel-felt
+            if  (plField instanceof Fields.NotOwnable.GoToJail){
+                movementController.landOnJailField(turnTimer);
+            }
 
             //tax
             if (plField instanceof Fields.NotOwnable.Tax) {
