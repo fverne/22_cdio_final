@@ -10,6 +10,8 @@ public class Player {
     private int position;
     private String name;
     private int[] ownedFields = new int[0];
+    private boolean inJail;
+    private boolean freeOfJail;
 
     public Player(){
         position = 0;
@@ -93,6 +95,19 @@ public class Player {
     }
     public void setSpecificPosition(int fieldID) {
         position = fieldID;
+    }
+    public boolean getInJail(){
+        return inJail;
+    }
+
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+    public boolean getFreeOfJail(){
+        return freeOfJail;
+    }
+    public void setFreeOfJail(){
+        this.freeOfJail = freeOfJail;
     }
 
 }

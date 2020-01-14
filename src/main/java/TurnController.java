@@ -41,17 +41,16 @@ public class TurnController {
             if (plField instanceof Fields.Ownerable) {
 
                 //Hvis feltet ikke er ejet, købes det
-                if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if (calculator.getCredibilityBuy(player, fieldNumber) && guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja")) {
+                if ((((Fields.Ownerable) plField).getOwnedBy() == null)){
+                    if ((calculator.getCredibilityBuy(player, fieldNumber) &&
+                            guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja"))) {
+                        buyField(turnTimer, player, fieldNumber, plField);
+                    } else {
+                        auction(player, plField);
                     }
-                    calculator.buyField(player, fieldNumber);
-
-                    buyField(turnTimer, player, fieldNumber, plField);
-
-                    auction(player, plField);
-
-                    //Hvis feltet ejes og du er ejer, kan du byg hus
-                } else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+                }
+                //Hvis feltet ejes og du er ejer, kan du byg hus
+                if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                         && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
                     if (calculator.isBuildable(fieldNumber)) {
@@ -67,6 +66,10 @@ public class TurnController {
             //chancekort
             if (plField instanceof Fields.NotOwnable.ChanceField) {
                 landOnChancecard(player, plField);
+            }
+            //Gå i fængsel-felt
+            if  (plField instanceof Fields.NotOwnable.GoToJail){
+                movementController.landOnJailField(turnTimer);
             }
 
             //tax
@@ -152,14 +155,12 @@ public class TurnController {
     }
 
     private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
-        if (guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja")) {
-            calculator.buyField(player, fieldNumber);
+        calculator.buyField(player, fieldNumber);
 
-            if (plField instanceof Property) {
-                ((Property) plField).setCanBuild(true);
-            }
-            guiController.setFieldBorderGUI(fieldNumber, turnTimer);
+        if (plField instanceof Property) {
+            ((Property) plField).setCanBuild(true);
         }
+        guiController.setFieldBorderGUI(fieldNumber, turnTimer);
     }
 
     private void build(int turnTimer, Player player, int fieldNumber, Property plField) {

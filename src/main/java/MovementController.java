@@ -35,12 +35,19 @@ public class MovementController {
 
     public Player makeMove(int player) {
         /*if (Player.getInJail){
-
+        henter om spilleren er i fængsel
         } */
-        setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+        if (players[player].getInJail()) {
+            if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
+                setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+                players[player].setInJail(false);
+            }
+        } else {
+            setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+        }
+            return players[player];
+        }
 
-        return players[player];
-    }
 
     public void setPosition(Player player, int moveLength) {
         int position = player.getPosition();
@@ -60,5 +67,10 @@ public class MovementController {
             return msg;
         }
         return null;
+    }
+    public Player landOnJailField(int player){
+        players[player].setPosition(10);
+        players[player].setInJail(true);
+        return players[player];
     }
 }

@@ -8,7 +8,7 @@ import model.Player;
 
 public class Calculator {
 
-    FieldProperty fieldProperty;
+    private FieldProperty fieldProperty;
 
     public Calculator(){
         fieldProperty = new FieldProperty();
@@ -62,8 +62,12 @@ public class Calculator {
         int temp = 0;
 
         for (int i = 0; i < fields.length; i++){
-            if (owner.equals(fieldProperty.getOwner(fields[i]))){
-                temp++;
+            try {
+                if (owner.equals(fieldProperty.getOwner(fields[i]))) {
+                    temp++;
+                }
+            } catch (NullPointerException e){
+                System.out.println(player.getPosition() + " " + fieldNumber);
             }
         }
         if (fieldProperty.getField(fieldNumber) instanceof Property && ((Property) fieldProperty.getField(fieldNumber)).getHouseAmount() == 0 &&
@@ -107,5 +111,10 @@ public class Calculator {
             buildable = true;
         }
         return buildable;
+    }
+
+    public void payBail(Player player){
+        player.withdraw(1000);
+        player.setInJail(false);
     }
 }
