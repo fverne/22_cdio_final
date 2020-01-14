@@ -34,13 +34,40 @@ public class MovementController {
     }
 
     public Player makeMove(int player) {
-        /*if (Player.getInJail){
+        //hvis spilleren er i fængsel
+        if (players[player].getInJail()) {
+            //hvis man ruller to ens
+            if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
+                setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+                players[player].setInJail(false);
+                players[player].setTurnsInJail(0);
+                //hvis man ikke ruller to ens
+            } else {
+                players[player].setTurnsInJail();
+            }
+            //hvis man ikke er i fængsel
+        } else {
+            //hvis det er ens tredje tur
+            if (players[player].getTurnsInARow() == 2) {
+                //hvis man ruller to ens
+                if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
+                    players[player].setInJail(true);
+                    players[player].setPosition(10);
+                    players[player].setTurnsInARow(0);
+                    //hvis man ikke ruller to ens
+                } else {
+                    players[player].setTurnsInARow(0);
+                    setPosition(players[player], getLatestRoll()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+                }
+                //hvis det ikke er ens tredje tur
+            } else {
+                players[player].setTurnsInARow(0);
+                setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+            }
+        }
+            return players[player];
+        }
 
-        } */
-        setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
-
-        return players[player];
-    }
 
     public void setPosition(Player player, int moveLength) {
         int position = player.getPosition();
@@ -60,5 +87,10 @@ public class MovementController {
             return msg;
         }
         return null;
+    }
+    public Player landOnJailField(int player){
+        players[player].setPosition(10);
+        players[player].setInJail(true);
+        return players[player];
     }
 }
