@@ -15,7 +15,7 @@ public class TurnController {
 
     public void startGame() {
         guiController = new GUIController();
-        guiController.initPlayers();
+        guiController.initGUIPlayers();
         movementController = new MovementController(guiController.getNumberOfPlayers());
         calculator = new Calculator();
     }
@@ -23,12 +23,12 @@ public class TurnController {
     public void playGame() {
         int winCondition = 0;
         for (int turnTimer = 0; winCondition == 0; turnTimer++) {
-            guiController.rollButton();
+            guiController.rollButtonGUI();
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
 
             guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
-            guiController.movePlayer(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
+            guiController.movePlayerGUI(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
 
             int fieldNumber = player.getPosition();
             Fields.Field plField = calculator.getField(fieldNumber);
@@ -58,7 +58,7 @@ public class TurnController {
             if (plField instanceof Fields.NotOwnable.ChanceField) {
                 landOnChancecard(player);
             }
-            guiController.updatePlayerBalance(turnTimer, player.getBalance());
+            guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
 
             if (turnTimer == guiController.getNumberOfPlayers() - 1) {
                 turnTimer = -1;
@@ -68,7 +68,7 @@ public class TurnController {
 
     private void landOnChancecard(Player player) {
         Chancecards card = ChanceField.getRandomCard();
-        guiController.displayChancecard(card.getMessage());
+        guiController.displayChancecardGUI(card.getMessage());
         player.deposit(card.getReward());
     }
 
@@ -79,29 +79,35 @@ public class TurnController {
             if (plField instanceof Property) {
                 ((Property) plField).setCanBuild(true);
             }
-            guiController.setFieldBorder(fieldNumber, turnTimer);
+            guiController.setFieldBorderGUI(fieldNumber, turnTimer);
         }
     }
 
     private void buildHouse(int turnTimer, Player player, int fieldNumber, Property plField) {
-        if (guiController.yesOrNo("Vil du bygge?, prisen pr. stk er: " + plField.getHouseCost() + " kr.").equals("ja")) {
-            int amount = guiController.amountOfHousesToBuy();
-            int numberOfHousesAlreadyPlaced = plField.getHouseAmount();
+        int amount;
+        int numberOfHousesAlreadyPlaced = plField.getHouseAmount();
 
-            //IMPLEMENTER MAKS 4 HUSE
-            if (plField.getHouseAmount() == 4) {
-                if (guiController.yesOrNo("Vil du bygge et hotel??, prisen pr. stk er: IKKE IMPLEMENTERET ENDNU" + " kr.").equals("ja"))
-                    guiController.addHotel(fieldNumber);
+        //IMPLEMENTER MAKS 4 HUSE
+        if (plField.getHouseAmount() == 4) {
+            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + " kr.").equals("ja"))
+                plField.setHotelAmount(1);
+            guiController.addHotelToGUI(fieldNumber);
+        }
+
+        if (guiController.yesOrNo("Vil du bygge?, prisen pr. hus er: " + plField.getHouseCost() + " kr.").equals("ja")) {
+            do {
+                amount = guiController.amountOfHousesToBuyGUI();
+
+                if ((amount + numberOfHousesAlreadyPlaced) > 4) {
+                    guiController.displayGUIMsg("Du kan højst bygge 4 huse pr. felt.");
+                } else if (plField.getHouseAmount() < 4) {
+                    calculator.buyHouse(player, fieldNumber, amount);
+                    guiController.addHouseToGUI(fieldNumber, amount, numberOfHousesAlreadyPlaced);
+                    guiController.setFieldBorderGUI(fieldNumber, turnTimer);
+                    plField.setHouseAmount(amount);
+                }
             }
-
-            if (plField.getHouseAmount() < 4) {
-                calculator.buyHouse(player, fieldNumber, amount);
-                guiController.addHouse(fieldNumber, amount, numberOfHousesAlreadyPlaced);
-                guiController.setFieldBorder(fieldNumber, turnTimer);
-                plField.setHouseAmount(amount);
-            }
-
-
+            while ((amount + numberOfHousesAlreadyPlaced) > 4);
         }
     }
 }
