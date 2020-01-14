@@ -2,9 +2,10 @@ package model;
 
 public class DiceHolder {
 
-    private Die[] die = new Die[2];
+    private Die[] die;
 
     public DiceHolder(){
+        die = new Die[2];
         die[0] = new Die();
         die[1] = new Die();
     }

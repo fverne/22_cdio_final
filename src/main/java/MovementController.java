@@ -4,7 +4,7 @@ import model.Player;
 
 public class MovementController {
 
-    private DiceHolder dice = new DiceHolder();
+    private DiceHolder dice;
     private Player[] players;
 
 
@@ -13,6 +13,7 @@ public class MovementController {
         for (int i = 0; i < numberOfPlayers; i++) {
             players[i] = new Player();
         }
+        dice = new DiceHolder();
     }
 
     public Player[] getPlayers() {

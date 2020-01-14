@@ -1,5 +1,6 @@
 package Fields.Ownable;
 
+import Calculation.FieldProperty;
 import Fields.Ownerable;
 import model.Player;
 
@@ -8,9 +9,19 @@ public class Property extends Ownerable {
     private int houseCost = 4000;
     private int[] rentList; // indholder de 6 forskellige rent priser der er, afhængig af antal huse
     private int houseAmount = 0;
+    private int hotelAmount = 0;
+
 
     public int getHouseAmount() {
         return houseAmount;
+    }
+
+    public int getHotelAmount() {
+        return hotelAmount;
+    }
+
+    public void setHotelAmount(int hotelAmount){
+        this.hotelAmount = hotelAmount;
     }
 
     public void setHouseAmount(int houseAmount) {
