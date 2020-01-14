@@ -44,7 +44,7 @@ public class TurnController {
 
                     buyField(turnTimer, player, fieldNumber, plField);
 
-                    //auction(player, plField);
+                    auction(player, plField);
 
                     //Hvis feltet ejes og du er ejer, kan du byg hus
                 } else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
@@ -91,8 +91,8 @@ public class TurnController {
     private void auction(Player player, Field plField) {
         int highestBid = ((Ownerable) plField).getCost();
         Player winner = null;
-
-        while (true) {
+        boolean n = true;
+        while (n) {
             Player[] in = movementController.getPlayers();
             for (Player pl : in) {
                 //System.out.println("akgslakn");
@@ -123,12 +123,15 @@ public class TurnController {
             if ((x == 0 || x == 1) && winner != null) {
                 calculator.buyWithPrice(winner, player.getPosition(), highestBid);
                 System.out.println("fundet en køber");
+                n = false;
 
-                break;
             }
             if (winner == null) {
                 System.out.println("ikke fundet en køber");
+                n = false;
 
+            }
+            if (n = false) {
                 break;
             }
         }
