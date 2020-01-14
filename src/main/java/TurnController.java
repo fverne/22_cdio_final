@@ -114,11 +114,12 @@ public class TurnController {
         Player winner = null;
         boolean n = true;
         while (n) {
-            Player[] in = movementController.getPlayers();
-            for (Player pl : in) {
+
+            player.setInAuction(false);
+            for (Player pl : movementController.getPlayers()) {
                 //System.out.println("akgslakn");
-                if (pl != null) {
-                    if (!pl.equals(player) && !pl.equals(winner)) {
+                if (pl.isInAuction()) {
+                    if ( !pl.equals(winner)) {
                         if (guiController.yesOrNo(pl.getName() + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
                             int bid = guiController.getUserIntGUI();
                             if (bid >= highestBid && bid <= pl.getBalance()) {
@@ -127,21 +128,21 @@ public class TurnController {
                             }
                         } else {
                             System.out.println("der blev skrevet nej");
-                            for (int i = 0; i < in.length; i++) {
-                                if (pl.equals(in[i]))
-                                    in[i] = null;
+                            for (int i = 0; i < movementController.getPlayers().length; i++) {
+                                if (pl.equals(movementController.getPlayers()[i]))
+                                    movementController.getPlayers()[i].setInAuction(false);
                             }
                         }
                     }
                 }
             }
             int x = 0;
-            for (Player pl : in) {
-                if (pl != null)
+            for (Player pl : movementController.getPlayers()) {
+                if (!pl.isInAuction())
                     x++;
             }
             System.out.println("x is " + x);
-            if ((x == 2) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
+            if ((x == 1) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
                 calculator.buyWithPrice(winner, player.getPosition(), highestBid);
                 guiController.setFieldBorderGUI(player.getPosition(), turnTimer);
                 System.out.println("fundet en køber");
@@ -154,6 +155,9 @@ public class TurnController {
 
             }
             if (!n) {
+                for(Player pl : movementController.getPlayers()){
+                    pl.setInAuction(true);
+                }
                 break;
             }
         }

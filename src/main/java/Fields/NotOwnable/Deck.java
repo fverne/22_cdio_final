@@ -10,7 +10,7 @@ public class Deck {
     {
         if (single_instance == null)
             single_instance = new Deck();
-            //single_instance.shuffle();
+           // single_instance.shuffle();
 
         return single_instance;
     }
@@ -58,7 +58,7 @@ public class Deck {
 
     }
 
-    private void shuffle(){
+    private void shuffle(){ //virker ikke, den er helt gal
         ChanceCard[] newDeck = new ChanceCard[this.cards.length];
 
         for(int i = 0; i < newDeck.length; i++){
@@ -66,11 +66,12 @@ public class Deck {
             cards[i] = null;
 
             ChanceCard[] dummy= new ChanceCard[this.cards.length -1];
-
-            for (int j = 0; j < dummy.length;){
+            int x = 0;
+            for (int j = 0; j < dummy.length; j++){
+                System.out.println("j er " + j + " dummy lenght er " + dummy.length);
                 if(this.cards[j] != null){
-                    dummy[j] = this.cards[j];
-                    j++;
+                    dummy[x] = this.cards[j];
+                    x++;
                 }
             }
             this.cards = dummy;
