@@ -44,13 +44,13 @@ public class TurnController {
                     } else {
                         int highestBid = ((Ownerable) plField).getCost();
                         model.Player winner = null;
-                        boolean n = true;
-                        while (n) {
+
+                        while (true) {
                             model.Player[] in = movementController.getPlayers();
                             for (model.Player pl : in) {
                                 //System.out.println("akgslakn");
                                 if (pl != null) {
-                                    if (!pl.equals(player)) {
+                                    if (!pl.equals(player) && !pl.equals(winner)) {
                                         if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
                                             int bid = guiController.getUserInt();
                                             if (bid >= highestBid && bid <= pl.getBalance()) {
@@ -76,12 +76,12 @@ public class TurnController {
                             if((x == 0 || x == 1) && winner != null){
                                 calculator.buyWithPrice(winner, player.getPosition(), highestBid);
                                 System.out.println("fundet en køber");
-                                n = false;
+
                                 break;
                             }
                             if( winner == null){
                                 System.out.println("ikke fundet en køber");
-                                n = false;
+
                                 break;
                             }
                         }
