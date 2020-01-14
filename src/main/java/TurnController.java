@@ -2,7 +2,7 @@ import Fields.Field;
 import Fields.NotOwnable.ChanceField;
 import Fields.Ownable.Property;
 import Fields.Ownerable;
-import GUI.FieldProperties.Chancecards;
+import GUI.FieldProperties.ChanceCard;
 import GUI.GUIController;
 import Calculation.Calculator;
 import model.Player;
@@ -56,20 +56,32 @@ public class TurnController {
 
             //chancekort
             if (plField instanceof Fields.NotOwnable.ChanceField) {
-                landOnChancecard(player);
+                landOnChancecard(player, plField);
             }
+
+            if (plField instanceof Fields.NotOwnable.Tax){
+                calculator.payTax(player, fieldNumber);
+            }
+
             guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
 
+            if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
+                turnTimer =- 1;
+            }
             if (turnTimer == guiController.getNumberOfPlayers() - 1) {
                 turnTimer = -1;
             }
         }
     }
 
-    private void landOnChancecard(Player player) {
-        Chancecards card = ChanceField.getRandomCard();
-        guiController.displayChancecardGUI(card.getMessage());
-        player.deposit(card.getReward());
+    private void landOnChancecard(Player player, Field plField) {
+        if (plField instanceof ChanceField) {
+            ChanceCard card = ((ChanceField) plField).getRandomCard();
+
+            //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
+            guiController.displayChancecardGUI(card.getMessage());
+            player.deposit(card.getReward());
+        }
     }
 
     private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
