@@ -41,9 +41,21 @@ public class MovementController {
             if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
                 setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
                 players[player].setInJail(false);
+                players[player].setTurnsInJail(0);
+            } else {
+                players[player].setTurnsInJail();
             }
         } else {
-            setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+            if (players[player].getTurnsInARow() == 2) {
+                if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
+                    players[player].setInJail(true);
+                    players[player].setPosition(10);
+                } else {
+                    setPosition(players[player], getLatestRoll()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+                }
+            } else {
+                setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+            }
         }
             return players[player];
         }

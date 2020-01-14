@@ -20,6 +20,9 @@ public class TurnController {
         movementController = new MovementController(guiController.getNumberOfPlayers());
         calculator = new Calculator();
 
+        for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
+            movementController.getPlayers()[i].setName(guiController.getName(i));
+        }
     }
 
     public void playGame() {
@@ -43,26 +46,28 @@ public class TurnController {
             if (plField instanceof Fields.Ownerable) {
 
                 //Hvis feltet ikke er ejet, købes det
-                if ((((Fields.Ownerable) plField).getOwnedBy() == null)){
+                if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
                     if ((calculator.getCredibilityBuy(player, fieldNumber) &&
                             guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja"))) {
                         buyField(turnTimer, player, fieldNumber, plField);
+
+                        //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
                     } else {
                         auction(player, plField);
                     }
-                }
-                //Hvis feltet ejes og du er ejer, kan du byg hus
-
-               else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
-                        && ((Fields.Ownable.Property) plField).isCanBuild()) {
-
-                    if (calculator.isBuildable(fieldNumber)) {
-                        build(turnTimer, player, fieldNumber, (Property) plField);
-                    }
-
-                    //ellers betal husleje
                 } else {
-                    this.calculator.payRent(player, fieldNumber, this.movementController.getLatestRoll());
+                    //Hvis feltet ejes og du er ejer, kan du byg hus
+                    if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+                            && ((Fields.Ownable.Property) plField).isCanBuild()) {
+
+                        if (calculator.isBuildable(fieldNumber)) {
+                            build(turnTimer, player, fieldNumber, (Property) plField);
+                        }
+                    }
+                    //ellers betal huslej
+                    if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
+                        calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
+                    }
                 }
             }
 
@@ -84,13 +89,14 @@ public class TurnController {
             guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
 
             //giver ekstratur hvis der er slået dobbeltslag
-            turnTimer = evalTurnTimer(turnTimer);
+            turnTimer = evalTurnTimer(turnTimer, player);
         }
     }
 
-    private int evalTurnTimer(int turnTimer) {
+    private int evalTurnTimer(int turnTimer, Player player) {
         if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
             turnTimer = -1;
+            player.setTurnsInARow();
         }
         if (turnTimer == guiController.getNumberOfPlayers() - 1) {
             turnTimer = -1;
