@@ -8,11 +8,20 @@ public class Player {
 
     private int balance;
     private int position;
+    private String name;
     private int[] ownedFields = new int[0];
 
     public Player(){
         position = 0;
         balance = 30000;
+    }
+
+    public void setName(String playerName){
+        name = playerName;
+    }
+
+    public String getName(){
+        return name;
     }
 
     public int getBalance() {
