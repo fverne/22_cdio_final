@@ -67,7 +67,7 @@ public class Deck {
 
             ChanceCard[] dummy= new ChanceCard[this.cards.length -1];
 
-            for (int j = 0; j < dummy.length){
+            for (int j = 0; j < dummy.length;){
                 if(this.cards[j] != null){
                     dummy[j] = this.cards[j];
                     j++;

@@ -103,7 +103,7 @@ public class TurnController {
                 }
             }
             if (plField instanceof Fields.NotOwnable.ChanceField) {
-                ChanceCard card = ((ChanceField) plField).getRandomCard();
+                ChanceCard card = ((ChanceField) plField).draw();
 
             //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
                 guiController.displayChancecard(card.getMessage());
