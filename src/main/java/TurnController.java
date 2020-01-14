@@ -12,17 +12,19 @@ public class TurnController {
     private GUIController guiController;
     private MovementController movementController;
     private Calculator calculator;
+    private int turnTimer;
 
     public void startGame() {
         guiController = new GUIController();
         guiController.initGUIPlayers();
         movementController = new MovementController(guiController.getNumberOfPlayers());
         calculator = new Calculator();
+
     }
 
     public void playGame() {
         int winCondition = 0;
-        for (int turnTimer = 0; winCondition == 0; turnTimer++) {
+        for (turnTimer = 0; winCondition == 0; turnTimer++) {
             guiController.rollButtonGUI();
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
@@ -46,7 +48,8 @@ public class TurnController {
                     }
                 }
                 //Hvis feltet ejes og du er ejer, kan du byg hus
-                if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+
+               else if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
                         && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
                     if (calculator.isBuildable(fieldNumber)) {
@@ -118,19 +121,20 @@ public class TurnController {
                 if (pl != null)
                     x++;
             }
-            //System.out.println("x is " + x);
-            if ((x == 0 || x == 1) && winner != null) {
+            System.out.println("x is " + x);
+            if ((x == 2) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
                 calculator.buyWithPrice(winner, player.getPosition(), highestBid);
+                guiController.setFieldBorderGUI(player.getPosition(), turnTimer);
                 System.out.println("fundet en køber");
                 n = false;
 
             }
-            if (winner == null) {
+            else if (winner == null) {
                 System.out.println("ikke fundet en køber");
                 n = false;
 
             }
-            if (n = false) {
+            if (!n) {
                 break;
             }
         }
