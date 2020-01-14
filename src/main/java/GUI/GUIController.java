@@ -70,7 +70,7 @@ public class GUIController {
 
     public void movePlayerGUI(int playerNumber, int newLocation, int lastLocation) {
 
-        for (int i = 0; i <= lastLocation; i++) {
+        for (int i = 0; i < 40; i++) {
             gui.getFields()[i].setCar(gui_player[playerNumber], false);
         }
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);

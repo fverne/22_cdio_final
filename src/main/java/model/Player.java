@@ -12,6 +12,8 @@ public class Player {
     private int[] ownedFields = new int[0];
     private boolean inJail;
     private boolean freeOfJail;
+    private int turnsInJail;
+    private int turnsInARow;
 
     public Player(){
         position = 0;
@@ -110,4 +112,27 @@ public class Player {
         this.freeOfJail = freeOfJail;
     }
 
+    public void setTurnsInARow(){
+        turnsInARow++;
+    }
+
+    public void setTurnsInARow(int turnsInARow){
+        this.turnsInARow = turnsInARow;
+    }
+
+    public void setTurnsInJail(){
+        turnsInJail++;
+    }
+
+    public void setTurnsInJail(int turnsInJail) {
+        this.turnsInJail = turnsInJail;
+    }
+
+    public int getTurnsInJail(){
+        return turnsInJail;
+    }
+
+    public int getTurnsInARow(){
+        return turnsInARow;
+    }
 }
