@@ -14,6 +14,10 @@ public class Calculator {
         fieldProperty = new FieldProperty();
     }
 
+    public void payTax(model.Player player, int fieldNumber){
+        player.withdraw(fieldProperty.getTax(fieldNumber));
+    }
+
     public boolean getCredibilityBuy(model.Player player, int fieldNumber){
         if (player.getBalance() < fieldProperty.getPrice(fieldNumber)){
             return false;
