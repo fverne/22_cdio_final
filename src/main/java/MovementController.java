@@ -68,7 +68,7 @@ public class MovementController {
         return null;
     }
     public Player landOnJailField(int player){
-        setPosition(players[player],20);
+        players[player].setPosition(10);
         players[player].setInJail(true);
         return players[player];
     }

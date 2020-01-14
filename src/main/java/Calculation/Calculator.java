@@ -5,7 +5,7 @@ import model.Player;
 
 public class Calculator {
 
-    FieldProperty fieldProperty;
+    private FieldProperty fieldProperty;
 
     public Calculator(){
         fieldProperty = new FieldProperty();
@@ -50,10 +50,12 @@ public class Calculator {
     public void payRent(model.Player player, int fieldNumber){
         int rent = fieldProperty.getRent(fieldNumber);
 
-        player.withdraw(rent);
+        if (!fieldProperty.getOwner(fieldNumber).getInJail()) {
+            player.withdraw(rent);
 
-        model.Player owner = fieldProperty.getOwner(fieldNumber);
-        owner.deposit(rent);
+            model.Player owner = fieldProperty.getOwner(fieldNumber);
+            owner.deposit(rent);
+        }
     }
 
     public Field getField(int fieldNumber){
@@ -64,5 +66,10 @@ public class Calculator {
         int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
         player.withdraw(price);
         fieldProperty.changeHouseAmount(fieldNumber, player);
+    }
+
+    public void payBail(Player player){
+        player.withdraw(1000);
+        player.setInJail(false);
     }
 }
