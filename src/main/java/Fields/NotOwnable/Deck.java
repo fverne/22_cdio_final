@@ -10,6 +10,7 @@ public class Deck {
     {
         if (single_instance == null)
             single_instance = new Deck();
+            single_instance.shuffle();
 
         return single_instance;
     }
