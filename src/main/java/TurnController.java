@@ -143,7 +143,7 @@ public class TurnController {
 
     private void landOnChancecard(Player player, Field plField) {
         if (plField instanceof ChanceField) {
-            ChanceCard card = ((ChanceField) plField).getRandomCard();
+            ChanceCard card = ((ChanceField) plField).draw();
 
             //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
             guiController.displayChancecardGUI(card.getMessage());
