@@ -28,63 +28,68 @@ public class TurnController {
     public void playGame() {
         int winCondition = 0;
         for (turnTimer = 0; winCondition == 0; turnTimer++) {
+            //hvis man er i fængsel
+            System.out.println(turnTimer);
+            if (movementController.getPlayers()[turnTimer].getInJail()) {
+               jailBailOuts();
+            }
+
             guiController.rollButtonGUI();
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
 
-            for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
-                player.setName(guiController.getName(i));
-            }
-
-            guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
             guiController.movePlayerGUI(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
 
-            int fieldNumber = player.getPosition();
-            Fields.Field plField = calculator.getField(fieldNumber);
+            if (!movementController.getPlayers()[turnTimer].getInJail()) {
+                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
 
-            //hvis købbart felt
-            if (plField instanceof Fields.Ownerable) {
+                int fieldNumber = player.getPosition();
+                Fields.Field plField = calculator.getField(fieldNumber);
 
-                //Hvis feltet ikke er ejet, købes det
-                if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                    if ((calculator.getCredibilityBuy(player, fieldNumber) &&
-                            guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja"))) {
-                        buyField(turnTimer, player, fieldNumber, plField);
+                //hvis købbart felt
+                if (plField instanceof Fields.Ownerable) {
 
-                        //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
+                    //Hvis feltet ikke er ejet, købes det
+                    if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
+                        if ((calculator.getCredibilityBuy(player, fieldNumber) &&
+                                guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja"))) {
+                            buyField(turnTimer, player, fieldNumber, plField);
+
+                            //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
+                        } else {
+                            auction(player, plField);
+                        }
                     } else {
-                        auction(player, plField);
-                    }
-                } else {
-                    //Hvis feltet ejes og du er ejer, kan du byg hus
-                    if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
-                            && ((Fields.Ownable.Property) plField).isCanBuild()) {
+                        //Hvis feltet ejes og du er ejer, kan du byg hus
+                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
+                                && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
-                        if (calculator.isBuildable(fieldNumber)) {
-                            build(turnTimer, player, fieldNumber, (Property) plField);
+                            if (calculator.isBuildable(fieldNumber)) {
+                                build(turnTimer, player, fieldNumber, (Property) plField);
+                            }
+                        }
+                        //ellers betal huslej
+                        if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
+                            calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
                         }
                     }
-                    //ellers betal huslej
-                    if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
-                        calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
-                    }
                 }
-            }
 
-            //chancekort
-            if (plField instanceof Fields.NotOwnable.ChanceField) {
-                landOnChancecard(player, plField);
-            }
-            //Gå i fængsel-felt
-            if  (plField instanceof Fields.NotOwnable.GoToJail){
-                movementController.landOnJailField(turnTimer);
-            }
+                //chancekort
+                if (plField instanceof Fields.NotOwnable.ChanceField) {
+                    landOnChancecard(player, plField);
+                }
+                //Gå i fængsel-felt
+                if (plField instanceof Fields.NotOwnable.GoToJail) {
+                    movementController.landOnJailField(turnTimer);
+                }
 
-            //tax
-            if (plField instanceof Fields.NotOwnable.Tax) {
-                calculator.payTax(player, fieldNumber);
-            }
+                //tax
+                if (plField instanceof Fields.NotOwnable.Tax) {
+                    calculator.payTax(player, fieldNumber);
+                }
 
+            }
             //opdaterer spiller balance i GUI
             guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
 
@@ -198,6 +203,21 @@ public class TurnController {
                 }
             }
             while ((amount + numberOfHousesAlreadyPlaced) > 4);
+        }
+    }
+
+    private void jailBailOuts(){
+        //hvis man har et gratis ud af fængselkort
+        if (movementController.getPlayers()[turnTimer].getFreeOfJail() &&
+                guiController.yesOrNo("Vil du bruge et gratis ud af fængselkort?").equals("ja")){
+            movementController.getPlayers()[turnTimer].setInJail(false);
+            movementController.getPlayers()[turnTimer].setTurnsInJail(0);
+        }
+        //hvis det er en trdje tur i fængsel eller man vil betale sig ud af fængslet
+        if (movementController.getPlayers()[turnTimer].getTurnsInJail() == 3 ||
+                guiController.yesOrNo("Vil du betale 1000 kr. for at komme ud af fængsel?").equals("ja")) {
+            movementController.getPlayers()[turnTimer].setInJail(false);
+            movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
     }
 }
