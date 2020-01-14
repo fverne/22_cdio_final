@@ -56,6 +56,9 @@ public class GUIController {
         } else
             gui.showMessage(message);
     }
+    public String getName(int index){
+        return gui_player[index].getName();
+    }
 
     public void rollButtonGUI() {
         gui.getUserButtonPressed("Kast terningerne!", "Ok");
@@ -100,6 +103,10 @@ public class GUIController {
 
     public int getUserIntGUI() {
         return gui.getUserInteger("Indtast pris/bud");
+    }
+    public int getUserIntWithString (String text ){
+        int price = gui.getUserInteger(text);
+        return price;
     }
 
     public int amountOfHousesToBuyGUI() {

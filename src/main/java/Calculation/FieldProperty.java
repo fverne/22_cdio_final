@@ -88,6 +88,11 @@ public class FieldProperty {
         return  field.getRent(amount);
     }
 
+    public int getTax(int fieldNumber){
+        Tax field = (Tax) fieldProperty[fieldNumber];
+        return field.getRent();
+    }
+
     public model.Player getOwner(int fieldNumber){
         Ownerable field = (Ownerable) fieldProperty[fieldNumber];
         return field.getOwnedBy();

@@ -8,4 +8,8 @@ public class Tax extends NotOwnerable {
         super(name, text);
         this.rent = rent;
     }
+
+    public int getRent() {
+        return rent;
+    }
 }
