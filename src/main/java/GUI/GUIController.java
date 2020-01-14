@@ -148,4 +148,8 @@ public class GUIController {
             gui.addPlayer(gui_player[i]);
         }
     }
+
+    public int getNumberOfGUIPlayers(){
+        return numberOfPlayers;
+    }
 }

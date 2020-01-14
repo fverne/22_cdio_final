@@ -29,6 +29,10 @@ public class TurnController {
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
 
+            for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
+                player.setName(guiController.getName(i));
+            }
+
             guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player), player.getPosition()));
             guiController.movePlayerGUI(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
 
@@ -66,6 +70,10 @@ public class TurnController {
             if (plField instanceof Fields.NotOwnable.ChanceField) {
                 landOnChancecard(player, plField);
             }
+            //Gå i fængsel-felt
+            if  (plField instanceof Fields.NotOwnable.GoToJail){
+                movementController.landOnJailField(turnTimer);
+            }
 
             //tax
             if (plField instanceof Fields.NotOwnable.Tax) {
@@ -100,7 +108,7 @@ public class TurnController {
                 //System.out.println("akgslakn");
                 if (pl != null) {
                     if (!pl.equals(player) && !pl.equals(winner)) {
-                        if (guiController.yesOrNo(pl + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
+                        if (guiController.yesOrNo(pl.getName() + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
                             int bid = guiController.getUserIntGUI();
                             if (bid >= highestBid && bid <= pl.getBalance()) {
                                 winner = pl;
