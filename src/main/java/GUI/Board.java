@@ -9,25 +9,25 @@ public class Board {
 
     public Board() {
         fields[0] = new GUI_Start("Start","","Hver gang start passeres modtages 4000 kr.",Color.red,Color.BLACK);
-        fields[1] = new GUI_Street("Rødovrevej","Pris: 1200","Leje m. hhv. 1,2,3,4 huse: 250,750,2250,4000 kr. 1 hotel: 6000 kr. Pantsætningsværdig: 1200","50",Color.WHITE,Color.BLACK);
+        fields[1] = new GUI_Street("Rødovrevej","Pris: 1200", descCreator(new int[]{250, 750, 2250, 4000, 6000, 600}),"50",Color.WHITE,Color.BLACK);
         fields[2] = new GUI_Chance("?","Prøv lykken","",Color.WHITE,Color.BLACK);
-        fields[3] = new GUI_Street("Hvidovrevej","Pris: 1200 kr.","Leje m. hhv. 1,2,3,4 huse: 250,750,2250,4000 kr. 1 hotel: 6000 kr. Pantsætningsværdig: 1800","600",Color.WHITE,Color.BLACK);
+        fields[3] = new GUI_Street("Hvidovrevej","Pris: 1200 kr.", descCreator(new int[]{250, 750, 2250, 4000, 6000, 600}),"600",Color.WHITE,Color.BLACK);
         fields[4] = new GUI_Tax("Betal inkomstskat","10% eller 200 kr.","Beskrivelse",Color.WHITE,Color.BLACK);
         fields[5] = new GUI_Shipping("default","Øresund","","Pris 4000 - Leje m. hhv. 1,2,3,4 rederier: 500,1000,2000,4000 kr. Pantsætningsværdig: 2000","500",Color.WHITE,Color.BLACK);
-        fields[6] = new GUI_Street("Roskildevej","Pris: 2000","Leje m. hhv. 1,2,3,4 huse: 600,1800,5400,8000 kr. 1 hotel: 11000 kr. Pantsætning: kr.","PRIS",Color.RED,Color.BLACK);
+        fields[6] = new GUI_Street("Roskildevej","Pris: 2000", descCreator(new int[]{600, 1800, 5400, 8000, 11000, 1000}),"PRIS",Color.RED,Color.BLACK);
         fields[7] = new GUI_Chance("?","Prøv lykken","",Color.WHITE,Color.BLACK);
-        fields[8] = new GUI_Street("Valby langgade","Pris: 2000","Leje m. hhv. 1,2,3,4 huse: 600,1800,5400,8000 kr. 1 hotel: 11000 kr.. Pantsætning: kr.","PRIS",Color.RED,Color.BLACK);
-        fields[9] = new GUI_Street("Allégade","2400 kr.","Leje m. hhv. 1,2,3,4 huse: 800,2000,6000,9000 kr. 1 hotel: 12000 kr. Pantsætning: kr.","PRIS",Color.RED,Color.BLACK);
+        fields[8] = new GUI_Street("Valby langgade","Pris: 2000",descCreator(new int[]{600, 1800, 5400, 8000, 6000, 1000}),"PRIS",Color.RED,Color.BLACK);
+        fields[9] = new GUI_Street("Allégade","Pris: 2400 kr.",descCreator(new int[]{800, 2000, 6000, 9000, 12000, 1200}) ,"PRIS",Color.RED,Color.BLACK);
         fields[10] = new GUI_Jail("default","I Fængsel","Fængsel","Du slipper med en advarsel denne gang!",Color.LIGHT_GRAY,Color.BLACK);
-        fields[11] = new GUI_Street("Frederiksberg Allé","Pris 2800","Leje m. hhv. 1,2,3,4 huse: 1000,3000,9000,12500. 1 hotel: 15000. Pantsætning: 1400","PRIS",Color.GREEN,Color.BLACK);
+        fields[11] = new GUI_Street("Frederiksberg Allé","Pris: 2800",descCreator(new int[]{1000, 3000, 9000, 12500, 15000, 1400}),"PRIS",Color.GREEN,Color.BLACK);
         fields[12] = new GUI_Brewery("default","Tuborg","Pris: 3000 kr.","Hvis en virksomhed ejes, betales 100 gange så meget som øjnene viser, hvis to jes betales 200 gange øjnene","leje",Color.WHITE,Color.BLACK);
-        fields[13] = new GUI_Street("Bülowsvej","Pris: 2800","Leje m. hhv. 1,2,3,4 huse: 1000,3000,9000,12500 kr. 1 hotel: 15000. Pantsætning: 1400 kr.","PRIS",Color.GREEN,Color.BLACK);
-        fields[14] = new GUI_Street("Gl. Kongevej","Pris: 3200 kr.","Leje m. hhv. 1,2,3,4 huse: 1250,3750,10000,14000. 1 hotel: 18000. Pantsætning: 1600","",Color.GREEN,Color.BLACK);
+        fields[13] = new GUI_Street("Bülowsvej","Pris: 2800",descCreator(new int[]{1000, 3000, 9000, 12500, 15000, 1400}) ,"PRIS",Color.GREEN,Color.BLACK);
+        fields[14] = new GUI_Street("Gl. Kongevej","Pris: 3200 kr.",descCreator(new int[]{1250, 3750, 10000, 14000, 18000, 1600}),"",Color.GREEN,Color.BLACK);
         fields[15] = new GUI_Shipping("default","Skandinavisk Linietrafik A/S","","Pris: 4000 - Leje m. hhv. 1,2,3,4 rederier: 500,1000,2000,4000 kr. Pantsætningsværdig: 2000","",Color.WHITE,Color.BLACK);
-        fields[16] = new GUI_Street("Bernstoffsvej","3600 kr.","Leje m. hhv. 1,2,3,4 huse: 1400,4000,11000,15000 kr. 1 hotel: 19000 kr. Pantsætningsværdig: 1800","PRIS",Color.LIGHT_GRAY,Color.BLACK);
+        fields[16] = new GUI_Street("Bernstoffsvej","3600 kr.",descCreator(new int[]{1400, 4000, 11000, 15000, 19000, 1800}),"PRIS",Color.LIGHT_GRAY,Color.BLACK);
         fields[17] = new GUI_Chance("?","Prøv lykken","",Color.WHITE,Color.BLACK);
-        fields[18] = new GUI_Street("Hellerupvej","Pris: 3600","Leje m. hhv. 1,2,3,4 huse: 1400,4000,11000,15000 kr. 1 hotel: 19000 kr. Pantsætningsværdig: 1800","300",Color.LIGHT_GRAY,Color.BLACK);
-        fields[19] = new GUI_Street("Strandvej","Pris: 4000","Leje m. hhv. 1,2,3,4 huse: 1600,4400,12000,16000 kr. 1 hotel: 20000 kr. Pantsætningsværdig: 1800","350",Color.LIGHT_GRAY,Color.BLACK);
+        fields[18] = new GUI_Street("Hellerupvej","Pris: 3600",descCreator(new int[]{1400, 4000, 11000, 15000, 19000, 1800}) ,"300",Color.LIGHT_GRAY,Color.BLACK);
+        fields[19] = new GUI_Street("Strandvej","Pris: 4000",descCreator(new int[]{1600, 4400, 12000, 16000, 20000, 2000}),"350",Color.LIGHT_GRAY,Color.BLACK);
         fields[20] = new GUI_Refuge("default","Helle","Helle","Hold en pause",Color.WHITE,Color.BLACK);
         fields[21] = new GUI_Street("Trianglen","Pris: 4400","Leje m. hhv. 1,2,3,4 huse: 1800,5000,14000,17500,21000 kr. 1 hotel: 21000 kr. Pantsætningsværdig: 2200 kr. ","350 kr.",Color.ORANGE,Color.BLACK);
         fields[22] = new GUI_Chance("?","Prøv lykken","Beskrivelse",Color.WHITE,Color.BLACK);
@@ -48,6 +48,22 @@ public class Board {
         fields[37] = new GUI_Street("Frederiksberggade","Pris: 7000","Leje m. hhv. 1,2,3,4 huse: 3500,10000,22000,26000 kr. 1 hotel: 30000. Pantsætning: 3500 kr.","PRIS",Color.PINK,Color.BLACK);
         fields[38] = new GUI_Tax("Ekstraordinær statsskat","","Betal 200 kr eller 10% af formue",Color.WHITE,Color.BLACK);
         fields[39] = new GUI_Street("Rådhuspladsen","Pris: 8000","Leje m. hhv. 1,2,3,4 huse: 4000,12000,28000,34000 kr. 1 hotel: 40000. Pantsætning: 4000 kr.","PRIS",Color.PINK,Color.BLACK);
+    }
+
+    public String descCreator(int[] desc) {
+        String text = "Leje ved bygninger:";
+
+        for (int i = 0; i < desc.length-2; i++) {
+            text = text + "\n Hus " + (i+1) + ": " + desc[i] + "kr.";
+        }
+
+        if (desc.length > 5) {
+            text = text + "\n Hotel: " + desc[desc.length-2] + "kr.";
+        }
+
+        text = text + "\n Pantsætningsværdi: " + desc[desc.length-1] + "kr.";
+
+        return text;
     }
 
     //returnrere gui objektet så spilbrættet kan initialiseres
