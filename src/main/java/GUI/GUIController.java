@@ -92,6 +92,13 @@ public class GUIController {
             street.setSubText("Ejes af: " + gui_player[playerNumber].getName());
         }
     }
+    public void removeFieldBorderGUI(int fieldNumber){
+        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+            street.setBorder(Color.BLACK, Color.WHITE);
+            street.setSubText("Ikke ejet");
+        }
+    }
 
     public void displayChancecardGUI(String text) {
         gui.displayChanceCard(text);
@@ -180,6 +187,12 @@ public class GUIController {
         System.out.println("Updater number of player = " + gui_player.length);
         System.out.println("new player aarya er = " + newGuiPl.length);
         this.numberOfPlayers = gui_player.length;
+
+    }
+    public void remmovePlayerOwned(int[] owned){
+        for (int x : owned){
+            removeFieldBorderGUI(x);
+        }
 
     }
 

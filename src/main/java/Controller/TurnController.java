@@ -29,7 +29,7 @@ public class TurnController {
 
     public void playGame() {
         int winCondition = 0;
-        for (turnTimer = 0; winCondition == 0; turnTimer++) {
+        for (turnTimer = 0; winCondition == 0 ; turnTimer++) {
             //hvis man er i fængsel
             System.out.println(turnTimer);
             if (movementController.getPlayers()[turnTimer].getInJail()) {
@@ -102,6 +102,9 @@ public class TurnController {
     }
 
     private int evalTurnTimer(int turnTimer, Player player) {
+        if(player.getBalance() <= 0){
+            removePlayer(turnTimer);
+        }
         if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
             turnTimer += -1;
             player.setTurnsInARow();
@@ -239,10 +242,14 @@ public class TurnController {
         }
     }
     private void removePlayer(int playerNr){
-        guiController.deleteCar(playerNr, movementController.getPlayers()[playerNr].getPosition());
+        // GUI remove
+        Player pl = movementController.getPlayers()[playerNr];
+        guiController.remmovePlayerOwned(pl.getOwnedFields());
+        guiController.deleteCar(playerNr, pl.getPosition());
+
+        //PLayer og board
+        calculator.removeOwnerShip(pl.getOwnedFields());
         movementController.deletePlayer(playerNr);
-
-
     }
 }
 
