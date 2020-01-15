@@ -10,7 +10,7 @@ public class Deck {
     {
         if (single_instance == null)
             single_instance = new Deck();
-            //single_instance.shuffle();
+           // single_instance.shuffle();
 
         return single_instance;
     }
@@ -52,30 +52,17 @@ public class Deck {
     };
 
     public ChanceCard draw (){
-        if((cards.length % this.drawCounter) == 0)
-            this.drawCounter = 0;
-        return cards[this.drawCounter++];
+      //  if((cards.length % this.drawCounter) == 0)
+        //    this.drawCounter = 0;
+        //return cards[this.drawCounter++];
+
+        return  this.cards[(int)(Math.random()*(cards.length))];
 
     }
 
-    private void shuffle(){
-        ChanceCard[] newDeck = new ChanceCard[this.cards.length];
+    private void shuffle() {
 
-        for(int i = 0; i < newDeck.length; i++){
-            newDeck[i] = this.cards[(int)(Math.random()*(cards.length))];
-            cards[i] = null;
 
-            ChanceCard[] dummy= new ChanceCard[this.cards.length -1];
-
-            for (int j = 0; j < dummy.length;){
-                if(this.cards[j] != null){
-                    dummy[j] = this.cards[j];
-                    j++;
-                }
-            }
-            this.cards = dummy;
-        }
-        this.cards = newDeck;
     }
 }
 
