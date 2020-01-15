@@ -1,3 +1,5 @@
+package Controller;
+
 import model.DiceHolder;
 import model.Die;
 import model.Player;
