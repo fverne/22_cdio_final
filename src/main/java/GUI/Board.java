@@ -50,7 +50,7 @@ public class Board {
         fields[39] = new GUI_Street("Rådhuspladsen","Pris: 8000",descCreator(new int[]{4000, 12000, 28000, 34000, 40000, 4000}),"PRIS",Color.PINK,Color.BLACK);
     }
 
-    public String descCreator(int[] desc) {
+    public String descCreator(int[] desc) {     // denne metode bygger descriptions på gui felterene ud fra et givent array
         String text = "Leje ved bygninger:";
 
         for (int i = 0; i < desc.length-2; i++) {
