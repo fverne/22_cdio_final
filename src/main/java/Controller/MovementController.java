@@ -26,12 +26,11 @@ public class MovementController {
         return dice.getFaceValues();
     }
 
-    public int getLatestPosition(Player player) {
-        if (player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue() < 0) {
-            return 40 + player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
+    public int getLatestPosition(Player player, int roll) {
+        if (player.getPosition() - roll < 0) {
+            return 40 + (player.getPosition() - roll);
         } else {
-
-            return player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
+            return (player.getPosition() - roll);
         }
     }
 
@@ -76,12 +75,13 @@ public class MovementController {
 
     public void setPosition(Player player, int moveLength) {
         int position = player.getPosition();
+        int newPosition = (position + moveLength)%40;
 
         if (moveLength + position > 39) {
-            player.setPosition((position + moveLength) - 40);
+            player.setPosition(newPosition);
             player.deposit(4000);
         } else {
-            player.setPosition(player.getPosition() + moveLength);
+            player.setPosition(newPosition);
         }
     }
 

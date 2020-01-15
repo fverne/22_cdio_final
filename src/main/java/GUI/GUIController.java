@@ -23,6 +23,10 @@ public class GUIController {
         return gui.getUserSelection(text, "ja", "nej");
     }
 
+    public String yesNoButton(String msg) {
+        return gui.getUserButtonPressed(msg, "ja", "nej");
+    }
+
     //Ændrer border på feltet hvis det er ejet
     public void addHouseToGUI(int fieldNumber, int amountToAdd, int housesAlreadyOnField) {
 
@@ -56,7 +60,8 @@ public class GUIController {
         } else
             gui.showMessage(message);
     }
-    public String getName(int index){
+
+    public String getName(int index) {
         return gui_player[index].getName();
     }
 
@@ -65,15 +70,19 @@ public class GUIController {
     }
 
     public void displayRollGUI(int faceValue1, int faceValue2) {
-        gui.setDice(faceValue1, faceValue2);
+        gui.setDice(faceValue1, 2, 3, faceValue2, 3, 3);
     }
 
-    public void movePlayerGUI(int playerNumber, int newLocation, int lastLocation) {
+    public void movePlayerGUI(int playerNumber, int latestlocation, int roll) throws InterruptedException {
 
-        for (int i = 0; i < 40; i++) {
-            gui.getFields()[i].setCar(gui_player[playerNumber], false);
+        for (int i = roll; i > 0; i--) {
+            gui.getFields()[latestlocation].setCar(gui_player[playerNumber], false);
+            latestlocation++;
+            latestlocation = latestlocation%40;
+            gui.getFields()[latestlocation].setCar(gui_player[playerNumber], true);
+
+            Thread.sleep(200);
         }
-        gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
     public void teleportPlayerGUI(int playerNumber, int newLocation) {
@@ -104,7 +113,8 @@ public class GUIController {
     public int getUserIntGUI() {
         return gui.getUserInteger("Indtast pris/bud");
     }
-    public int getUserIntWithString (String text ){
+
+    public int getUserIntWithString(String text) {
         int price = gui.getUserInteger(text);
         return price;
     }
@@ -128,11 +138,12 @@ public class GUIController {
 
     //Spiller navne
     public void setPlayerNameGUI() {
-    	String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
+        String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
         boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
             String name;
-            do {                                                 // do while checker om spillerens navn eksisterer i forvejen
+            do
+            {                                                 // do while checker om spillerens navn eksisterer i forvejen
                 name = gui.getUserString("Indtast navn: ");
                 nametaken = false;
 
@@ -164,7 +175,7 @@ public class GUIController {
         }
     }
 
-    public int getNumberOfGUIPlayers(){
+    public int getNumberOfGUIPlayers() {
         return numberOfPlayers;
     }
 }
