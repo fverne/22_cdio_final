@@ -27,11 +27,14 @@ public class MovementController {
     }
 
     public int getLatestPosition(Player player) {
-        if (player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue() < 0) {
-            return 40 + player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
+        int lastRoll0 = getLatestRoll()[0].getFaceValue();
+        int lastRoll1 = getLatestRoll()[1].getFaceValue();
+
+        if ((player.getPosition() - lastRoll0 - lastRoll1) < 0) {
+            return 40 + player.getPosition() - lastRoll0 - lastRoll1;
         } else {
 
-            return player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
+            return player.getPosition() - lastRoll0 - lastRoll1;
         }
     }
 
