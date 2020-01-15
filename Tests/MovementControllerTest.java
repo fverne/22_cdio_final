@@ -2,7 +2,7 @@ import model.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 class MovementControllerTest {
 
     @Test
@@ -12,3 +12,5 @@ class MovementControllerTest {
         assertEquals(movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue(), player.getPosition());
     }
 }
+
+ */
