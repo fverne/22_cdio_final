@@ -50,20 +50,19 @@ public class TurnController {
                 //hvis købbart felt
                 if (plField instanceof Fields.Ownerable) {
 
-                    //Hvis feltet ikke er ejet, købes det
+                    //Hvis feltet ikke er ejet, kan det købes
                     if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
                         if ((calculator.getCredibilityBuy(player, fieldNumber) &&
                                 guiController.yesOrNo("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja"))) {
                             buyField(turnTimer, player, fieldNumber, plField);
 
-                            //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
+                            //hvis spilleren ikke kan, eller vil, købe feltet går det til auktion
                         } else {
                             auction(player, plField);
                         }
                     } else {
                         //Hvis feltet ejes og du er ejer, kan du byg hus
-                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
-                                && ((Fields.Ownable.Property) plField).isCanBuild()) {
+                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy()) && ((Fields.Ownable.Property) plField).isCanBuild()) {
 
                             if (calculator.isBuildable(fieldNumber)) {
                                 build(turnTimer, player, fieldNumber, (Property) plField);
@@ -101,8 +100,8 @@ public class TurnController {
     }
 
     private int evalTurnTimer(int turnTimer, Player player) {
-        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
-            turnTimer = -1;
+        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue() && !player.getInJail()) {
+            turnTimer += -1;
             player.setTurnsInARow();
         }
         if (turnTimer == guiController.getNumberOfPlayers() - 1) {
@@ -198,7 +197,7 @@ public class TurnController {
 
         //IMPLEMENTER MAKS 4 HUSE
         if (plField.getHouseAmount() == 4) {
-            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + " kr.").equals("ja"))
+            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + plField.getHotelCost() + " kr.").equals("ja"))
                 plField.setHotelAmount(1);
             guiController.addHotelToGUI(fieldNumber);
         }

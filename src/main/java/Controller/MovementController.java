@@ -9,7 +9,6 @@ public class MovementController {
     private DiceHolder dice;
     private Player[] players;
 
-
     public MovementController(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -27,11 +26,14 @@ public class MovementController {
     }
 
     public int getLatestPosition(Player player) {
-        if (player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue() < 0) {
-            return 40 + player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
+        int lastRoll0 = getLatestRoll()[0].getFaceValue();
+        int lastRoll1 = getLatestRoll()[1].getFaceValue();
+
+        if ((player.getPosition() - lastRoll0 - lastRoll1) < 0) {
+            return 40 + player.getPosition() - lastRoll0 - lastRoll1;
         } else {
 
-            return player.getPosition() - getLatestRoll()[0].getFaceValue() - getLatestRoll()[1].getFaceValue();
+            return player.getPosition() - lastRoll0 - lastRoll1;
         }
     }
 
@@ -47,7 +49,6 @@ public class MovementController {
             } else {
                 players[player].setTurnsInJail();
             }
-            System.out.println(getLatestRoll()[0].getFaceValue() + " " + getLatestRoll()[1].getFaceValue());
             //hvis man ikke er i fængsel
         } else {
             //hvis det er ens tredje tur
@@ -70,8 +71,8 @@ public class MovementController {
                 }
             }
         }
-            return players[player];
-        }
+        return players[player];
+    }
 
 
     public void setPosition(Player player, int moveLength) {
