@@ -12,7 +12,7 @@ public class Board {
         fields[1] = new GUI_Street("Rødovrevej","Pris: 1200", descCreator(new int[]{250, 750, 2250, 4000, 6000, 600}),"50",Color.WHITE,Color.BLACK);
         fields[2] = new GUI_Chance("?","Prøv lykken","",Color.WHITE,Color.BLACK);
         fields[3] = new GUI_Street("Hvidovrevej","Pris: 1200 kr.", descCreator(new int[]{250, 750, 2250, 4000, 6000, 600}),"600",Color.WHITE,Color.BLACK);
-        fields[4] = new GUI_Tax("Betal inkomstskat","10% eller 200 kr.","Beskrivelse",Color.WHITE,Color.BLACK);
+        fields[4] = new GUI_Tax("Betal inkomstskat","","4000 kr. eller 10% af formue",Color.WHITE,Color.BLACK);
         fields[5] = new GUI_Shipping("default","Øresund","","Pris 4000 - Leje m. hhv. 1,2,3,4 rederier: 500,1000,2000,4000 kr. Pantsætningsværdig: 2000","500",Color.WHITE,Color.BLACK);
         fields[6] = new GUI_Street("Roskildevej","Pris: 2000", descCreator(new int[]{600, 1800, 5400, 8000, 11000, 1000}),"PRIS",Color.RED,Color.BLACK);
         fields[7] = new GUI_Chance("?","Prøv lykken","",Color.WHITE,Color.BLACK);
@@ -46,7 +46,7 @@ public class Board {
         fields[35] = new GUI_Shipping("default","D/S Bornholm ","","Pris 4000 kr. - Leje m. hhv. 1,2,3,4 rederier: 500,1000,2000,4000 kr. Pantsætningsværdig: 2000","",Color.WHITE,Color.BLACK);
         fields[36] = new GUI_Chance("?","Prøv lykken","",Color.WHITE,Color.BLACK);
         fields[37] = new GUI_Street("Frederiksberggade","Pris: 7000",descCreator(new int[]{3500, 10000, 22000, 26000, 30000, 3500}),"PRIS",Color.PINK,Color.BLACK);
-        fields[38] = new GUI_Tax("Ekstraordinær statsskat","","Betal 200 kr eller 10% af formue",Color.WHITE,Color.BLACK);
+        fields[38] = new GUI_Tax("Ekstraordinær statsskat","","Betal 2000kr",Color.WHITE,Color.BLACK);
         fields[39] = new GUI_Street("Rådhuspladsen","Pris: 8000",descCreator(new int[]{4000, 12000, 28000, 34000, 40000, 4000}),"PRIS",Color.PINK,Color.BLACK);
     }
 
