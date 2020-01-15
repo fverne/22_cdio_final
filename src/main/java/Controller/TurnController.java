@@ -198,7 +198,7 @@ public class TurnController {
 
         //IMPLEMENTER MAKS 4 HUSE
         if (plField.getHouseAmount() == 4) {
-            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + " kr.").equals("ja"))
+            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + plField.getHotelCost() + " kr.").equals("ja"))
                 plField.setHotelAmount(1);
             guiController.addHotelToGUI(fieldNumber);
         }
