@@ -14,10 +14,18 @@ public class Player {
     private boolean freeOfJail;
     private int turnsInJail;
     private int turnsInARow;
-
+    private boolean inAuction = true;
     public Player(){
         position = 0;
         balance = 30000;
+    }
+
+    public boolean isInAuction() {
+        return inAuction;
+    }
+
+    public void setInAuction(boolean inAuction) {
+        this.inAuction = inAuction;
     }
 
     public void setName(String playerName){
