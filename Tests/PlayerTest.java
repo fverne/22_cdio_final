@@ -26,7 +26,7 @@ class PlayerTest {
         assertTrue(testPlayer.getOwnership(8));
         assertFalse(testPlayer.getOwnership(14));
     }
-/*
+
     @org.junit.jupiter.api.Test
     void setPosition() {
        Player testPlayer = new Player();
@@ -39,6 +39,4 @@ class PlayerTest {
        //testPlayer.setPosition(7);
        assertEquals(1,testPlayer.getPosition());
     }
-
- */
 }

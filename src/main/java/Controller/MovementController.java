@@ -9,6 +9,7 @@ public class MovementController {
     private DiceHolder dice;
     private Player[] players;
 
+
     public MovementController(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -25,15 +26,11 @@ public class MovementController {
         return dice.getFaceValues();
     }
 
-    public int getLatestPosition(Player player) {
-        int lastRoll0 = getLatestRoll()[0].getFaceValue();
-        int lastRoll1 = getLatestRoll()[1].getFaceValue();
-
-        if ((player.getPosition() - lastRoll0 - lastRoll1) < 0) {
-            return 40 + player.getPosition() - lastRoll0 - lastRoll1;
+    public int getLatestPosition(Player player, int roll) {
+        if (player.getPosition() - roll < 0) {
+            return 40 + (player.getPosition() - roll);
         } else {
-
-            return player.getPosition() - lastRoll0 - lastRoll1;
+            return (player.getPosition() - roll);
         }
     }
 
@@ -49,6 +46,7 @@ public class MovementController {
             } else {
                 players[player].setTurnsInJail();
             }
+            System.out.println(getLatestRoll()[0].getFaceValue() + " " + getLatestRoll()[1].getFaceValue());
             //hvis man ikke er i fængsel
         } else {
             //hvis det er ens tredje tur
@@ -71,18 +69,19 @@ public class MovementController {
                 }
             }
         }
-        return players[player];
-    }
+            return players[player];
+        }
 
 
     public void setPosition(Player player, int moveLength) {
         int position = player.getPosition();
+        int newPosition = (position + moveLength)%40;
 
         if (moveLength + position > 39) {
-            player.setPosition((position + moveLength) - 40);
+            player.setPosition(newPosition);
             player.deposit(4000);
         } else {
-            player.setPosition(player.getPosition() + moveLength);
+            player.setPosition(newPosition);
         }
     }
 
