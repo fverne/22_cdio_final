@@ -9,7 +9,6 @@ public class MovementController {
     private DiceHolder dice;
     private Player[] players;
 
-
     public MovementController(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -72,8 +71,8 @@ public class MovementController {
                 }
             }
         }
-            return players[player];
-        }
+        return players[player];
+    }
 
 
     public void setPosition(Player player, int moveLength) {
