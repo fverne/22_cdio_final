@@ -146,7 +146,7 @@ public class GUIController {
                         gui.showMessage("Navnet er taget af en anden spiller.");
                     }
                 }
-            } while ((name.length() > 25 || name.length() < 1) || nametaken);
+            } while ((name.length() > 25 || name.length() < 1) || nametaken);       // spilleren skal indtaste et nyt navn indtil det er korrekt
 
             gui_player[i] = new GUI_Player(name);       // spilleren oprettes med det tilladte navn
             prevnames[i] = name;
