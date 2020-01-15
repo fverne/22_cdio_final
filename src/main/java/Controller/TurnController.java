@@ -31,11 +31,13 @@ public class TurnController {
         int winCondition = 0;
         for (turnTimer = 0; winCondition == 0; turnTimer++) {
             //hvis man er i fængsel
+            System.out.println(turnTimer);
             if (movementController.getPlayers()[turnTimer].getInJail()) {
                jailBailOuts();
             }
 
             guiController.rollButtonGUI();
+            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
 
@@ -83,7 +85,6 @@ public class TurnController {
                 //Gå i fængsel-felt
                 if (plField instanceof Fields.NotOwnable.GoToJail) {
                     movementController.landOnJailField(turnTimer);
-                    guiController.movePlayerGUI(turnTimer, player.getPosition(), 30);
                 }
 
                 //tax
@@ -101,11 +102,12 @@ public class TurnController {
     }
 
     private int evalTurnTimer(int turnTimer, Player player) {
-        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue() && !player.getInJail()) {
+        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
             turnTimer += -1;
             player.setTurnsInARow();
         }
         if (turnTimer == guiController.getNumberOfPlayers() - 1) {
+
             turnTimer = -1;
         }
         return turnTimer;
@@ -162,6 +164,8 @@ public class TurnController {
             else if (winner == null) {
                 System.out.println("ikke fundet en køber");
                 n = false;
+
+
 
             }
             if (!n) {
@@ -233,6 +237,12 @@ public class TurnController {
             movementController.getPlayers()[turnTimer].setInJail(false);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
+    }
+    private void removePlayer(int playerNr){
+        guiController.deleteCar(playerNr, movementController.getPlayers()[playerNr].getPosition());
+        movementController.deletePlayer(playerNr);
+
+
     }
 }
 

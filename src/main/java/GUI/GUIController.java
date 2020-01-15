@@ -13,7 +13,7 @@ public class GUIController {
     public GUI_Player[] gui_player;
 
     private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN, Color.CYAN, Color.DARK_GRAY};
-    int numberOfPlayers;
+    private int numberOfPlayers;
 
     public GUIController() {
         gui = gameBoard.initGUI();
@@ -42,6 +42,7 @@ public class GUIController {
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
 
     public void initGUIPlayers() {
         numberOfPlayers = setNumberOfPlayersGUI();
@@ -80,8 +81,8 @@ public class GUIController {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
-    public void removeCarGUI(int playerNumber, int newLocation) {
-        gui.getFields()[newLocation].setCar(gui_player[playerNumber], false);
+    public void removeCarGUI(int playerNumber, int pos) {
+        gui.getFields()[pos].setCar(gui_player[playerNumber], false);
     }
 
     public void setFieldBorderGUI(int fieldNumber, int playerNumber) {
@@ -164,7 +165,22 @@ public class GUIController {
         }
     }
 
-    public int getNumberOfGUIPlayers(){
-        return numberOfPlayers;
+    public void deleteCar(int playerNr, int pos){ // Fjern spillern fra gui player arrayet
+
+        removeCarGUI(playerNr, pos);
+        GUI_Player[] newGuiPl = new GUI_Player[gui_player.length - 1];
+        int x = 0;
+        for(int i =0; i< gui_player.length; i++ ){
+            if(i != playerNr){
+                newGuiPl[x] = gui_player[i];
+                x++;
+            }
+        }
+        gui_player = newGuiPl;
+        System.out.println("Updater number of player = " + gui_player.length);
+        System.out.println("new player aarya er = " + newGuiPl.length);
+        this.numberOfPlayers = gui_player.length;
+
     }
+
 }
