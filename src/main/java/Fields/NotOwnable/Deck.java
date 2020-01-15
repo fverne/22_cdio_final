@@ -60,25 +60,9 @@ public class Deck {
 
     }
 
-    private void shuffle(){ //virker ikke, den er helt gal
-        ChanceCard[] newDeck = new ChanceCard[this.cards.length];
+    private void shuffle() {
 
-        for(int i = 0; i < newDeck.length; i++){
-            newDeck[i] = this.cards[(int)(Math.random()*(cards.length))];
-            cards[i] = null;
 
-            ChanceCard[] dummy= new ChanceCard[this.cards.length -1];
-            int x = 0;
-            for (int j = 0; j < dummy.length; j++){
-                System.out.println("j er " + j + " dummy lenght er " + dummy.length);
-                if(this.cards[j] != null){
-                    dummy[x] = this.cards[j];
-                    x++;
-                }
-            }
-            this.cards = dummy;
-        }
-        this.cards = newDeck;
     }
 }
 

@@ -143,8 +143,16 @@ public class TurnController {
             }
             System.out.println("x is " + x);
             if ((x == 1) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
+                int a = 0;
+                for(int i =0; i < movementController.getPlayers().length; i++){
+                    if(movementController.getPlayers()[i].equals(winner)){
+                        a = i;
+                    }
+                }
                 calculator.buyWithPrice(winner, player.getPosition(), highestBid);
-                guiController.setFieldBorderGUI(player.getPosition(), turnTimer);
+                guiController.updatePlayerBalanceGUI(a, winner.getBalance());
+                guiController.setFieldBorderGUI(player.getPosition(), a);
+
                 System.out.println("fundet en køber");
                 n = false;
 
