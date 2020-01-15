@@ -101,8 +101,8 @@ public class TurnController {
     }
 
     private int evalTurnTimer(int turnTimer, Player player) {
-        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
-            turnTimer = -1;
+        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue() && !player.getInJail()) {
+            turnTimer += -1;
             player.setTurnsInARow();
         }
         if (turnTimer == guiController.getNumberOfPlayers() - 1) {

@@ -1,9 +1,10 @@
 import model.Player;
+import Controller.MovementController;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MovementControllerTest {
+class MovementControllerTest{
 
     @Test
     void makeMove() {
