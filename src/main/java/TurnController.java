@@ -29,14 +29,13 @@ public class TurnController {
         int winCondition = 0;
         for (turnTimer = 0; winCondition == 0; turnTimer++) {
             //hvis man er i fængsel
-            System.out.println(turnTimer);
             if (movementController.getPlayers()[turnTimer].getInJail()) {
                jailBailOuts();
             }
 
             guiController.rollButtonGUI();
-            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
+            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
 
             guiController.movePlayerGUI(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
 
@@ -82,6 +81,7 @@ public class TurnController {
                 //Gå i fængsel-felt
                 if (plField instanceof Fields.NotOwnable.GoToJail) {
                     movementController.landOnJailField(turnTimer);
+                    guiController.movePlayerGUI(turnTimer, player.getPosition(), 30);
                 }
 
                 //tax
