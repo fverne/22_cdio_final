@@ -1,3 +1,5 @@
+package Controller;
+
 import model.DiceHolder;
 import model.Die;
 import model.Player;
@@ -38,7 +40,7 @@ public class MovementController {
         if (players[player].getInJail()) {
             //hvis man ruller to ens
             if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
-                setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+                setPosition(players[player], getLatestRoll()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
                 players[player].setInJail(false);
                 players[player].setTurnsInJail(0);
                 //hvis man ikke ruller to ens
@@ -61,8 +63,10 @@ public class MovementController {
                 }
                 //hvis det ikke er ens tredje tur
             } else {
-                players[player].setTurnsInARow(0);
                 setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
+                if (getLatestRoll()[0].getFaceValue() != getLatestRoll()[1].getFaceValue()){
+                    players[player].setTurnsInARow(0);
+                }
             }
         }
             return players[player];

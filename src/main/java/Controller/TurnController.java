@@ -1,3 +1,5 @@
+package Controller;
+
 import Fields.Field;
 import Fields.NotOwnable.ChanceField;
 import Fields.Ownable.Property;
@@ -29,14 +31,13 @@ public class TurnController {
         int winCondition = 0;
         for (turnTimer = 0; winCondition == 0; turnTimer++) {
             //hvis man er i fængsel
-            System.out.println(turnTimer);
             if (movementController.getPlayers()[turnTimer].getInJail()) {
                jailBailOuts();
             }
 
             guiController.rollButtonGUI();
-            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             model.Player player = movementController.makeMove(turnTimer);
+            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
 
             guiController.movePlayerGUI(turnTimer, player.getPosition(), movementController.getLatestPosition(player));
 
@@ -82,6 +83,7 @@ public class TurnController {
                 //Gå i fængsel-felt
                 if (plField instanceof Fields.NotOwnable.GoToJail) {
                     movementController.landOnJailField(turnTimer);
+                    guiController.movePlayerGUI(turnTimer, player.getPosition(), 30);
                 }
 
                 //tax
@@ -99,8 +101,8 @@ public class TurnController {
     }
 
     private int evalTurnTimer(int turnTimer, Player player) {
-        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
-            turnTimer = -1;
+        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue() && !player.getInJail()) {
+            turnTimer += -1;
             player.setTurnsInARow();
         }
         if (turnTimer == guiController.getNumberOfPlayers() - 1) {
@@ -196,7 +198,7 @@ public class TurnController {
 
         //IMPLEMENTER MAKS 4 HUSE
         if (plField.getHouseAmount() == 4) {
-            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + " kr.").equals("ja"))
+            if (guiController.yesOrNo("Vil du bygge et hotel?, prisen pr. stk er: " + plField.getHotelCost() + " kr.").equals("ja"))
                 plField.setHotelAmount(1);
             guiController.addHotelToGUI(fieldNumber);
         }

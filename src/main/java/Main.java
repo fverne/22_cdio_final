@@ -1,4 +1,4 @@
-import GUI.GUIController;
+import Controller.TurnController;
 
 public class Main {
     public static void main(String[] args) {
