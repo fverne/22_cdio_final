@@ -52,9 +52,11 @@ public class Deck {
     };
 
     public ChanceCard draw (){
-        if((cards.length % this.drawCounter) == 0)
-            this.drawCounter = 0;
-        return cards[this.drawCounter++];
+      //  if((cards.length % this.drawCounter) == 0)
+        //    this.drawCounter = 0;
+        //return cards[this.drawCounter++];
+
+        return  this.cards[(int)(Math.random()*(cards.length))];
 
     }
 

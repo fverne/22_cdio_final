@@ -138,7 +138,7 @@ public class TurnController {
             }
             int x = 0;
             for (Player pl : movementController.getPlayers()) {
-                if (!pl.isInAuction())
+                if (pl.isInAuction())
                     x++;
             }
             System.out.println("x is " + x);
