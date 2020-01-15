@@ -1,3 +1,5 @@
+package Controller;
+
 import Fields.Field;
 import Fields.NotOwnable.ChanceField;
 import Fields.Ownable.Property;
