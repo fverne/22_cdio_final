@@ -99,6 +99,11 @@ public class Player {
             return false;
         }
     }
+
+    public int[] getOwnedFields(){
+        return ownedFields;
+    }
+
     public void setSpecificPosition(int fieldID) {
         position = fieldID;
     }

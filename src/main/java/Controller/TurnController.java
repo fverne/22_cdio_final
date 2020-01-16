@@ -71,20 +71,23 @@ public class TurnController {
                                 build(turnTimer, player, fieldNumber, (Property) plField);
                             }
                         }
-                        //ellers betal huslej
+                        //ellers betal husleje
                         if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
-                            guiController.getUserResponse("Du skal betale husleje til " + ((Ownerable) plField).getOwnedBy().getName() + " på " +
-                                    ((Ownerable) plField).getRent() + "kr.");
-                            Player owner = calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
-                            for (int i = 0; i < guiController.getNumberOfPlayers(); i++){
-                                if (movementController.getPlayers()[i].equals(owner)){
-                                    guiController.updatePlayerBalanceGUI(i, owner.getBalance());
+                            if (calculator.getCredibilityRent(player, fieldNumber)) {
+                                guiController.getUserResponse("Du skal betale husleje til " + ((Ownerable) plField).getOwnedBy().getName() + " på " +
+                                        ((Ownerable) plField).getRent() + "kr.");
+                                Player owner = calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
+                                for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
+                                    if (movementController.getPlayers()[i].equals(owner)) {
+                                        guiController.updatePlayerBalanceGUI(i, owner.getBalance());
+                                    }
                                 }
+                            } else {
+
                             }
                         }
                     }
                 }
-
                 //chancekort
                 if (plField instanceof Fields.NotOwnable.ChanceField) {
                     landOnChancecard(player, plField);
@@ -98,9 +101,29 @@ public class TurnController {
 
                 //tax
                 if (plField instanceof Fields.NotOwnable.Tax) {
-                    calculator.payTax(player, fieldNumber);
-                }
+                    if (fieldNumber == 4) {
+                        if (guiController.getUserDecision("Vælg hvordan du vil betale indkomstskat",
+                                "Betal 10%", "Betal 4000 kr.").equals("Betal 10%")) {
+                            if (calculator.getCredibilityTax10(player)) {
+                                calculator.payTax10(player);
+                            } else {
 
+                            }
+                        } else {
+                            if (calculator.getCredibilityTax(player, fieldNumber)) {
+                                calculator.payTax(player, fieldNumber);
+                            } else {
+
+                            }
+                        }
+                    } else {
+                    if (calculator.getCredibilityTax(player, fieldNumber)) {
+                        calculator.payTax(player, fieldNumber);
+                    } else {
+
+                    }
+                    }
+                }
             }
             //opdaterer spiller balance i GUI
             guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
@@ -267,6 +290,10 @@ public class TurnController {
             movementController.getPlayers()[turnTimer].setInJail(false);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
+    }
+
+    private void playerBankrupt(Player player, int fieldNumber){
+
     }
 }
 

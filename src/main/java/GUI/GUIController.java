@@ -23,6 +23,10 @@ public class GUIController {
         gui.getUserButtonPressed("Det er " + gui_player[player].getName() + " tur", "OK");
     }
 
+    public String getUserDecision(String message, String option1, String option2){
+        return gui.getUserButtonPressed(message, option1, option2);
+    }
+
     public void getUserResponse(String message){
         gui.getUserButtonPressed(message, "OK");
     }
