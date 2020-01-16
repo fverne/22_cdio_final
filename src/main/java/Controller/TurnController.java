@@ -64,8 +64,8 @@ public class TurnController {
                         }
                     } else {
                         //Hvis feltet ejes og du er ejer, kan du byg hus
-                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy())
-                                && ((Fields.Ownable.Property) plField).isCanBuild()) {
+                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy()) &&
+                        calculator.getCredibilityHouse(player, fieldNumber, 1)) {
 
                             if (calculator.isBuildable(fieldNumber)) {
                                 build(turnTimer, player, fieldNumber, (Property) plField);
@@ -214,19 +214,27 @@ public class TurnController {
 
         if (plField.getHouseAmount() < 4) {
             if (guiController.yesNoButton("Vil du bygge?, prisen pr. hus er: " + plField.getHouseCost() + " kr.").equals("ja")) {
+                boolean purchaseMade = true;
                 do {
                     amount = guiController.amountOfHousesToBuyGUI();
 
                     if ((amount + numberOfHousesAlreadyPlaced) > 4) {
                         guiController.displayGUIMsg("Du kan højst bygge 4 huse pr. felt.");
-                    } else if (plField.getHouseAmount() < 4) {
-                        calculator.buyHouse(player, fieldNumber, amount);
-                        guiController.addHouseToGUI(fieldNumber, amount, numberOfHousesAlreadyPlaced);
-                        guiController.setFieldBorderGUI(fieldNumber, turnTimer);
-                        plField.setHouseAmount(amount);
+                    } else {
+                        if (calculator.getCredibilityHouse(player, fieldNumber, amount)) {
+                            if (plField.getHouseAmount() < 4) {
+                                calculator.buyHouse(player, fieldNumber, amount);
+                                guiController.addHouseToGUI(fieldNumber, amount, numberOfHousesAlreadyPlaced);
+                                guiController.setFieldBorderGUI(fieldNumber, turnTimer);
+                                plField.setHouseAmount(amount);
+                                purchaseMade = false;
+                            }
+                        } else {
+                            guiController.displayGUIMsg("Du har ikke penge nok til " + amount + " huse");
+                        }
                     }
                 }
-                while ((amount + numberOfHousesAlreadyPlaced) > 4);
+                while (purchaseMade && ((amount + numberOfHousesAlreadyPlaced) > 4 || !calculator.getCredibilityHouse(player, fieldNumber, amount)));
             }
         }
     }
