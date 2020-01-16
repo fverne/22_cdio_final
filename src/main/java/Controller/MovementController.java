@@ -98,4 +98,7 @@ public class MovementController {
         players[player].setInJail(true);
         return players[player];
     }
+    public void teleportPosition(Player player, int position){
+        player.setPosition(position);
+    }
 }

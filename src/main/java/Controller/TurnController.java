@@ -189,11 +189,14 @@ public class TurnController {
             if(card.getPosition() != 1){
                 int tempLatestPosition = player.getPosition();
                 guiController.displayChancecardGUI(card.getMessage());
-                movementController.setPosition(movementController.getPlayers()[turnTimer], card.getPosition());
+                movementController.teleportPosition(player, card.getPosition());
                 guiController.removeCarGUI(turnTimer,tempLatestPosition);
                 guiController.teleportPlayerGUI(turnTimer,card.getPosition());
                 if(card.getIsJail() == true){
                     player.setInJail(true);
+                }
+                if(tempLatestPosition > player.getPosition() && !player.getInJail()){
+                    player.deposit(4000);
                 }
             }
             else {
