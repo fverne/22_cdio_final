@@ -41,7 +41,10 @@ public class TurnController {
             model.Player player = movementController.makeMove(turnTimer);
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
-            guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player,diesum),diesum);
+
+            if (!(player.getTurnsInJail() > 0)) {
+                guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player, diesum), diesum);
+            }
 
             if (!movementController.getPlayers()[turnTimer].getInJail()) {
                 guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
