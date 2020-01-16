@@ -185,10 +185,22 @@ public class TurnController {
     private void landOnChancecard(Player player, Field plField) {
         if (plField instanceof ChanceField) {
             ChanceCard card = ((ChanceField) plField).draw();
-
-            //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
-            guiController.displayChancecardGUI(card.getMessage());
-            player.deposit(card.getReward());
+            //hvis chancekortet rykker dig til et bestemt felt.
+            if(card.getPosition() != 1){
+                int tempLatestPosition = player.getPosition();
+                guiController.displayChancecardGUI(card.getMessage());
+                movementController.setPosition(movementController.getPlayers()[turnTimer], card.getPosition());
+                guiController.removeCarGUI(turnTimer,tempLatestPosition);
+                guiController.teleportPlayerGUI(turnTimer,card.getPosition());
+                if(card.getIsJail() == true){
+                    player.setInJail(true);
+                }
+            }
+            else {
+                //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
+                guiController.displayChancecardGUI(card.getMessage());
+                player.deposit(card.getReward());
+            }
         }
     }
 
