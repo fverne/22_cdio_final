@@ -133,11 +133,22 @@ public class TurnController {
                 if (pl.isInAuction()) {
                     if (!pl.equals(winner)) {
                         if (guiController.yesNoButton(pl.getName() + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
-                            int bid = guiController.getUserIntGUI();
-                            if (bid >= highestBid && bid <= pl.getBalance()) {
-                                winner = pl;
-                                highestBid = bid;
-                            }
+                            int bid = 0;
+                            do {
+                                if (highestBid <= pl.getBalance()){
+                                    bid = guiController.getUserIntGUI();
+                                    if (bid >= highestBid && bid <= pl.getBalance()) {
+                                        winner = pl;
+                                        highestBid = bid;
+                                    }
+                                    if (bid < highestBid){
+                                        guiController.getUserResponse("Dit bud er lavere end det højeste bud, indtast et nyt bud");
+                                    }
+                                    if (bid > pl.getBalance()){
+                                        guiController.getUserResponse("Dit bud er højere end din balance, indtast et nyt bud");
+                                    }
+                                }
+                            } while (highestBid <= pl.getBalance() && (bid > pl.getBalance() || bid < highestBid));
                         } else {
                             System.out.println("der blev skrevet nej");
                             for (int i = 0; i < movementController.getPlayers().length; i++) {
