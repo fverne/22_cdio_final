@@ -58,7 +58,7 @@ public class Calculator {
         player.setOwnership(fieldNumber);
     }
 
-    public void payRent(model.Player player, int fieldNumber, Die[] die){
+    public Player payRent(model.Player player, int fieldNumber, Die[] die){
         int rent = fieldProperty.getRent(fieldNumber);
         model.Player owner = fieldProperty.getOwner(fieldNumber);
 
@@ -87,6 +87,7 @@ public class Calculator {
 
         player.withdraw(rent);
         owner.deposit(rent);
+        return owner;
     }
 
     public Field getField(int fieldNumber){

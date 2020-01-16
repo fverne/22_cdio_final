@@ -73,7 +73,14 @@ public class TurnController {
                         }
                         //ellers betal huslej
                         if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
-                            calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
+                            guiController.getUserResponse("Du skal betale husleje til " + ((Ownerable) plField).getOwnedBy().getName() + " på " +
+                                    ((Ownerable) plField).getRent() + "kr.");
+                            Player owner = calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
+                            for (int i = 0; i < guiController.getNumberOfPlayers(); i++){
+                                if (movementController.getPlayers()[i].equals(owner)){
+                                    guiController.updatePlayerBalanceGUI(i, owner.getBalance());
+                                }
+                            }
                         }
                     }
                 }
