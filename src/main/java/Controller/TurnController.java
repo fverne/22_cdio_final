@@ -92,7 +92,8 @@ public class TurnController {
                 //Gå i fængsel-felt
                 if (plField instanceof Fields.NotOwnable.GoToJail) {
                     movementController.landOnJailField(turnTimer);
-                    guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player,diesum),diesum);
+                    guiController.removeCarGUI(turnTimer, 30);
+                    guiController.teleportPlayerGUI(turnTimer, 10);
                 }
 
                 //tax
