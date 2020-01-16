@@ -41,7 +41,10 @@ public class TurnController {
             model.Player player = movementController.makeMove(turnTimer);
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
-            guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player,diesum),diesum);
+
+            if (!(player.getTurnsInJail() > 0)) {
+                guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player, diesum), diesum);
+            }
 
             if (!movementController.getPlayers()[turnTimer].getInJail()) {
                 guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
@@ -223,10 +226,25 @@ public class TurnController {
     private void landOnChancecard(Player player, Field plField) {
         if (plField instanceof ChanceField) {
             ChanceCard card = ((ChanceField) plField).draw();
-
-            //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
-            guiController.displayChancecardGUI(card.getMessage());
-            player.deposit(card.getReward());
+            //hvis chancekortet rykker dig til et bestemt felt.
+            if(card.getPosition() != 1){
+                int tempLatestPosition = player.getPosition();
+                guiController.displayChancecardGUI(card.getMessage());
+                movementController.teleportPosition(player, card.getPosition());
+                guiController.removeCarGUI(turnTimer,tempLatestPosition);
+                guiController.teleportPlayerGUI(turnTimer,card.getPosition());
+                if(card.getIsJail() == true){
+                    player.setInJail(true);
+                }
+                if(tempLatestPosition > player.getPosition() && !player.getInJail()){
+                    player.deposit(4000);
+                }
+            }
+            else {
+                //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
+                guiController.displayChancecardGUI(card.getMessage());
+                player.deposit(card.getReward());
+            }
         }
     }
 

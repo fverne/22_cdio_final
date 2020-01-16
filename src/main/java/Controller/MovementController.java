@@ -46,7 +46,6 @@ public class MovementController {
             } else {
                 players[player].setTurnsInJail();
             }
-            System.out.println(getLatestRoll()[0].getFaceValue() + " " + getLatestRoll()[1].getFaceValue());
             //hvis man ikke er i fængsel
         } else {
             //hvis det er ens tredje tur
@@ -97,5 +96,8 @@ public class MovementController {
         players[player].setPosition(10);
         players[player].setInJail(true);
         return players[player];
+    }
+    public void teleportPosition(Player player, int position){
+        player.setPosition(position);
     }
 }
