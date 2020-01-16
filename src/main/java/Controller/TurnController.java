@@ -30,6 +30,8 @@ public class TurnController {
     public void playGame() throws InterruptedException {
         int winCondition = 0;
         for (turnTimer = 0; winCondition == 0; turnTimer++) {
+            guiController.getUserResponse(turnTimer);
+
             //hvis man er i fængsel
             if (movementController.getPlayers()[turnTimer].getInJail()) {
                 jailBailOuts();
