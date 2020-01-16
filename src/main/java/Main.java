@@ -5,6 +5,6 @@ public class Main {
         TurnController turnController = new TurnController();
         turnController.startGame();
         turnController.playGame();
-
+        turnController.showWinner();
     }
 }
