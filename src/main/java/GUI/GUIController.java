@@ -198,6 +198,13 @@ public class GUIController {
         this.numberOfPlayers = gui_player.length;
 
     }
+    public void getUserResponse(int player){
+        gui.getUserButtonPressed("Det er " + gui_player[player].getName() + "'s tur", "OK");
+    }
+
+    public void getUserResponse(String message){
+        gui.getUserButtonPressed(message, "OK");
+    }
 
     public int getNumberOfGUIPlayers() {
         return numberOfPlayers;

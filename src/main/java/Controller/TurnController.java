@@ -273,7 +273,7 @@ public class TurnController {
                 }
                 while (purchaseMade && ((amount + numberOfHousesAlreadyPlaced) > 4 || !calculator.getCredibilityHouse(player, fieldNumber, amount)));
             }
-            while ((amount + numberOfHousesAlreadyPlaced) > 4);
+           // while ((amount + numberOfHousesAlreadyPlaced) > 4);
         }
     }
 
