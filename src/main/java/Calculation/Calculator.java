@@ -40,7 +40,6 @@ public class Calculator {
             if (field instanceof Fields.Ownable.Property){
                 totalValues += ((Property) field).getHouseAmount() * ((Property) field).getHouseCost();
             }
-
         }
         return totalValues;
     }
@@ -152,5 +151,28 @@ public class Calculator {
     public void payBail(Player player){
         player.withdraw(1000);
         player.setInJail(false);
+    }
+
+    public int[] valuesTransfer(Player player, int fieldNumber){
+        int[] fields = player.getOwnedFields();
+        Player newOwner = ( (Fields.Ownerable) fieldProperty.getField(fieldNumber)).getOwnedBy();
+        for (int field : fields) {
+            ((Fields.Ownerable) fieldProperty.getField(field)).setOwnedBy(newOwner);
+            newOwner.setOwnership(field);
+        }
+        int transfer = player.getBalance();
+        player.withdraw(transfer);
+        newOwner.deposit(transfer);
+        return fields;
+    }
+
+    public int[] valuesTransfer(Player player){
+        int[] fields = player.getOwnedFields();
+        for (int field : fields) {
+            ((Fields.Ownerable) fieldProperty.getField(field)).setOwnedBy(null);
+        }
+        int transfer = player.getBalance();
+        player.withdraw(transfer);
+        return fields;
     }
 }

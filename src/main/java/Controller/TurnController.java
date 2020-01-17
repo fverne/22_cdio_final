@@ -34,7 +34,7 @@ public class TurnController {
 
             //hvis man er i fængsel
             if (movementController.getPlayers()[turnTimer].getInJail()) {
-                jailBailOuts();
+                jailBailOuts(movementController.getPlayers()[turnTimer]);
             }
 
             guiController.rollButtonGUI();
@@ -295,23 +295,40 @@ public class TurnController {
         }
     }
 
-    private void jailBailOuts() {
+    private void jailBailOuts(Player player) {
         //hvis man har et gratis ud af fængselkort
         if (movementController.getPlayers()[turnTimer].getFreeOfJail() &&
                 guiController.yesNoButton("Vil du bruge et gratis ud af fængselkort?").equals("ja")) {
             movementController.getPlayers()[turnTimer].setInJail(false);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
-        //hvis det er en trdje tur i fængsel eller man vil betale sig ud af fængslet
+        //hvis det er en tredje tur i fængsel eller man vil betale sig ud af fængslet
         if (movementController.getPlayers()[turnTimer].getTurnsInJail() == 3 ||
                 guiController.yesNoButton("Vil du betale 1000 kr. for at komme ud af fængsel?").equals("ja")) {
-            movementController.getPlayers()[turnTimer].setInJail(false);
+            calculator.payBail(player);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
     }
 
     private void playerBankrupt(Player player, int fieldNumber){
+        Field field = calculator.getField(fieldNumber);
+        if (field instanceof Fields.Ownerable){
+            int[] fields = calculator.valuesTransfer(player, fieldNumber);
+            int newOwnerNumber = 0;
+            for (int i = 0; movementController.getPlayers().length > i; i++){
+                if (movementController.getPlayers()[i].equals(((Ownerable) field).getOwnedBy())){
+                    newOwnerNumber = i;
+                }
+            }
+            for (int fieldSet : fields){
+                guiController.setFieldBorderGUI(fields[fieldSet], newOwnerNumber);
+            }
+            guiController.updatePlayerBalanceGUI(newOwnerNumber, movementController.getPlayers()[newOwnerNumber].getBalance());
 
+        } else {
+            int[] fields = calculator.valuesTransfer(player);
+
+        }
     }
 }
 

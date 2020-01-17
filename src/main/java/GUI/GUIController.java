@@ -10,10 +10,9 @@ import java.awt.*;
 public class GUIController {
     private Board gameBoard = new Board();
     private GUI gui;
-    public GUI_Player[] gui_player;
-
+    private GUI_Player[] gui_player;
     private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN, Color.CYAN, Color.DARK_GRAY};
-    int numberOfPlayers;
+    private int numberOfPlayers;
 
     public GUIController() {
         gui = gameBoard.initGUI();
@@ -29,10 +28,6 @@ public class GUIController {
 
     public void getUserResponse(String message){
         gui.getUserButtonPressed(message, "OK");
-    }
-
-    public String yesOrNo(String text) {
-        return gui.getUserSelection(text, "ja", "nej");
     }
 
     public String yesNoButton(String msg) {
