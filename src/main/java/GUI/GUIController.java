@@ -107,6 +107,13 @@ public class GUIController {
             street.setSubText("Ejes af: " + gui_player[playerNumber].getName());
         }
     }
+    public void removeFieldBorderGUI(int fieldNumber){
+        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+            street.setBorder(Color.BLACK, Color.WHITE);
+            street.setSubText("Ikke ejet");
+        }
+    }
 
     public void displayChancecardGUI(String text) {
         gui.displayChanceCard(text);
@@ -181,8 +188,33 @@ public class GUIController {
             gui.addPlayer(gui_player[i]);
         }
     }
+    public void deleteCar(int playerNr, int pos){ // Fjern spillern fra gui player arrayet
+
+        removeCarGUI(playerNr, pos);
+        GUI_Player[] newGuiPl = new GUI_Player[gui_player.length - 1];
+        int x = 0;
+        for(int i =0; i< gui_player.length; i++ ){
+            if(i != playerNr){
+                newGuiPl[x] = gui_player[i];
+                x++;
+            }
+        }
+        gui_player = newGuiPl;
+        System.out.println("Updater number of player = " + gui_player.length);
+        System.out.println("new player aarya er = " + newGuiPl.length);
+        this.numberOfPlayers = gui_player.length;
+
+    }
 
     public int getNumberOfGUIPlayers() {
         return numberOfPlayers;
     }
+
+    public void remmovePlayerOwned(int[] owned){
+        for (int x : owned){
+            removeFieldBorderGUI(x);
+        }
+
+    }
+
 }

@@ -91,6 +91,7 @@ public class TurnController {
                         }
                     }
                 }
+
                 //chancekort
                 if (plField instanceof Fields.NotOwnable.ChanceField) {
                     landOnChancecard(player, plField);
@@ -263,7 +264,7 @@ public class TurnController {
 
         //IMPLEMENTER MAKS 4 HUSE
         if (plField.getHouseAmount() == 4) {
-            if (guiController.yesNoButton("Vil du bygge et hotel?, prisen pr. stk er: " + " kr.").equals("ja"))
+            if (guiController.yesNoButton("Vil du bygge et hotel?, prisen pr. stk er: " + plField.getHotelCost() + " kr.").equals("ja"))
                 plField.setHotelAmount(1);
             guiController.addHotelToGUI(fieldNumber);
         }
@@ -329,6 +330,16 @@ public class TurnController {
             int[] fields = calculator.valuesTransfer(player);
 
         }
+    }
+    private void removePlayer(int playerNr){
+        // GUI remove
+        Player pl = movementController.getPlayers()[playerNr];
+        guiController.remmovePlayerOwned(pl.getOwnedFields());
+        guiController.deleteCar(playerNr, pl.getPosition());
+
+        //PLayer og board
+        calculator.removeOwnerShip(pl.getOwnedFields());
+        movementController.deletePlayer(playerNr);
     }
 }
 

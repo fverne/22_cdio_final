@@ -175,4 +175,15 @@ public class Calculator {
         player.withdraw(transfer);
         return fields;
     }
+    public void removeOwnerShip(int[] owned){
+        for(int x : owned){
+            if(fieldProperty.getField(x) instanceof Property) {
+                ((Property) fieldProperty.getField(x)).setHouseAmount(0);
+                ((Property) fieldProperty.getField(x)).setHotelAmount(0);
+            }
+            ((Fields.Ownerable) fieldProperty.getField(x)).setOwnedBy(null);
+        }
+    }
+
+
 }
