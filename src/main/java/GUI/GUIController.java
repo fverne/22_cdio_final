@@ -22,6 +22,11 @@ public class GUIController {
         gui.getUserButtonPressed("Det er " + gui_player[player].getName() + "'s tur", "OK");
     }
 
+    public void playerWins(){
+        gui.getUserButtonPressed("Tillykke " + gui_player[0].getName() + " du er spillets vinder", "OK");
+        gui_player[0].setBalance(1000000000);
+    }
+
     public String getUserDecision(String message, String option1, String option2){
         return gui.getUserButtonPressed(message, option1, option2);
     }
@@ -107,7 +112,7 @@ public class GUIController {
             street.setSubText("Ejes af: " + gui_player[playerNumber].getName());
         }
     }
-    public void removeFieldBorderGUI(int fieldNumber){
+    private void removeFieldBorderGUI(int fieldNumber){
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.WHITE);
@@ -138,7 +143,7 @@ public class GUIController {
     }
 
     //Antal spillere
-    public int setNumberOfPlayersGUI() {
+    private int setNumberOfPlayersGUI() {
         int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount() + ": ");
         /*
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
@@ -151,7 +156,7 @@ public class GUIController {
     }
 
     //Spiller navne
-    public void setPlayerNameGUI() {
+    private void setPlayerNameGUI() {
         String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
         boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -179,7 +184,7 @@ public class GUIController {
     }
 
     //Adder spillerne til GUI
-    public void addPlayersGUI() {
+    private void addPlayersGUI() {
         for (int i = 0; i < numberOfPlayers; i++) {
             gui_player[i].setBalance(30000);
             gui_player[i].getName();
@@ -204,10 +209,6 @@ public class GUIController {
         System.out.println("new player aarya er = " + newGuiPl.length);
         this.numberOfPlayers = gui_player.length;
 
-    }
-
-    public int getNumberOfGUIPlayers() {
-        return numberOfPlayers;
     }
 
     public void remmovePlayerOwned(int[] owned){

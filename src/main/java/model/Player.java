@@ -12,17 +12,13 @@ public class Player {
 
     private int[] ownedFields = new int[0];
     private boolean inJail;
-    private boolean freeOfJail;
+    private boolean freeOfJail = false;
     private int turnsInJail;
     private int turnsInARow;
     private boolean inAuction = true;
     public Player(){
         position = 0;
         balance = 30000;
-    }
-
-    public int[] getOwnedFields() {
-        return ownedFields;
     }
 
     public boolean isInAuction() {
@@ -123,7 +119,7 @@ public class Player {
         return freeOfJail;
     }
     public void setFreeOfJail(){
-        this.freeOfJail = freeOfJail;
+        this.freeOfJail = true;
     }
 
     public void setTurnsInARow(){

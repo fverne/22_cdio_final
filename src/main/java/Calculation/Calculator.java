@@ -31,7 +31,7 @@ public class Calculator {
         }
     }
 
-    public int getPlayerTotalValues(Player player){
+    private int getPlayerTotalValues(Player player){
         int totalValues = player.getBalance();
         int[] playerOwnedFields = player.getOwnedFields();
         for (int i = 0; playerOwnedFields.length > i; i++){
@@ -170,20 +170,13 @@ public class Calculator {
         int[] fields = player.getOwnedFields();
         for (int field : fields) {
             ((Fields.Ownerable) fieldProperty.getField(field)).setOwnedBy(null);
+                if(fieldProperty.getField(field) instanceof Property) {
+                    ((Property) fieldProperty.getField(field)).setHouseAmount(0);
+                    ((Property) fieldProperty.getField(field)).setHotelAmount(0);
+                }
         }
         int transfer = player.getBalance();
         player.withdraw(transfer);
         return fields;
     }
-    public void removeOwnerShip(int[] owned){
-        for(int x : owned){
-            if(fieldProperty.getField(x) instanceof Property) {
-                ((Property) fieldProperty.getField(x)).setHouseAmount(0);
-                ((Property) fieldProperty.getField(x)).setHotelAmount(0);
-            }
-            ((Fields.Ownerable) fieldProperty.getField(x)).setOwnedBy(null);
-        }
-    }
-
-
 }
