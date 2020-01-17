@@ -211,6 +211,7 @@ public class GUIController {
 
     }
 
+
     public void remmovePlayerOwned(int[] owned){
         for (int x : owned){
             removeFieldBorderGUI(x);

@@ -129,6 +129,7 @@ public class TurnController {
                     }
                     }
                 }
+
             }
             if (!playerBankrupt) {
                 //opdaterer spiller balance i GUI
