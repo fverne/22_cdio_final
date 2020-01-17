@@ -20,11 +20,11 @@ public class GUIController {
     }
 
     public void getUserResponse(int player){
-        gui.getUserButtonPressed("Det er " + gui_player[player].getName() + "'s tur", "OK");
+        gui.getUserButtonPressed(Language.getUserResponse(gui_player[player].getName()), Language.ok());
     }
 
     public void getUserResponse(String message){
-        gui.getUserButtonPressed(message, "OK");
+        gui.getUserButtonPressed(message, Language.ok());
     }
 
     public String yesOrNo(String text) {
