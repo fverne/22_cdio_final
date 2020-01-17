@@ -13,14 +13,26 @@ public class GUIController {
     public GUI_Player[] gui_player;
 
     private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN, Color.CYAN, Color.DARK_GRAY};
-    private int numberOfPlayers;
+    int numberOfPlayers;
 
     public GUIController() {
         gui = gameBoard.initGUI();
     }
 
+    public void getUserResponse(int player){
+        gui.getUserButtonPressed("Det er " + gui_player[player].getName() + "'s tur", "OK");
+    }
+
+    public void getUserResponse(String message){
+        gui.getUserButtonPressed(message, "OK");
+    }
+
     public String yesOrNo(String text) {
         return gui.getUserSelection(text, "ja", "nej");
+    }
+
+    public String yesNoButton(String msg) {
+        return gui.getUserButtonPressed(msg, "ja", "nej");
     }
 
     //Ændrer border på feltet hvis det er ejet
@@ -43,7 +55,6 @@ public class GUIController {
         return numberOfPlayers;
     }
 
-
     public void initGUIPlayers() {
         numberOfPlayers = setNumberOfPlayersGUI();
         gui_player = new GUI_Player[numberOfPlayers];
@@ -57,7 +68,8 @@ public class GUIController {
         } else
             gui.showMessage(message);
     }
-    public String getName(int index){
+
+    public String getName(int index) {
         return gui_player[index].getName();
     }
 
@@ -66,23 +78,27 @@ public class GUIController {
     }
 
     public void displayRollGUI(int faceValue1, int faceValue2) {
-        gui.setDice(faceValue1, faceValue2);
+        gui.setDice(faceValue1, 2, 3, faceValue2, 3, 3);
     }
 
-    public void movePlayerGUI(int playerNumber, int newLocation, int lastLocation) {
+    public void movePlayerGUI(int playerNumber, int latestlocation, int roll) throws InterruptedException {
 
-        for (int i = 0; i < 40; i++) {
-            gui.getFields()[i].setCar(gui_player[playerNumber], false);
+        for (int i = roll; i > 0; i--) {
+            gui.getFields()[latestlocation].setCar(gui_player[playerNumber], false);
+            latestlocation++;
+            latestlocation = latestlocation%40;
+            gui.getFields()[latestlocation].setCar(gui_player[playerNumber], true);
+
+            Thread.sleep(200);
         }
-        gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
     public void teleportPlayerGUI(int playerNumber, int newLocation) {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
-    public void removeCarGUI(int playerNumber, int pos) {
-        gui.getFields()[pos].setCar(gui_player[playerNumber], false);
+    public void removeCarGUI(int playerNumber, int newLocation) {
+        gui.getFields()[newLocation].setCar(gui_player[playerNumber], false);
     }
 
     public void setFieldBorderGUI(int fieldNumber, int playerNumber) {
@@ -105,7 +121,8 @@ public class GUIController {
     public int getUserIntGUI() {
         return gui.getUserInteger("Indtast pris/bud");
     }
-    public int getUserIntWithString (String text ){
+
+    public int getUserIntWithString(String text) {
         int price = gui.getUserInteger(text);
         return price;
     }
@@ -129,11 +146,12 @@ public class GUIController {
 
     //Spiller navne
     public void setPlayerNameGUI() {
-    	String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
+        String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
         boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
             String name;
-            do {                                                 // do while checker om spillerens navn eksisterer i forvejen
+            do
+            {                                                 // do while checker om spillerens navn eksisterer i forvejen
                 name = gui.getUserString("Indtast navn: ");
                 nametaken = false;
 
@@ -165,22 +183,7 @@ public class GUIController {
         }
     }
 
-    public void deleteCar(int playerNr, int pos){ // Fjern spillern fra gui player arrayet
-
-        removeCarGUI(playerNr, pos);
-        GUI_Player[] newGuiPl = new GUI_Player[gui_player.length - 1];
-        int x = 0;
-        for(int i =0; i< gui_player.length; i++ ){
-            if(i != playerNr){
-                newGuiPl[x] = gui_player[i];
-                x++;
-            }
-        }
-        gui_player = newGuiPl;
-        System.out.println("Updater number of player = " + gui_player.length);
-        System.out.println("new player aarya er = " + newGuiPl.length);
-        this.numberOfPlayers = gui_player.length;
-
+    public int getNumberOfGUIPlayers() {
+        return numberOfPlayers;
     }
-
 }

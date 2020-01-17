@@ -41,11 +41,7 @@ public class Player {
     }
 
     public void deposit(int modifier) {
-        if (balance + modifier < 0){
-            balance = 0;
-        } else{
             balance += modifier;
-        }
     }
 
     public void withdraw(int modifier) {

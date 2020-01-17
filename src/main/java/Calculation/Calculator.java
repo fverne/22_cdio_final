@@ -15,7 +15,11 @@ public class Calculator {
     }
 
     public void payTax(model.Player player, int fieldNumber){
-        player.withdraw(fieldProperty.getTax(fieldNumber));
+        if (player.getBalance() > fieldProperty.getTax(fieldNumber)*10) {
+            player.withdraw(fieldProperty.getTax(fieldNumber));
+        } else {
+            player.withdraw(player.getBalance()/10);
+        }
     }
 
     public boolean getCredibilityBuy(model.Player player, int fieldNumber){
@@ -54,7 +58,7 @@ public class Calculator {
         player.setOwnership(fieldNumber);
     }
 
-    public void payRent(model.Player player, int fieldNumber, Die[] die){
+    public Player payRent(model.Player player, int fieldNumber, Die[] die){
         int rent = fieldProperty.getRent(fieldNumber);
         model.Player owner = fieldProperty.getOwner(fieldNumber);
 
@@ -83,6 +87,7 @@ public class Calculator {
 
         player.withdraw(rent);
         owner.deposit(rent);
+        return owner;
     }
 
     public Field getField(int fieldNumber){

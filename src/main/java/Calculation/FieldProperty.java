@@ -86,7 +86,7 @@ public class FieldProperty {
 
     public int getRent(int fieldNumber, int amount){
         Building field = (Building) fieldProperty[fieldNumber];
-        return  field.getRent(amount);
+        return field.getRent(amount);
     }
 
     public int getTax(int fieldNumber){
