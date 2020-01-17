@@ -118,11 +118,15 @@ public class TurnController {
     }
 
     private int evalTurnTimer(int turnTimer, Player player) {
+        if(player.getBalance() <= 0){
+            removePlayer(turnTimer);
+        }
         if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue()) {
             turnTimer += -1;
             player.setTurnsInARow();
         }
         if (turnTimer == guiController.getNumberOfPlayers() - 1) {
+
             turnTimer = -1;
         }
         return turnTimer;
@@ -269,6 +273,7 @@ public class TurnController {
                 }
                 while (purchaseMade && ((amount + numberOfHousesAlreadyPlaced) > 4 || !calculator.getCredibilityHouse(player, fieldNumber, amount)));
             }
+            while ((amount + numberOfHousesAlreadyPlaced) > 4);
         }
     }
 
@@ -285,6 +290,16 @@ public class TurnController {
             movementController.getPlayers()[turnTimer].setInJail(false);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
+    }
+    private void removePlayer(int playerNr){
+        // GUI remove
+        Player pl = movementController.getPlayers()[playerNr];
+        guiController.remmovePlayerOwned(pl.getOwnedFields());
+        guiController.deleteCar(playerNr, pl.getPosition());
+
+        //PLayer og board
+        calculator.removeOwnerShip(pl.getOwnedFields());
+        movementController.deletePlayer(playerNr);
     }
 }
 

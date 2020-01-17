@@ -19,14 +19,6 @@ public class GUIController {
         gui = gameBoard.initGUI();
     }
 
-    public void getUserResponse(int player){
-        gui.getUserButtonPressed("Det er " + gui_player[player].getName() + "'s tur", "OK");
-    }
-
-    public void getUserResponse(String message){
-        gui.getUserButtonPressed(message, "OK");
-    }
-
     public String yesOrNo(String text) {
         return gui.getUserSelection(text, "ja", "nej");
     }
@@ -108,6 +100,13 @@ public class GUIController {
             street.setSubText("Ejes af: " + gui_player[playerNumber].getName());
         }
     }
+    public void removeFieldBorderGUI(int fieldNumber){
+        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+            street.setBorder(Color.BLACK, Color.WHITE);
+            street.setSubText("Ikke ejet");
+        }
+    }
 
     public void displayChancecardGUI(String text) {
         gui.displayChanceCard(text);
@@ -186,4 +185,11 @@ public class GUIController {
     public int getNumberOfGUIPlayers() {
         return numberOfPlayers;
     }
+    public void remmovePlayerOwned(int[] owned){
+        for (int x : owned){
+            removeFieldBorderGUI(x);
+        }
+
+    }
+
 }
