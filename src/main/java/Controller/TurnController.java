@@ -25,6 +25,7 @@ public class TurnController {
 
         for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
             movementController.getPlayers()[i].setName(guiController.getName(i));
+            guiController.teleportPlayerGUI(i, 0);
         }
     }
 
