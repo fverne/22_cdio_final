@@ -108,8 +108,8 @@ public class TurnController {
                 //tax
                 if (plField instanceof Fields.NotOwnable.Tax) {
                     if (fieldNumber == 4) {
-                        if (guiController.getUserDecision("Vælg hvordan du vil betale indkomstskat",
-                                "Betal 10%", "Betal 4000 kr.").equals("Betal 10%")) {
+                        if (guiController.getUserDecision(Language.queryPayTax(),
+                                Language.pay() + " 10%", Language.pay() + " 4000 " + Language.currency())) {
                             if (calculator.getCredibilityTax10(player)) {
                                 calculator.payTax10(player);
                             } else {
@@ -317,7 +317,7 @@ public class TurnController {
     }
 
     private void playerBankrupt(Player player, int fieldNumber){
-        guiController.getUserResponse("Du kan ikke betale din udgift og er gået falit, du er nu ude af spillet");
+        guiController.getUserResponse(Language.lostGame());
         Field field = calculator.getField(fieldNumber);
         if (field instanceof Fields.Ownerable){
             int[] fields = calculator.valuesTransfer(player, fieldNumber);

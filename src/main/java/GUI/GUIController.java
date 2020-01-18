@@ -23,12 +23,12 @@ public class GUIController {
     }
 
     public void playerWins(){
-        gui.getUserButtonPressed("Tillykke " + gui_player[0].getName() + " du er spillets vinder", "OK");
+        gui.getUserButtonPressed(Language.winnerMessage(gui_player[0].getName()), Language.ok());
         gui_player[0].setBalance(1000000000);
     }
 
-    public String getUserDecision(String message, String option1, String option2){
-        return gui.getUserButtonPressed(message, option1, option2);
+    public Boolean getUserDecision(String message, String option1, String option2){
+        return gui.getUserLeftButtonPressed(message, option1, option2);
     }
 
     public void getUserResponse(String message){
@@ -116,7 +116,7 @@ public class GUIController {
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.WHITE);
-            street.setSubText("Ikke ejet");
+            street.setSubText(Language.notOwned());
         }
     }
 
