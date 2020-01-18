@@ -9,9 +9,10 @@ public class Player {
     private int balance;
     private int position;
     private String name;
+
     private int[] ownedFields = new int[0];
     private boolean inJail;
-    private boolean freeOfJail;
+    private boolean freeOfJail = false;
     private int turnsInJail;
     private int turnsInARow;
     private boolean inAuction = true;
@@ -99,6 +100,11 @@ public class Player {
             return false;
         }
     }
+
+    public int[] getOwnedFields(){
+        return ownedFields;
+    }
+
     public void setSpecificPosition(int fieldID) {
         position = fieldID;
     }
@@ -113,7 +119,7 @@ public class Player {
         return freeOfJail;
     }
     public void setFreeOfJail(){
-        this.freeOfJail = freeOfJail;
+        this.freeOfJail = true;
     }
 
     public void setTurnsInARow(){

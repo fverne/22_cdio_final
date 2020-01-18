@@ -101,4 +101,15 @@ public class MovementController {
     public void teleportPosition(Player player, int position){
         player.setPosition(position);
     }
+    public void deletePlayer(int playerNumber){
+        int x = 0;
+        Player[] newPlayers = new Player[players.length -1];
+        for(int i =0; i< this.players.length; i++ ){
+            if(i != playerNumber){
+                newPlayers[x] = players[i];
+                x++;
+            }
+        }
+        players = newPlayers;
+    }
 }

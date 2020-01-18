@@ -14,12 +14,13 @@ public class Calculator {
         fieldProperty = new FieldProperty();
     }
 
-    public void payTax(model.Player player, int fieldNumber){
-        if (player.getBalance() > fieldProperty.getTax(fieldNumber)*10) {
-            player.withdraw(fieldProperty.getTax(fieldNumber));
-        } else {
-            player.withdraw(player.getBalance()/10);
-        }
+    public void payTax10(model.Player player){
+        int tax = getPlayerTotalValues(player) / 10;
+        player.withdraw(tax);
+    }
+
+    public void payTax(Player player, int fieldNumber){
+        player.withdraw(fieldProperty.getTax(fieldNumber));
     }
 
     public boolean getCredibilityBuy(model.Player player, int fieldNumber){
@@ -30,8 +31,37 @@ public class Calculator {
         }
     }
 
+    private int getPlayerTotalValues(Player player){
+        int totalValues = player.getBalance();
+        int[] playerOwnedFields = player.getOwnedFields();
+        for (int i = 0; playerOwnedFields.length > i; i++){
+            Fields.Ownerable field = (Fields.Ownerable) fieldProperty.getField(playerOwnedFields[i]);
+            totalValues += field.getCost();
+            if (field instanceof Fields.Ownable.Property){
+                totalValues += ((Property) field).getHouseAmount() * ((Property) field).getHouseCost();
+            }
+        }
+        return totalValues;
+    }
+
     public boolean getCredibilityRent(model.Player player, int fieldNumber){
         if (player.getBalance() < fieldProperty.getRent(fieldNumber)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean getCredibilityTax(Player player, int fieldNumber){
+        if (player.getBalance() < fieldProperty.getTax(fieldNumber)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean getCredibilityTax10(Player player){
+        if (player.getBalance() < getPlayerTotalValues(player) / 10){
             return false;
         } else {
             return true;
@@ -121,5 +151,32 @@ public class Calculator {
     public void payBail(Player player){
         player.withdraw(1000);
         player.setInJail(false);
+    }
+
+    public int[] valuesTransfer(Player player, int fieldNumber){
+        int[] fields = player.getOwnedFields();
+        Player newOwner = ( (Fields.Ownerable) fieldProperty.getField(fieldNumber)).getOwnedBy();
+        for (int field : fields) {
+            ((Fields.Ownerable) fieldProperty.getField(field)).setOwnedBy(newOwner);
+            newOwner.setOwnership(field);
+        }
+        int transfer = player.getBalance();
+        player.withdraw(transfer);
+        newOwner.deposit(transfer);
+        return fields;
+    }
+
+    public int[] valuesTransfer(Player player){
+        int[] fields = player.getOwnedFields();
+        for (int field : fields) {
+            ((Fields.Ownerable) fieldProperty.getField(field)).setOwnedBy(null);
+                if(fieldProperty.getField(field) instanceof Property) {
+                    ((Property) fieldProperty.getField(field)).setHouseAmount(0);
+                    ((Property) fieldProperty.getField(field)).setHotelAmount(0);
+                }
+        }
+        int transfer = player.getBalance();
+        player.withdraw(transfer);
+        return fields;
     }
 }
