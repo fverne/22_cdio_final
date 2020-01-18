@@ -2,6 +2,7 @@ package Controller;
 
 import model.DiceHolder;
 import model.Die;
+import model.Language;
 import model.Player;
 
 public class MovementController {
@@ -87,7 +88,7 @@ public class MovementController {
     public String passedStart(int lastPos, int newPos) {
         String msg;
         if (lastPos > newPos) {
-            msg = "Du har passeret start, modtag 4000 kr.";
+            msg = Language.passedStart() + ".";
             return msg;
         }
         return null;

@@ -7,6 +7,7 @@ import Fields.Ownerable;
 import GUI.FieldProperties.ChanceCard;
 import GUI.GUIController;
 import Calculation.Calculator;
+import model.Language;
 import model.Player;
 
 public class TurnController {
@@ -57,8 +58,8 @@ public class TurnController {
 
                     //Hvis feltet ikke er ejet, købes det
                     if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
-                        if ((calculator.getCredibilityBuy(player, fieldNumber) &&
-                                guiController.yesNoButton("Vil du købe grunden? prisen er: " + ((Ownerable) plField).getCost() + " kr.").equals("ja"))) {
+                        if (calculator.getCredibilityBuy(player, fieldNumber) &&
+                                guiController.yesNoButton(Language.queryFieldBuy(((Ownerable) plField).getCost()))) {
                             buyField(turnTimer, player, fieldNumber, plField);
 
                             //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
@@ -76,8 +77,7 @@ public class TurnController {
                         }
                         //ellers betal huslej
                         if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
-                            guiController.getUserResponse("Du skal betale husleje til " + ((Ownerable) plField).getOwnedBy().getName() + " på " +
-                                    ((Ownerable) plField).getRent() + "kr.");
+                            guiController.getUserResponse(Language.payRentToPlayer(((Ownerable) plField).getOwnedBy().getName(), ((Ownerable) plField).getRent()));
                             Player owner = calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
                             for (int i = 0; i < guiController.getNumberOfPlayers(); i++){
                                 if (movementController.getPlayers()[i].equals(owner)){
@@ -139,7 +139,7 @@ public class TurnController {
                 //System.out.println("akgslakn");
                 if (pl.isInAuction()) {
                     if (!pl.equals(winner)) {
-                        if (guiController.yesNoButton(pl.getName() + " Vil du byde på " + plField.getName() + " for " + highestBid).equals("ja")) {
+                        if (guiController.yesNoButton(Language.bidForField(pl.getName(), plField.getName(), highestBid) + "?")) {
                             int bid = 0;
                             do {
                                 if (highestBid <= pl.getBalance()){
@@ -149,10 +149,10 @@ public class TurnController {
                                         highestBid = bid;
                                     }
                                     if (bid < highestBid){
-                                        guiController.getUserResponse("Dit bud er lavere end det højeste bud, indtast et nyt bud");
+                                        guiController.getUserResponse(Language.bidLowerThanCompetition());
                                     }
                                     if (bid > pl.getBalance()){
-                                        guiController.getUserResponse("Dit bud er højere end din balance, indtast et nyt bud");
+                                        guiController.getUserResponse(Language.bidHigherThanBalance());
                                     }
                                 }
                             } while (highestBid <= pl.getBalance() && (bid > pl.getBalance() || bid < highestBid));
@@ -240,19 +240,19 @@ public class TurnController {
 
         //IMPLEMENTER MAKS 4 HUSE
         if (plField.getHouseAmount() == 4) {
-            if (guiController.yesNoButton("Vil du bygge et hotel?, prisen pr. stk er: " + plField.getHotelCost() + " kr.").equals("ja"))
+            if (guiController.yesNoButton(Language.queryHotelBuy(plField.getHotelCost())))
                 plField.setHotelAmount(1);
             guiController.addHotelToGUI(fieldNumber);
         }
 
         if (plField.getHouseAmount() < 4) {
-            if (guiController.yesNoButton("Vil du bygge?, prisen pr. hus er: " + plField.getHouseCost() + " kr.").equals("ja")) {
+            if (guiController.yesNoButton(Language.queryHouseBuy(plField.getHouseCost()))) {
                 boolean purchaseMade = true;
                 do {
                     amount = guiController.amountOfHousesToBuyGUI();
 
                     if ((amount + numberOfHousesAlreadyPlaced) > 4) {
-                        guiController.displayGUIMsg("Du kan højst bygge 4 huse pr. felt.");
+                        guiController.displayGUIMsg(Language.maxHouses());
                     } else {
                         if (calculator.getCredibilityHouse(player, fieldNumber, amount)) {
                             if (plField.getHouseAmount() < 4) {
@@ -263,7 +263,7 @@ public class TurnController {
                                 purchaseMade = false;
                             }
                         } else {
-                            guiController.displayGUIMsg("Du har ikke penge nok til " + amount + " huse");
+                            guiController.displayGUIMsg(Language.noMoneyForHouses(amount));
                         }
                     }
                 }
@@ -275,13 +275,13 @@ public class TurnController {
     private void jailBailOuts() {
         //hvis man har et gratis ud af fængselkort
         if (movementController.getPlayers()[turnTimer].getFreeOfJail() &&
-                guiController.yesNoButton("Vil du bruge et gratis ud af fængselkort?").equals("ja")) {
+                guiController.yesNoButton(Language.queryUseJailCard() + "?")) {
             movementController.getPlayers()[turnTimer].setInJail(false);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
         //hvis det er en trdje tur i fængsel eller man vil betale sig ud af fængslet
         if (movementController.getPlayers()[turnTimer].getTurnsInJail() == 3 ||
-                guiController.yesNoButton("Vil du betale 1000 kr. for at komme ud af fængsel?").equals("ja")) {
+                guiController.yesNoButton(Language.queryPayBail() + "?")) {
             movementController.getPlayers()[turnTimer].setInJail(false);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }

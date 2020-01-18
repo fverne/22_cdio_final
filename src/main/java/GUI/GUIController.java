@@ -28,11 +28,11 @@ public class GUIController {
     }
 
     public String yesOrNo(String text) {
-        return gui.getUserSelection(text, "ja", "nej");
+        return gui.getUserSelection(text, Language.yes(), Language.no());
     }
 
-    public String yesNoButton(String msg) {
-        return gui.getUserButtonPressed(msg, "ja", "nej");
+    public Boolean yesNoButton(String msg) {
+        return gui.getUserLeftButtonPressed(msg, Language.yes(), Language.no());
     }
 
     //Ændrer border på feltet hvis det er ejet
@@ -74,7 +74,7 @@ public class GUIController {
     }
 
     public void rollButtonGUI() {
-        gui.getUserButtonPressed("Kast terningerne!", "Ok");
+        gui.getUserButtonPressed(Language.throwDies() + "!", Language.ok());
     }
 
     public void displayRollGUI(int faceValue1, int faceValue2) {
@@ -105,7 +105,7 @@ public class GUIController {
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.red);
-            street.setSubText("Ejes af: " + gui_player[playerNumber].getName());
+            street.setSubText(Language.ownedBy() + ": " + gui_player[playerNumber].getName());
         }
     }
 
@@ -119,7 +119,7 @@ public class GUIController {
     }
 
     public int getUserIntGUI() {
-        return gui.getUserInteger("Indtast pris/bud");
+        return gui.getUserInteger(Language.enterPrice());
     }
 
     public int getUserIntWithString(String text) {
@@ -128,12 +128,12 @@ public class GUIController {
     }
 
     public int amountOfHousesToBuyGUI() {
-        return gui.getUserInteger("Indtast ønsket antal huse: ");
+        return gui.getUserInteger( Language.enterHouses() + ": ");
     }
 
     //Antal spillere
     public int setNumberOfPlayersGUI() {
-        int numberOfPlayers = gui.getUserInteger(Language.inputPlayerAmount() + ": ");
+        int numberOfPlayers = gui.getUserInteger(Language.enterPlayerAmount() + ": ");
         /*
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
             gui.showMessage("Indtast mellem 3-6 spillere");
@@ -150,19 +150,18 @@ public class GUIController {
         boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
             String name;
-            do
-            {                                                 // do while checker om spillerens navn eksisterer i forvejen
-                name = gui.getUserString("Indtast navn: ");
+            do {                                                 // do while checker om spillerens navn eksisterer i forvejen
+                name = gui.getUserString(Language.enterName() + ": ");
                 nametaken = false;
 
                 if (name.length() > 25 || name.length() < 1) {
-                    gui.showMessage("Det indtastede navn er af ugyldig længde.");
+                    gui.showMessage(Language.illegalLength() + ".");
                 }
 
                 for (String prevname : prevnames) {
                     if (name.equals(prevname)) {
                         nametaken = true;
-                        gui.showMessage("Navnet er taget af en anden spiller.");
+                        gui.showMessage(Language.illegalName() + ".");
                     }
                 }
             } while ((name.length() > 25 || name.length() < 1) || nametaken);       // spilleren skal indtaste et nyt navn indtil det er korrekt
