@@ -2,18 +2,17 @@ package field.NotOwnable.Chancecard;//https://www.geeksforgeeks.org/singleton-cl
 
 public class Deck {
     private static Deck single_instance = null;
-    private int drawCounter =0;
+    private int drawCounter = 0;
 
-    public static Deck getInstance()
-    {
+    public static Deck getInstance() {
         if (single_instance == null)
             single_instance = new Deck();
-           // single_instance.shuffle();
+        // single_instance.shuffle();
 
         return single_instance;
     }
 
-    private  ChanceCard[] cards = new ChanceCard[]{
+    private ChanceCard[] cards = new ChanceCard[]{
             //new ChanceCard("Betal 3.000 kr. for reperation af deres vogn", -3000, 1, "Bil til reperation", false),
             //new ChanceCard("Betal 2000 kr. for din tandlægeregning", -2000, 1, "Hos tandlejen", false),
             //new ChanceCard("De har kørt overfor Fuld Stop, betal 1000 kr. i bøde", -1000, 1, "Kør ordenligt!", false),
@@ -32,11 +31,11 @@ public class Deck {
             //new ChanceCard("De havde en række med elleve rigtige, modtag 1000 kr. banken", 1000, 1, "", false),
             //new ChanceCard("Modtag udbytte af Deres aktier, modtag 1000 kr.", 1000, 1, "Aktieudbytte", false),
             new ChanceCard("Gå i fængsel. Ryk direkte i fængslet. Selv om start passeres, modtager de ikke 4000 kr.", 0, 10, "Gå i Fængsel", true),
-            new ChanceCard("Ryk frem til frederiksberg alle, hvis start passeres, inkassér 4000 kr.", 0,11,"Ryk til frb. alle",false),
-            new ChanceCard("Ryk frem til grønningen, hvis start passeres, inkassér 4000 kr.", 0,24,"Ryk til Grønningen",false),
-            new ChanceCard("Ryk frem til start",0,0,"START",false),
-            new ChanceCard("Tag med øresundsbåden - Flyt brikken frem, hvis start passeres, modtag 4000 kr.", 0,5,"Øresundsbåden",false),
-            new ChanceCard("Besøg rådhuspladsen",0,39,"",false),
+            new ChanceCard("Ryk frem til frederiksberg alle, hvis start passeres, inkassér 4000 kr.", 0, 11, "Ryk til frb. alle", false),
+            new ChanceCard("Ryk frem til grønningen, hvis start passeres, inkassér 4000 kr.", 0, 24, "Ryk til Grønningen", false),
+            new ChanceCard("Ryk frem til start", 0, 0, "START", false),
+            new ChanceCard("Tag med øresundsbåden - Flyt brikken frem, hvis start passeres, modtag 4000 kr.", 0, 5, "Øresundsbåden", false),
+            new ChanceCard("Besøg rådhuspladsen", 0, 39, "", false),
             //new ChanceCard("Ryk brikken frem til det nærmeste rederi og betal ejen to gange den leje, han ellers er berettiget til. Hvis selvskabet ikke ejes af nogen kan du købe det af banken",0,0,"",false),
             //new ChanceCard("Ryk tre felter tilbage",0,0,"",false),
             //new ChanceCard("Ryk brikken frem til det nærmeste rederi og betal ejen to gange den leje, han ellers er berettiget til. Hvis selvskabet ikke ejes af nogen kan du købe det af banken",0,0,"",false),
@@ -47,12 +46,12 @@ public class Deck {
             //new ChanceCard("Oliepriserne er steget, og De skal betale: 500 kr. pr. hus/2000 kr. pr. hotel",0,0,"Stigende oliepriser",false),
     };
 
-    public ChanceCard draw (){
-      //  if((cards.length % this.drawCounter) == 0)
+    public ChanceCard draw() {
+        //  if((cards.length % this.drawCounter) == 0)
         //    this.drawCounter = 0;
         //return cards[this.drawCounter++];
 
-        return  this.cards[(int)(Math.random()*(cards.length))];
+        return this.cards[(int) (Math.random() * (cards.length))];
 
     }
 

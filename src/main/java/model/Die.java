@@ -1,4 +1,5 @@
 package model;
+
 import model.*;
 
 public class Die {

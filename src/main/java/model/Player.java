@@ -16,7 +16,8 @@ public class Player {
     private int turnsInJail;
     private int turnsInARow;
     private boolean inAuction = true;
-    public Player(){
+
+    public Player() {
         position = 0;
         balance = 30000;
     }
@@ -29,11 +30,11 @@ public class Player {
         this.inAuction = inAuction;
     }
 
-    public void setName(String playerName){
+    public void setName(String playerName) {
         name = playerName;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -42,18 +43,18 @@ public class Player {
     }
 
     public void deposit(int modifier) {
-            balance += modifier;
+        balance += modifier;
     }
 
     public void withdraw(int modifier) {
-        if (balance - modifier < 0){
+        if (balance - modifier < 0) {
             balance = 0;
-        } else{
+        } else {
             balance -= modifier;
         }
     }
 
-    public void setPosition(int position){
+    public void setPosition(int position) {
         this.position = position;
     }
 
@@ -73,11 +74,11 @@ public class Player {
 
  */
 
-    public void setOwnership(int field){
-        if (ownedFields.length == 0){
+    public void setOwnership(int field) {
+        if (ownedFields.length == 0) {
             ownedFields = new int[1];
             ownedFields[0] = field;
-        } else{
+        } else {
             int temp = ownedFields.length;
 
             ownedFields = Arrays.copyOf(ownedFields, ownedFields.length + 1);
@@ -85,7 +86,7 @@ public class Player {
         }
     }
 
-    public boolean getOwnership(int field){
+    public boolean getOwnership(int field) {
         int temp = 0;
         for (int ownedField : ownedFields) {
             if (ownedField == field) {
@@ -97,36 +98,39 @@ public class Player {
         return temp > 0;
     }
 
-    public int[] getOwnedFields(){
+    public int[] getOwnedFields() {
         return ownedFields;
     }
 
     public void setSpecificPosition(int fieldID) {
         position = fieldID;
     }
-    public boolean getInJail(){
+
+    public boolean getInJail() {
         return inJail;
     }
 
     public void setInJail(boolean inJail) {
         this.inJail = inJail;
     }
-    public boolean getFreeOfJail(){
+
+    public boolean getFreeOfJail() {
         return freeOfJail;
     }
-    public void setFreeOfJail(){
+
+    public void setFreeOfJail() {
         this.freeOfJail = true;
     }
 
-    public void setTurnsInARow(){
+    public void setTurnsInARow() {
         turnsInARow++;
     }
 
-    public void setTurnsInARow(int turnsInARow){
+    public void setTurnsInARow(int turnsInARow) {
         this.turnsInARow = turnsInARow;
     }
 
-    public void setTurnsInJail(){
+    public void setTurnsInJail() {
         turnsInJail++;
     }
 
@@ -134,11 +138,11 @@ public class Player {
         this.turnsInJail = turnsInJail;
     }
 
-    public int getTurnsInJail(){
+    public int getTurnsInJail() {
         return turnsInJail;
     }
 
-    public int getTurnsInARow(){
+    public int getTurnsInARow() {
         return turnsInARow;
     }
 }

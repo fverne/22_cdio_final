@@ -4,19 +4,19 @@ public class DiceHolder {
 
     private Die[] die;
 
-    public DiceHolder(){
+    public DiceHolder() {
         die = new Die[2];
         die[0] = new Die();
         die[1] = new Die();
     }
 
-    public Die[] rollDice(){
+    public Die[] rollDice() {
         die[0].rollDie();
         die[1].rollDie();
         return die;
     }
 
-    public  Die[] getFaceValues(){
-        return  die;
+    public Die[] getFaceValues() {
+        return die;
     }
 }

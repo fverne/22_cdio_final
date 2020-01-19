@@ -5,7 +5,7 @@ import field.NotOwnable.Chancecard.ChanceField;
 import field.NotOwnable.GoToJail;
 import field.NotOwnable.Tax;
 import field.NotOwnable.Refuge;
-import field.Ownable.Building;
+import field.Ownable.Buildings.Building;
 import field.Ownable.Buildings.Brewery;
 import field.Ownable.Buildings.Ferry;
 import field.Ownable.Property;

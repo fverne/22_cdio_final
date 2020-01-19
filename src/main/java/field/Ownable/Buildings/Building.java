@@ -1,4 +1,6 @@
-package field.Ownable;
+package field.Ownable.Buildings;
+
+import field.Ownable.Ownable;
 
 public abstract class Building extends Ownable {
     int[] rentList;

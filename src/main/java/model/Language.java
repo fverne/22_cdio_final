@@ -8,58 +8,58 @@ public class Language {
     // -------
     // General
     // -------
-    public static String currency(){
+    public static String currency() {
         return "Kr.";
     }
 
     // -------------
     // GUIController
     // -------------
-    public static String yes(){
+    public static String yes() {
         return "Ja";
     }
 
-    public static String no(){
+    public static String no() {
         return "Nej";
     }
 
-    public static String ok(){
+    public static String ok() {
         return "Ok";
     }
 
-    public static String pay(){
+    public static String pay() {
         return "Betal";
     }
 
-    public static String enterPlayerAmount(){
+    public static String enterPlayerAmount() {
         return "Indtast Antal Spillere";
     }
 
-    public static String throwDies(){
+    public static String throwDies() {
         return "Kast terningerne";
     }
 
-    public static String ownedBy(){
+    public static String ownedBy() {
         return "Ejet af";
     }
 
-    public static String enterPrice(){
+    public static String enterPrice() {
         return "Indtast pris/bud";
     }
 
-    public static String enterName(){
+    public static String enterName() {
         return "Indtast dit navn";
     }
 
-    public static String enterHouses(){
+    public static String enterHouses() {
         return "Indtast ønsket antal huse";
     }
 
-    public static String illegalLength(){
+    public static String illegalLength() {
         return "Det indtastede navn er af ugyldig længde";
     }
 
-    public static String illegalName(){
+    public static String illegalName() {
         return "Navnet er taget af en anden spiller";
     }
 
@@ -67,7 +67,7 @@ public class Language {
         return String.format("Det er %s's tur", playername);
     }
 
-    public static String notOwned(){
+    public static String notOwned() {
         return "Ikke ejet";
     }
 
@@ -79,7 +79,7 @@ public class Language {
     //MovementController
     //------------------
 
-    public static String passedStart(){
+    public static String passedStart() {
         return "Du har passeret start, modtag 4000 kr";
     }
 
@@ -87,55 +87,55 @@ public class Language {
     //Board
     //------------------
 
-    public static String buildingRents(){
+    public static String buildingRents() {
         return "Leje ved bygninger";
     }
 
-    public static String shippingRents(){
+    public static String shippingRents() {
         return "Leje ved flere rederier";
     }
 
-    public static String breweryDesc(){
+    public static String breweryDesc() {
         return "Hvis en virksomhed ejes, betales 100 gange så meget som øjnene viser, hvis to jes betales 200 gange øjnene";
     }
 
-    public static String startDesc(){
+    public static String startDesc() {
         return "Hver gang du passerer start modtager du 4000";
     }
 
-    public static String prisonDesc(){
+    public static String prisonDesc() {
         return "Du er endt i fængslet, for at komme ud skal du";
     }
 
-    public static String ship(){
+    public static String ship() {
         return "Skib";
     }
 
-    public static String prison(){
+    public static String prison() {
         return "Fængsel";
     }
 
-    public static String inPrison(){
+    public static String inPrison() {
         return "I Fængsel";
     }
 
-    public static String refuge(){
+    public static String refuge() {
         return "Helle";
     }
 
-    public static String refugeDesc(){
+    public static String refugeDesc() {
         return "Tag et Hvil";
     }
 
-    public static String house(){
+    public static String house() {
         return "Hus";
     }
 
-    public static String hotel(){
+    public static String hotel() {
         return "Hotel";
     }
 
-    public static String price(){
+    public static String price() {
         return "Pris";
     }
 
@@ -143,11 +143,11 @@ public class Language {
         return "Prøv Lykken";
     }
 
-    public static String taxDesc(){
+    public static String taxDesc() {
         return "Betal enten:\n - 10% af din formue\n - 4000";
     }
 
-    public static String[] fieldTitles(){
+    public static String[] fieldTitles() {
         String[] titles = new String[40];
 
         titles[0] = "Start";
@@ -202,7 +202,7 @@ public class Language {
         return String.format("Vil du købe grunden? Prisen er: %d kr.", fieldcost);
     }
 
-    public static String queryPayTax(){
+    public static String queryPayTax() {
         return "Hvordan vil du betale indkomstskatten?";
     }
 
@@ -214,15 +214,15 @@ public class Language {
         return String.format("%s, vil du byde på %s for %d", playername, fieldname, highestbid);
     }
 
-    public static String bidLowerThanCompetition(){
+    public static String bidLowerThanCompetition() {
         return "Dit bud er lavere end det højeste bud, indtast et nyt bud";
     }
 
-    public static String lostGame(){
+    public static String lostGame() {
         return "Du kan ikke betale din udgift og er gået falit, du er nu ude af spillet";
     }
 
-    public static String bidHigherThanBalance(){
+    public static String bidHigherThanBalance() {
         return "Dit bud er højere end din balance, indtast et nyt bud";
     }
 
@@ -234,7 +234,7 @@ public class Language {
         return String.format("Vil du bygge huse? Prisen er: %d kr. pr. hus.", housecost);
     }
 
-    public static String maxHouses(){
+    public static String maxHouses() {
         return "Du kan højst bygge 4 huse pr. felt.";
     }
 
@@ -242,11 +242,11 @@ public class Language {
         return String.format("Du har ikke penge nok til %d huse", housecost);
     }
 
-    public static String queryUseJailCard(){
+    public static String queryUseJailCard() {
         return "Vil du bruge et gratis \"Ud af fængslet\"-kort";
     }
 
-    public static String queryPayBail(){
+    public static String queryPayBail() {
         return "Vil du betale 1000 kr. for at komme ud af fængslet";
     }
 

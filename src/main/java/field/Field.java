@@ -6,13 +6,14 @@ public abstract class Field {
     private String name;
     private String text;
 
-    public Field(String name, String text){
+    public Field(String name, String text) {
         this.name = name;
         this.text = text;
     }/*
     public void landOn(Player pl){
 
     }*/
+
     public String getName() {
         return name;
     }

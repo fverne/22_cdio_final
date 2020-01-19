@@ -19,7 +19,7 @@ public class Property extends Ownable {
         return hotelAmount;
     }
 
-    public void setHotelAmount(int hotelAmount){
+    public void setHotelAmount(int hotelAmount) {
         this.hotelAmount = hotelAmount;
     }
 
@@ -27,16 +27,18 @@ public class Property extends Ownable {
         this.houseAmount = houseAmount;
         this.setRent(rentList[this.houseAmount]);
     }
-    public void changeHouseAmount(int amount, Player pl){
-        if(pl == this.getOwnedBy() && amount >= this.houseAmount){
+
+    public void changeHouseAmount(int amount, Player pl) {
+        if (pl == this.getOwnedBy() && amount >= this.houseAmount) {
             setHouseAmount(houseAmount + amount);
         }
     }
 
-    public int getHouseCost(){
+    public int getHouseCost() {
         return this.houseCost;
     }
-    public int getHotelCost(){
+
+    public int getHotelCost() {
         return this.hotelCost;
     }
 
