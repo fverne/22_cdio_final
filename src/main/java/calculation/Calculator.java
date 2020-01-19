@@ -4,6 +4,7 @@ import field.Field;
 import field.Ownable.Ownable;
 import field.Ownable.Property;
 import model.Die;
+import field.FieldProperty;
 import model.Player;
 
 public class Calculator {

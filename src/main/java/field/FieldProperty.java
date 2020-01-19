@@ -1,4 +1,4 @@
-package calculation;
+package field;
 
 import field.Field;
 import field.NotOwnable.Chancecard.ChanceField;
