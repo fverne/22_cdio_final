@@ -1,10 +1,8 @@
-package Fields.Ownable;
+package field.Ownable;
 
-import Calculation.FieldProperty;
-import Fields.Ownerable;
 import model.Player;
 
-public class Property extends Ownerable {
+public class Property extends Ownable {
     private boolean canBuild = false;
     private int houseCost = 4000;
     private int[] rentList; // indholder de 6 forskellige rent priser der er, afhængig af antal huse

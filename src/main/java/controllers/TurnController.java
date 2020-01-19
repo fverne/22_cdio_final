@@ -1,12 +1,11 @@
-package Controller;
+package controllers;
 
-import Fields.Field;
-import Fields.NotOwnable.ChanceField;
-import Fields.Ownable.Property;
-import Fields.Ownerable;
-import GUI.FieldProperties.ChanceCard;
-import GUI.GUIController;
-import Calculation.Calculator;
+import field.Field;
+import field.NotOwnable.Chancecard.ChanceField;
+import field.Ownable.Property;
+import field.Ownable.Ownable;
+import field.NotOwnable.Chancecard.ChanceCard;
+import calculation.Calculator;
 import model.Language;
 import model.Player;
 
@@ -36,32 +35,36 @@ public class TurnController {
 
             //hvis man er i fængsel
             if (movementController.getPlayers()[turnTimer].getInJail()) {
-                jailBailOuts(movementController.getPlayers()[turnTimer]);
+                jailBailOut(movementController.getPlayers()[turnTimer]);
             }
 
             guiController.rollButtonGUI();
             model.Player player = movementController.makeMove(turnTimer);
-            guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
+            int die1 = movementController.getLatestRoll()[0].getFaceValue();
+            int die2 = movementController.getLatestRoll()[1].getFaceValue();
             int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
+
+            guiController.displayRollGUI(die1,die2);
 
             if (!(player.getTurnsInJail() > 0)) {
                 guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player, diesum), diesum);
             }
 
-            if (!movementController.getPlayers()[turnTimer].getInJail()) {
+            boolean playerInJail = movementController.getPlayers()[turnTimer].getInJail();
+            if (!playerInJail) {
                 guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
                 guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
 
                 int fieldNumber = player.getPosition();
-                Fields.Field plField = calculator.getField(fieldNumber);
+                field.Field plField = calculator.getField(fieldNumber);
 
                 //hvis købbart felt
-                if (plField instanceof Fields.Ownerable) {
+                if (plField instanceof Ownable) {
 
                     //Hvis feltet ikke er ejet, købes det
-                    if ((((Fields.Ownerable) plField).getOwnedBy() == null)) {
+                    if ((((Ownable) plField).getOwnedBy() == null)) {
                         if (calculator.getCredibilityBuy(player, fieldNumber) &&
-                                guiController.yesNoButton(Language.queryFieldBuy(((Ownerable) plField).getCost()))) {
+                                guiController.yesNoButton(Language.queryFieldBuy(((Ownable) plField).getCost()))) {
                             buyField(turnTimer, player, fieldNumber, plField);
 
                             //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
@@ -70,7 +73,7 @@ public class TurnController {
                         }
                     } else {
                         //Hvis feltet ejes og du er ejer, kan du byg hus
-                        if (plField instanceof Fields.Ownable.Property && player.equals(((Fields.Ownerable) plField).getOwnedBy()) &&
+                        if (plField instanceof field.Ownable.Property && player.equals(((Ownable) plField).getOwnedBy()) &&
                         calculator.getCredibilityHouse(player, fieldNumber, 1)) {
 
                             if (calculator.isBuildable(fieldNumber)) {
@@ -78,9 +81,9 @@ public class TurnController {
                             }
                         }
                         //ellers betal husleje
-                        if (((Ownerable) plField).getOwnedBy() != null && ((Ownerable) plField).getOwnedBy() != player) {
+                        if (((Ownable) plField).getOwnedBy() != null && ((Ownable) plField).getOwnedBy() != player) {
                             if (calculator.getCredibilityRent(player, fieldNumber)) {
-                                guiController.getUserResponse(Language.payRentToPlayer(((Ownerable) plField).getOwnedBy().getName(), ((Ownerable) plField).getRent()));
+                                guiController.getUserResponse(Language.payRentToPlayer(((Ownable) plField).getOwnedBy().getName(), ((Ownable) plField).getRent()));
                                 Player owner = calculator.payRent(player, fieldNumber, movementController.getLatestRoll());
                                 for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
                                     if (movementController.getPlayers()[i].equals(owner)) {
@@ -95,18 +98,18 @@ public class TurnController {
                 }
 
                 //chancekort
-                if (plField instanceof Fields.NotOwnable.ChanceField) {
+                if (plField instanceof ChanceField) {
                     landOnChancecard(player, plField);
                 }
                 //Gå i fængsel-felt
-                if (plField instanceof Fields.NotOwnable.GoToJail) {
+                if (plField instanceof field.NotOwnable.GoToJail) {
                     movementController.landOnJailField(turnTimer);
                     guiController.removeCarGUI(turnTimer, 30);
                     guiController.teleportPlayerGUI(turnTimer, 10);
                 }
 
                 //tax
-                if (plField instanceof Fields.NotOwnable.Tax) {
+                if (plField instanceof field.NotOwnable.Tax) {
                     if (fieldNumber == 4) {
                         if (guiController.getUserDecision(Language.queryPayTax(),
                                 Language.pay() + " 10%", Language.pay() + " 4000 " + Language.currency())) {
@@ -138,7 +141,7 @@ public class TurnController {
             }
 
             //giver ekstratur hvis der er slået dobbeltslag
-            turnTimer = evalTurnTimer(turnTimer, player);
+            turnTimer = evalTurnTimer(turnTimer, player,die1,die2);
         }
     }
 
@@ -146,8 +149,9 @@ public class TurnController {
         guiController.playerWins();
     }
 
-    private int evalTurnTimer(int turnTimer, Player player) {
-        if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue() && !playerBankrupt) {
+    //sørger for ekstra tur hvis en spiller slår dobbeltslag, men ikke er bankrupt
+    private int evalTurnTimer(int turnTimer, Player player, int die1, int die2) {
+        if (die1 == die2 && !playerBankrupt) {
             turnTimer += -1;
             player.setTurnsInARow();
         }
@@ -157,15 +161,15 @@ public class TurnController {
         return turnTimer;
     }
 
+    //metode der kører auktion af grunde/ejendom
     private void auction(Player player, Field plField) {
-        int highestBid = ((Ownerable) plField).getCost();
+        int highestBid = ((Ownable) plField).getCost();
         Player winner = null;
         boolean n = true;
         while (n) {
 
             player.setInAuction(false);
             for (Player pl : movementController.getPlayers()) {
-                //System.out.println("akgslakn");
                 if (pl.isInAuction()) {
                     if (!pl.equals(winner)) {
                         if (guiController.yesNoButton(Language.bidForField(pl.getName(), plField.getName(), highestBid) + "?")) {
@@ -186,7 +190,6 @@ public class TurnController {
                                 }
                             } while (highestBid <= pl.getBalance() && (bid > pl.getBalance() || bid < highestBid));
                         } else {
-                            System.out.println("der blev skrevet nej");
                             for (int i = 0; i < movementController.getPlayers().length; i++) {
                                 if (pl.equals(movementController.getPlayers()[i]))
                                     movementController.getPlayers()[i].setInAuction(false);
@@ -229,6 +232,7 @@ public class TurnController {
         }
     }
 
+    //afgører udfaldet af at lande på et chancekort
     private void landOnChancecard(Player player, Field plField) {
         if (plField instanceof ChanceField) {
             ChanceCard card = ((ChanceField) plField).draw();
@@ -254,6 +258,7 @@ public class TurnController {
         }
     }
 
+    //når et felt købes, sættes border, sørger for at spiller kan bygge og betaler for felt
     private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
         calculator.buyField(player, fieldNumber);
 
@@ -263,11 +268,11 @@ public class TurnController {
         guiController.setFieldBorderGUI(fieldNumber, turnTimer);
     }
 
+    //bygger huse/hotel på felt, tager højde for spillerens balance
     private void build(int turnTimer, Player player, int fieldNumber, Property plField) {
         int amount;
         int numberOfHousesAlreadyPlaced = plField.getHouseAmount();
 
-        //IMPLEMENTER MAKS 4 HUSE
         if (plField.getHouseAmount() == 4) {
             if (guiController.yesNoButton(Language.queryHotelBuy(plField.getHotelCost())))
                 plField.setHotelAmount(1);
@@ -301,34 +306,35 @@ public class TurnController {
         }
     }
 
-    private void jailBailOuts(Player player) {
+    private void jailBailOut(Player player) {
         //hvis man har et gratis ud af fængselkort
-        if (movementController.getPlayers()[turnTimer].getFreeOfJail() &&
+        if (player.getFreeOfJail() &&
                 guiController.yesNoButton(Language.queryUseJailCard() + "?")) {
-            movementController.getPlayers()[turnTimer].setInJail(false);
-            movementController.getPlayers()[turnTimer].setTurnsInJail(0);
+            player.setInJail(false);
+            player.setTurnsInJail(0);
         }
         //hvis det er en tredje tur i fængsel eller man vil betale sig ud af fængslet
-        if (movementController.getPlayers()[turnTimer].getTurnsInJail() == 3 ||
+        if (player.getTurnsInJail() == 3 ||
                 guiController.yesNoButton(Language.queryPayBail() + "?")) {
             calculator.payBail(player);
             movementController.getPlayers()[turnTimer].setTurnsInJail(0);
         }
     }
 
+
     private void playerBankrupt(Player player, int fieldNumber){
         guiController.getUserResponse(Language.lostGame());
         Field field = calculator.getField(fieldNumber);
-        if (field instanceof Fields.Ownerable){
+        if (field instanceof Ownable){
             int[] fields = calculator.valuesTransfer(player, fieldNumber);
             int newOwnerNumber = 0;
             for (int i = 0; movementController.getPlayers().length > i; i++){
-                if (movementController.getPlayers()[i].equals(((Ownerable) field).getOwnedBy())){
+                if (movementController.getPlayers()[i].equals(((Ownable) field).getOwnedBy())){
                     newOwnerNumber = i;
                 }
             }
-            for (int i = 0; fields.length > i; i++){
-                guiController.setFieldBorderGUI(fields[i], newOwnerNumber);
+            for (int value : fields) {
+                guiController.setFieldBorderGUI(value, newOwnerNumber);
             }
             guiController.updatePlayerBalanceGUI(newOwnerNumber, movementController.getPlayers()[newOwnerNumber].getBalance());
         } else {

@@ -1,5 +1,5 @@
 import model.*;
-import Controller.MovementController;
+import controllers.MovementController;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {

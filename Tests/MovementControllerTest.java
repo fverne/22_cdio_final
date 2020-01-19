@@ -1,7 +1,6 @@
 import model.Player;
-import Controller.MovementController;
+import controllers.MovementController;
 import org.junit.jupiter.api.Test;
-import Controller.MovementController;
 
 import static org.junit.jupiter.api.Assertions.*;
 

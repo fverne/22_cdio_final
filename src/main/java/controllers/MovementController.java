@@ -1,4 +1,4 @@
-package Controller;
+package controllers;
 
 import model.DiceHolder;
 import model.Die;
@@ -27,6 +27,7 @@ public class MovementController {
         return dice.getFaceValues();
     }
 
+    //giver spillerens forrige placering
     public int getLatestPosition(Player player, int roll) {
         if (player.getPosition() - roll < 0) {
             return 40 + (player.getPosition() - roll);
@@ -35,6 +36,7 @@ public class MovementController {
         }
     }
 
+    //logikken bag spillerens bevægelser på spillepladen
     public Player makeMove(int player) {
         //hvis spilleren er i fængsel
         if (players[player].getInJail()) {
@@ -64,18 +66,18 @@ public class MovementController {
                 //hvis det ikke er ens tredje tur
             } else {
                 setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
-                if (getLatestRoll()[0].getFaceValue() != getLatestRoll()[1].getFaceValue()){
+                if (getLatestRoll()[0].getFaceValue() != getLatestRoll()[1].getFaceValue()) {
                     players[player].setTurnsInARow(0);
                 }
             }
         }
-            return players[player];
-        }
+        return players[player];
+    }
 
-
+    //sætter spillerens position
     public void setPosition(Player player, int moveLength) {
         int position = player.getPosition();
-        int newPosition = (position + moveLength)%40;
+        int newPosition = (position + moveLength) % 40;
 
         if (moveLength + position > 39) {
             player.setPosition(newPosition);
@@ -84,7 +86,7 @@ public class MovementController {
             player.setPosition(newPosition);
         }
     }
-
+    //udskriver besked når spilleren passerer start og modtager 4000
     public String passedStart(int lastPos, int newPos) {
         String msg;
         if (lastPos > newPos) {
@@ -93,19 +95,24 @@ public class MovementController {
         }
         return null;
     }
-    public Player landOnJailField(int player){
+
+    //spiller lander på fængselsfelt, metode sørger for spilleren bliver sat i fængsel
+    public Player landOnJailField(int player) {
         players[player].setPosition(10);
         players[player].setInJail(true);
         return players[player];
     }
-    public void teleportPosition(Player player, int position){
+
+    public void teleportPosition(Player player, int position) {
         player.setPosition(position);
     }
-    public void deletePlayer(int playerNumber){
+
+    //fjerner en spiller der er udgået fra spillet
+    public void deletePlayer(int playerNumber) {
         int x = 0;
-        Player[] newPlayers = new Player[players.length -1];
-        for(int i =0; i< this.players.length; i++ ){
-            if(i != playerNumber){
+        Player[] newPlayers = new Player[players.length - 1];
+        for (int i = 0; i < this.players.length; i++) {
+            if (i != playerNumber) {
                 newPlayers[x] = players[i];
                 x++;
             }

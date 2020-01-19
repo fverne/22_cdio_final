@@ -1,8 +1,6 @@
-package Fields.Ownable;
+package field.Ownable;
 
-import Fields.Ownerable;
-
-public abstract class Building extends Ownerable {
+public abstract class Building extends Ownable {
     int[] rentList;
 
     public Building(String name, String text, int cost, int rent, int[] category, int[] rentList) {

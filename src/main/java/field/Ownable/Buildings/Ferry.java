@@ -1,6 +1,6 @@
-package Fields.Ownable.Buildings;
+package field.Ownable.Buildings;
 
-import Fields.Ownable.Building;
+import field.Ownable.Building;
 
 public class Ferry extends Building {
 

@@ -87,18 +87,14 @@ public class Player {
 
     public boolean getOwnership(int field){
         int temp = 0;
-        for (int i = 0; ownedFields.length > i; i++){
-            if (ownedFields[i] == field){
+        for (int ownedField : ownedFields) {
+            if (ownedField == field) {
                 temp++;
                 break;
             }
         }
 
-        if (temp > 0){
-            return true;
-        } else{
-            return false;
-        }
+        return temp > 0;
     }
 
     public int[] getOwnedFields(){

@@ -1,4 +1,4 @@
-import Controller.TurnController;
+import controllers.TurnController;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {

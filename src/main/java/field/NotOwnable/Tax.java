@@ -1,8 +1,6 @@
-package Fields.NotOwnable;
+package field.NotOwnable;
 
-import Fields.NotOwnerable;
-
-public class Tax extends NotOwnerable {
+public class Tax extends NotOwnable {
     private int rent;
     public Tax(String name, String text, int rent) {
         super(name, text);

@@ -1,10 +1,9 @@
-package Fields.NotOwnable;
-
-import Fields.NotOwnerable;
-import GUI.FieldProperties.ChanceCard;
+package field.NotOwnable.Chancecard;
 
 
-public class ChanceField extends NotOwnerable {
+import field.NotOwnable.NotOwnable;
+
+public class ChanceField extends NotOwnable {
     private Deck deck = Deck.getInstance();
 
     public ChanceField(String name, String text){

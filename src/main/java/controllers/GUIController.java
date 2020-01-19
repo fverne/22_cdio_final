@@ -1,14 +1,15 @@
-package GUI;
+package controllers;
 
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
 import model.Language;
+import model.GameBoard;
 
 import java.awt.*;
 
 public class GUIController {
-    private Board gameBoard = new Board();
+    private GameBoard gameBoard = new GameBoard();
     private GUI gui;
     private GUI_Player[] gui_player;
     private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN, Color.CYAN, Color.DARK_GRAY};
@@ -18,28 +19,33 @@ public class GUIController {
         gui = gameBoard.initGUI();
     }
 
-    public void getUserResponse(int player){
+    //knap i gui
+    public void getUserResponse(int player) {
         gui.getUserButtonPressed(Language.getUserResponse(gui_player[player].getName()), Language.ok());
     }
 
-    public void playerWins(){
+    //vinder besked i GUI
+    public void playerWins() {
         gui.getUserButtonPressed(Language.winnerMessage(gui_player[0].getName()), Language.ok());
         gui_player[0].setBalance(1000000000);
     }
 
-    public Boolean getUserDecision(String message, String option1, String option2){
+    //giver brugeren valget mellem 2 muligheder
+    public Boolean getUserDecision(String message, String option1, String option2) {
         return gui.getUserLeftButtonPressed(message, option1, option2);
     }
 
-    public void getUserResponse(String message){
+    //ok knap i gui
+    public void getUserResponse(String message) {
         gui.getUserButtonPressed(message, Language.ok());
     }
 
+    //ja/nej knap i GUI
     public Boolean yesNoButton(String msg) {
         return gui.getUserLeftButtonPressed(msg, Language.yes(), Language.no());
     }
 
-    //Ændrer border på feltet hvis det er ejet
+    //Tilføjer et hus til GUI
     public void addHouseToGUI(int fieldNumber, int amountToAdd, int housesAlreadyOnField) {
 
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
@@ -48,6 +54,7 @@ public class GUIController {
         }
     }
 
+    //tilføjer et hotel til GUI
     public void addHotelToGUI(int fieldNumber) {
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
@@ -59,6 +66,7 @@ public class GUIController {
         return numberOfPlayers;
     }
 
+    //tilføjer spillerne og deres informationer til GUI
     public void initGUIPlayers() {
         numberOfPlayers = setNumberOfPlayersGUI();
         gui_player = new GUI_Player[numberOfPlayers];
@@ -66,6 +74,7 @@ public class GUIController {
         addPlayersGUI();
     }
 
+    //Udskriver besked i gui
     public void displayGUIMsg(String message) {
         if (message == null) {
             //ja det er meningen det her er tomt #bugfixing
@@ -77,34 +86,40 @@ public class GUIController {
         return gui_player[index].getName();
     }
 
+    //knap der muliggøre terninge kast
     public void rollButtonGUI() {
         gui.getUserButtonPressed(Language.throwDies() + "!", Language.ok());
     }
 
+    //knap der viser terningernes øjne
     public void displayRollGUI(int faceValue1, int faceValue2) {
         gui.setDice(faceValue1, 2, 3, faceValue2, 3, 3);
     }
 
+    //metode der rykker spillerne rundt på spilpladen
     public void movePlayerGUI(int playerNumber, int latestlocation, int roll) throws InterruptedException {
 
         for (int i = roll; i > 0; i--) {
             gui.getFields()[latestlocation].setCar(gui_player[playerNumber], false);
             latestlocation++;
-            latestlocation = latestlocation%40;
+            latestlocation = latestlocation % 40;
             gui.getFields()[latestlocation].setCar(gui_player[playerNumber], true);
 
             Thread.sleep(200);
         }
     }
 
+    //teleportere spiller rundt på pladen(kan bruges når en spiller skal ud af fængsel eller trækker et kort der rykker ham til en bestemt grund
     public void teleportPlayerGUI(int playerNumber, int newLocation) {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], true);
     }
 
+    //fjerner bil fra gui
     public void removeCarGUI(int playerNumber, int newLocation) {
         gui.getFields()[newLocation].setCar(gui_player[playerNumber], false);
     }
 
+    //ændrer feltets ramme når feltet er ejet, samt ændrer feltets substring til ejerens navn
     public void setFieldBorderGUI(int fieldNumber, int playerNumber) {
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
@@ -112,7 +127,9 @@ public class GUIController {
             street.setSubText(Language.ownedBy() + ": " + gui_player[playerNumber].getName());
         }
     }
-    private void removeFieldBorderGUI(int fieldNumber){
+
+    //fjerner border og substring fra felt
+    private void removeFieldBorderGUI(int fieldNumber) {
         if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.WHITE);
@@ -120,6 +137,7 @@ public class GUIController {
         }
     }
 
+    //viser informationer om et chancekort i gui
     public void displayChancecardGUI(String text) {
         gui.displayChanceCard(text);
     }
@@ -129,6 +147,7 @@ public class GUIController {
         gui_player[playerNumber].setBalance(newBalance);
     }
 
+    //tager imod integer fra bruger
     public int getUserIntGUI() {
         return gui.getUserInteger(Language.enterPrice());
     }
@@ -138,30 +157,30 @@ public class GUIController {
         return price;
     }
 
+    //tager imod en int fra bruger
     public int amountOfHousesToBuyGUI() {
-        return gui.getUserInteger( Language.enterHouses() + ": ");
+        return gui.getUserInteger(Language.enterHouses() + ": ");
     }
 
-    //Antal spillere
+    //metode der tager imod integer fra spiller og sætter antallet af spillere
     private int setNumberOfPlayersGUI() {
         int numberOfPlayers = gui.getUserInteger(Language.enterPlayerAmount() + ": ");
-        /*
+
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
             gui.showMessage("Indtast mellem 3-6 spillere");
             numberOfPlayers = gui.getUserInteger("Indtast antal spillere: ");
         }
-
-         */
         return numberOfPlayers;
     }
 
-    //Spiller navne
+    //tager imod spillernes navne, sørger for ingen spiller hedder det samme
     private void setPlayerNameGUI() {
         String[] prevnames = new String[numberOfPlayers]; // midlertidigt array laves, og tidligere spillernavne gemmes i denne
         boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
             String name;
-            do {                                                 // do while checker om spillerens navn eksisterer i forvejen
+            do
+            {                                                 // do while checker om spillerens navn eksisterer i forvejen
                 name = gui.getUserString(Language.enterName() + ": ");
                 nametaken = false;
 
@@ -182,7 +201,7 @@ public class GUIController {
         }
     }
 
-    //Adder spillerne til GUI
+    //tilføjer spillerne til GUI
     private void addPlayersGUI() {
         for (int i = 0; i < numberOfPlayers; i++) {
             gui_player[i].setBalance(30000);
@@ -192,13 +211,15 @@ public class GUIController {
             gui.addPlayer(gui_player[i]);
         }
     }
-    public void deleteCar(int playerNr, int pos){ // Fjern spillern fra gui player arrayet
+
+    // Fjern spillern fra gui player arrayet
+    public void deleteCar(int playerNr, int pos) {
 
         removeCarGUI(playerNr, pos);
         GUI_Player[] newGuiPl = new GUI_Player[gui_player.length - 1];
         int x = 0;
-        for(int i =0; i< gui_player.length; i++ ){
-            if(i != playerNr){
+        for (int i = 0; i < gui_player.length; i++) {
+            if (i != playerNr) {
                 newGuiPl[x] = gui_player[i];
                 x++;
             }
@@ -210,12 +231,10 @@ public class GUIController {
 
     }
 
-
-    public void remmovePlayerOwned(int[] owned){
-        for (int x : owned){
+    //fjerner spillers owned border
+    public void remmovePlayerOwned(int[] owned) {
+        for (int x : owned) {
             removeFieldBorderGUI(x);
         }
-
     }
-
 }

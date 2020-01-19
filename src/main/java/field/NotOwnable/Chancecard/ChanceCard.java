@@ -1,4 +1,4 @@
-package GUI.FieldProperties;
+package field.NotOwnable.Chancecard;
 
 public class ChanceCard {
     private String message;

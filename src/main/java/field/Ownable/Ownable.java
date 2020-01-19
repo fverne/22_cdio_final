@@ -1,15 +1,16 @@
-package Fields;
+package field.Ownable;
 
+import field.Field;
 import model.*;
 
 
-public abstract class Ownerable extends Field {
+public abstract class Ownable extends Field {
     private Player ownedBy = null;
     private int cost;
     private int rent;
     private int[] category;
 
-    public Ownerable(String name, String text, int cost, int rent, int[] category){
+    public Ownable(String name, String text, int cost, int rent, int[] category){
         super(name,text);
         this.cost = cost;
         this.rent = rent;

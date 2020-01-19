@@ -1,6 +1,4 @@
-package Fields.NotOwnable;//https://www.geeksforgeeks.org/singleton-class-java/ singleton kode hentet her fra
-
-import GUI.FieldProperties.ChanceCard;
+package field.NotOwnable.Chancecard;//https://www.geeksforgeeks.org/singleton-class-java/ singleton kode hentet her fra
 
 public class Deck {
     private static Deck single_instance = null;
