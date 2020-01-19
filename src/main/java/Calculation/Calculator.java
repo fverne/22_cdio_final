@@ -14,15 +14,18 @@ public class Calculator {
         fieldProperty = new FieldProperty();
     }
 
+    //når spilleren skal betale 10% af sine værdier
     public void payTax10(model.Player player){
         int tax = getPlayerTotalValues(player) / 10;
         player.withdraw(tax);
     }
 
+    //når spilleren skal betale et fsatsat beløb i skat
     public void payTax(Player player, int fieldNumber){
         player.withdraw(fieldProperty.getTax(fieldNumber));
     }
 
+    //tjekker om spilleren kan betale for en grund
     public boolean getCredibilityBuy(model.Player player, int fieldNumber){
         if (player.getBalance() < fieldProperty.getPrice(fieldNumber)){
             return false;
@@ -31,6 +34,7 @@ public class Calculator {
         }
     }
 
+    //returner en spilleres samlede værdier
     private int getPlayerTotalValues(Player player){
         int totalValues = player.getBalance();
         int[] playerOwnedFields = player.getOwnedFields();
@@ -44,6 +48,7 @@ public class Calculator {
         return totalValues;
     }
 
+    //tjekker om en spiller kan betale leje på en grund
     public boolean getCredibilityRent(model.Player player, int fieldNumber){
         if (player.getBalance() < fieldProperty.getRent(fieldNumber)){
             return false;
@@ -52,6 +57,7 @@ public class Calculator {
         }
     }
 
+    //tjekker om en spiller kan betale skat
     public boolean getCredibilityTax(Player player, int fieldNumber){
         if (player.getBalance() < fieldProperty.getTax(fieldNumber)){
             return false;
@@ -60,6 +66,7 @@ public class Calculator {
         }
     }
 
+    //tjekker om en spiller kan betale for 10% af alle deres værdier
     public boolean getCredibilityTax10(Player player){
         if (player.getBalance() < getPlayerTotalValues(player) / 10){
             return false;
@@ -68,6 +75,7 @@ public class Calculator {
         }
     }
 
+    //tjekker om en spiller kan betale for x antal huse på en grund
     public boolean getCredibilityHouse(model.Player player, int fieldNumber, int amount){
         if (player.getBalance() < fieldProperty.getHousePrice(fieldNumber) * amount){
             return false;
@@ -76,18 +84,21 @@ public class Calculator {
         }
     }
 
+    //køber en grund for en given pris
     public void buyWithPrice(model.Player player, int fieldNumber, int price){
         player.withdraw(price);
         fieldProperty.setOwned(player, fieldNumber);
         player.setOwnership(fieldNumber);
     }
 
+    //køb en grund for feltets satte værdi
     public void buyField(model.Player player, int fieldNumber){
         player.withdraw(fieldProperty.getPrice(fieldNumber));
         fieldProperty.setOwned(player, fieldNumber);
         player.setOwnership(fieldNumber);
     }
 
+    //overfører husleje mellem to spillere
     public Player payRent(model.Player player, int fieldNumber, Die[] die){
         int rent = fieldProperty.getRent(fieldNumber);
         model.Player owner = fieldProperty.getOwner(fieldNumber);
@@ -120,16 +131,19 @@ public class Calculator {
         return owner;
     }
 
+    //henter et feltobjekt med feltets indeks
     public Field getField(int fieldNumber){
         return fieldProperty.getField(fieldNumber);
     }
 
+    //bygger et givent antal huse på en vej og trækker spilleren penge
     public void buyHouse(Player player, int fieldNumber, int amount){
         int price = (fieldProperty.getHousePrice(fieldNumber)*amount);
         player.withdraw(price);
         //fieldProperty.changeHouseAmount(fieldNumber, player, amount);
     }
 
+    //tjekker om en spiller ejer alle veje i samme farve
     public boolean isBuildable(int fieldNumber){
         boolean buildable = false;
         int[] fields = fieldProperty.getFieldCategory(fieldNumber);
@@ -148,11 +162,13 @@ public class Calculator {
         return buildable;
     }
 
+    //bruges hvis en spiller betaler sig ud af fængsel
     public void payBail(Player player){
         player.withdraw(1000);
         player.setInJail(false);
     }
 
+    //overfører en spiller penge og grunde til en anden spiller
     public int[] valuesTransfer(Player player, int fieldNumber){
         int[] fields = player.getOwnedFields();
         Player newOwner = ( (Fields.Ownerable) fieldProperty.getField(fieldNumber)).getOwnedBy();
@@ -166,6 +182,7 @@ public class Calculator {
         return fields;
     }
 
+    //sætter ens spillers grunde til frie og sætter deres balance til 0
     public int[] valuesTransfer(Player player){
         int[] fields = player.getOwnedFields();
         for (int field : fields) {

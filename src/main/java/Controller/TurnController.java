@@ -39,15 +39,18 @@ public class TurnController {
                 jailBailOuts(movementController.getPlayers()[turnTimer]);
             }
 
+            //spilleren slår med terningerne og bliver rykket
             guiController.rollButtonGUI();
             model.Player player = movementController.makeMove(turnTimer);
             guiController.displayRollGUI(movementController.getLatestRoll()[0].getFaceValue(), movementController.getLatestRoll()[1].getFaceValue());
             int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
 
+            //bevæger spilleren i gui, hvis de har rykket sig
             if (!(player.getTurnsInJail() > 0)) {
                 guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player, diesum), diesum);
             }
 
+            //spillerens tur bliver udført efter hvilket felt de er landet på
             if (!movementController.getPlayers()[turnTimer].getInJail()) {
                 guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
                 guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
@@ -146,14 +149,18 @@ public class TurnController {
         guiController.playerWins();
     }
 
+    //vurderer hvilken spiller der skal have den næste tur
     private int evalTurnTimer(int turnTimer, Player player) {
+        //giver spilleren ekstra tur hvis de har slået to ens
         if (movementController.getLatestRoll()[0].getFaceValue() == movementController.getLatestRoll()[1].getFaceValue() && !playerBankrupt) {
             turnTimer += -1;
             player.setTurnsInARow();
         }
+        //sætter turen til første spiller når sidste har haft sin tur
         if (turnTimer >= guiController.getNumberOfPlayers() - 1) {
             turnTimer = -1;
         }
+        playerBankrupt = false;
         return turnTimer;
     }
 
@@ -228,7 +235,7 @@ public class TurnController {
             }
         }
     }
-
+//når en spiller lander på et chanchefelt
     private void landOnChancecard(Player player, Field plField) {
         if (plField instanceof ChanceField) {
             ChanceCard card = ((ChanceField) plField).draw();
@@ -253,7 +260,7 @@ public class TurnController {
             }
         }
     }
-
+    //når en spiller købr et felt
     private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
         calculator.buyField(player, fieldNumber);
 
@@ -301,6 +308,7 @@ public class TurnController {
         }
     }
 
+    //når spilleren er i fængsel fra starten af sin tur
     private void jailBailOuts(Player player) {
         //hvis man har et gratis ud af fængselkort
         if (movementController.getPlayers()[turnTimer].getFreeOfJail() &&
@@ -316,9 +324,12 @@ public class TurnController {
         }
     }
 
+    //bruges når en spiller ikke kan betale til banken eller en spiller
     private void playerBankrupt(Player player, int fieldNumber){
         guiController.getUserResponse(Language.lostGame());
         Field field = calculator.getField(fieldNumber);
+
+        //hvis man skal betale til en anden spiller
         if (field instanceof Fields.Ownerable){
             int[] fields = calculator.valuesTransfer(player, fieldNumber);
             int newOwnerNumber = 0;
@@ -331,6 +342,8 @@ public class TurnController {
                 guiController.setFieldBorderGUI(fields[i], newOwnerNumber);
             }
             guiController.updatePlayerBalanceGUI(newOwnerNumber, movementController.getPlayers()[newOwnerNumber].getBalance());
+
+            //hvis man skal betale sine værdier til banken
         } else {
             int[] fields = calculator.valuesTransfer(player);
             for (int i = 0; fields.length > i; i++){
@@ -343,6 +356,8 @@ public class TurnController {
         turnTimer--;
         playerBankrupt = true;
     }
+
+    //fjerner spilleren fra gui og model
     private void removePlayer(){
         // GUI remove
         Player pl = movementController.getPlayers()[turnTimer];

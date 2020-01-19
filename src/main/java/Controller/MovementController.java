@@ -18,15 +18,17 @@ public class MovementController {
         }
         dice = new DiceHolder();
     }
-
+    //henter spiller arrayet
     public Player[] getPlayers() {
         return players;
     }
 
+    //sender terningsbæger objektet
     public Die[] getLatestRoll() {
         return dice.getFaceValues();
     }
 
+    //giver en spillers forrige position ud fra terningskastet
     public int getLatestPosition(Player player, int roll) {
         if (player.getPosition() - roll < 0) {
             return 40 + (player.getPosition() - roll);
@@ -35,6 +37,7 @@ public class MovementController {
         }
     }
 
+    //slår terningerne og flytter spilleren tager også højde for om de har rullet to ens tre gange
     public Player makeMove(int player) {
         //hvis spilleren er i fængsel
         if (players[player].getInJail()) {
@@ -69,10 +72,9 @@ public class MovementController {
                 }
             }
         }
-            return players[player];
-        }
-
-
+        return players[player];
+    }
+    //flytter en spiller frem med en given længde, overfører penge hvis de har passeret start
     public void setPosition(Player player, int moveLength) {
         int position = player.getPosition();
         int newPosition = (position + moveLength)%40;
@@ -84,7 +86,7 @@ public class MovementController {
             player.setPosition(newPosition);
         }
     }
-
+    //vurderer om en spiller har passeret start
     public String passedStart(int lastPos, int newPos) {
         String msg;
         if (lastPos > newPos) {
@@ -93,14 +95,18 @@ public class MovementController {
         }
         return null;
     }
+    //bruges når en spiller lander på "gå i fængsel" feltet
     public Player landOnJailField(int player){
         players[player].setPosition(10);
         players[player].setInJail(true);
         return players[player];
     }
+    //flytter en spiller til et givent felt
     public void teleportPosition(Player player, int position){
         player.setPosition(position);
     }
+
+    //fjerner en spiller fra spillet og opdaterer player arrayet
     public void deletePlayer(int playerNumber){
         int x = 0;
         Player[] newPlayers = new Player[players.length -1];
