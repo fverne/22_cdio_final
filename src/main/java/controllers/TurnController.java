@@ -28,6 +28,8 @@ public class TurnController {
         }
     }
 
+    //hvorfor står der "throws InterruptedException"
+    //fra javadocs: Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds. The thread does not lose ownership of any monitors.
     public void playGame() throws InterruptedException {
         for (playerIndex = 0; guiController.getNumberOfPlayers() > 1; playerIndex++) {
             guiController.getUserResponse(playerIndex);
@@ -168,7 +170,6 @@ public class TurnController {
         Player winner = null;
         boolean n = true;
         while (n) {
-
             player.setInAuction(false);
             for (Player pl : movementController.getPlayers()) {
                 if (pl.isInAuction()) {
