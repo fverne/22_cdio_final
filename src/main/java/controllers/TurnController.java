@@ -14,7 +14,7 @@ public class TurnController {
     private GUIController guiController;
     private MovementController movementController;
     private Calculator calculator;
-    private int turnTimer;
+    private int playerIndex;
     private boolean playerBankrupt = false;
 
     public void startGame() {
@@ -30,16 +30,16 @@ public class TurnController {
     }
 
     public void playGame() throws InterruptedException {
-        for (turnTimer = 0; guiController.getNumberOfPlayers() > 1; turnTimer++) {
-            guiController.getUserResponse(turnTimer);
+        for (playerIndex = 0; guiController.getNumberOfPlayers() > 1; playerIndex++) {
+            guiController.getUserResponse(playerIndex);
 
             //hvis man er i fængsel
-            if (movementController.getPlayers()[turnTimer].getInJail()) {
-                jailBailOut(movementController.getPlayers()[turnTimer]);
+            if (movementController.getPlayers()[playerIndex].getInJail()) {
+                jailBailOut(movementController.getPlayers()[playerIndex]);
             }
 
             guiController.rollButtonGUI();
-            model.Player player = movementController.makeMove(turnTimer);
+            model.Player player = movementController.makeMove(playerIndex);
             int die1 = movementController.getLatestRoll()[0].getFaceValue();
             int die2 = movementController.getLatestRoll()[1].getFaceValue();
             int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
@@ -47,13 +47,13 @@ public class TurnController {
             guiController.displayRollGUI(die1,die2);
 
             if (!(player.getTurnsInJail() > 0)) {
-                guiController.movePlayerGUI(turnTimer, movementController.getLatestPosition(player, diesum), diesum);
+                guiController.movePlayerGUI(playerIndex, movementController.getLatestPosition(player, diesum), diesum);
             }
 
-            boolean playerInJail = movementController.getPlayers()[turnTimer].getInJail();
+            boolean playerInJail = movementController.getPlayers()[playerIndex].getInJail();
             if (!playerInJail) {
                 guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
-                guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
+                guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
 
                 int fieldNumber = player.getPosition();
                 field.Field plField = calculator.getField(fieldNumber);
@@ -65,7 +65,7 @@ public class TurnController {
                     if ((((Ownable) plField).getOwnedBy() == null)) {
                         if (calculator.getCredibilityBuy(player, fieldNumber) &&
                                 guiController.yesNoButton(Language.queryFieldBuy(((Ownable) plField).getCost()))) {
-                            buyField(turnTimer, player, fieldNumber, plField);
+                            buyField(playerIndex, player, fieldNumber, plField);
 
                             //hvis spilleren ikke kan, eller vil købe feltet går det til auktion
                         } else {
@@ -77,7 +77,7 @@ public class TurnController {
                         calculator.getCredibilityHouse(player, fieldNumber, 1)) {
 
                             if (calculator.isBuildable(fieldNumber)) {
-                                build(turnTimer, player, fieldNumber, (Property) plField);
+                                build(playerIndex, player, fieldNumber, (Property) plField);
                             }
                         }
                         //ellers betal husleje
@@ -103,9 +103,9 @@ public class TurnController {
                 }
                 //Gå i fængsel-felt
                 if (plField instanceof field.NotOwnable.GoToJail) {
-                    movementController.landOnJailField(turnTimer);
-                    guiController.removeCarGUI(turnTimer, 30);
-                    guiController.teleportPlayerGUI(turnTimer, 10);
+                    movementController.landOnJailField(playerIndex);
+                    guiController.removeCarGUI(playerIndex, 30);
+                    guiController.teleportPlayerGUI(playerIndex, 10);
                 }
 
                 //tax
@@ -137,11 +137,11 @@ public class TurnController {
             }
             if (!playerBankrupt) {
                 //opdaterer spiller balance i GUI
-                guiController.updatePlayerBalanceGUI(turnTimer, player.getBalance());
+                guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
             }
 
             //giver ekstratur hvis der er slået dobbeltslag
-            turnTimer = evalTurnTimer(turnTimer, player,die1,die2);
+            playerIndex = evalTurnTimer(playerIndex, player,die1,die2);
         }
     }
 
@@ -241,8 +241,8 @@ public class TurnController {
                 int tempLatestPosition = player.getPosition();
                 guiController.displayChancecardGUI(card.getMessage());
                 movementController.teleportPosition(player, card.getPosition());
-                guiController.removeCarGUI(turnTimer,tempLatestPosition);
-                guiController.teleportPlayerGUI(turnTimer,card.getPosition());
+                guiController.removeCarGUI(playerIndex,tempLatestPosition);
+                guiController.teleportPlayerGUI(playerIndex,card.getPosition());
                 if(card.getIsJail()){
                     player.setInJail(true);
                 }
@@ -317,7 +317,7 @@ public class TurnController {
         if (player.getTurnsInJail() == 3 ||
                 guiController.yesNoButton(Language.queryPayBail() + "?")) {
             calculator.payBail(player);
-            movementController.getPlayers()[turnTimer].setTurnsInJail(0);
+            movementController.getPlayers()[playerIndex].setTurnsInJail(0);
         }
     }
 
@@ -344,18 +344,18 @@ public class TurnController {
             }
             guiController.remmovePlayerOwned(fields);
         }
-        guiController.updatePlayerBalanceGUI(turnTimer, -1);
+        guiController.updatePlayerBalanceGUI(playerIndex, -1);
         removePlayer();
-        turnTimer--;
+        playerIndex--;
         playerBankrupt = true;
     }
     private void removePlayer(){
         // GUI remove
-        Player pl = movementController.getPlayers()[turnTimer];
-        guiController.deleteCar(turnTimer, pl.getPosition());
+        Player pl = movementController.getPlayers()[playerIndex];
+        guiController.deleteCar(playerIndex, pl.getPosition());
 
         //PLayer og board
-        movementController.deletePlayer(turnTimer);
+        movementController.deletePlayer(playerIndex);
     }
 }
 
