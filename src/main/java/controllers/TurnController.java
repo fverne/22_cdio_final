@@ -75,7 +75,6 @@ public class TurnController {
                         //Hvis feltet ejes og du er ejer, kan du byg hus
                         if (plField instanceof field.Ownable.Property && player.equals(((Ownable) plField).getOwnedBy()) &&
                         calculator.getCredibilityHouse(player, fieldNumber, 1)) {
-
                             if (calculator.isBuildable(fieldNumber)) {
                                 build(playerIndex, player, fieldNumber, (Property) plField);
                             }
@@ -126,11 +125,11 @@ public class TurnController {
                             }
                         }
                     } else {
-                    if (calculator.getCredibilityTax(player, fieldNumber)) {
-                        calculator.payTax(player, fieldNumber);
-                    } else {
-                        playerBankrupt(player, fieldNumber);
-                    }
+                        if (calculator.getCredibilityTax(player, fieldNumber)) {
+                            calculator.payTax(player, fieldNumber);
+                        } else {
+                            playerBankrupt(player, fieldNumber);
+                        }
                     }
                 }
 
@@ -203,7 +202,7 @@ public class TurnController {
                 if (pl.isInAuction())
                     x++;
             }
-            //System.out.println("x is " + x);
+
             if ((x == 1) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
                 int a = 0;
                 for (int i = 0; i < movementController.getPlayers().length; i++) {
@@ -215,11 +214,9 @@ public class TurnController {
                 guiController.updatePlayerBalanceGUI(a, winner.getBalance());
                 guiController.setFieldBorderGUI(player.getPosition(), a);
 
-                System.out.println("fundet en køber");
                 n = false;
 
             } else if (winner == null) {
-                //System.out.println("ikke fundet en køber");
                 n = false;
 
             }
@@ -251,7 +248,6 @@ public class TurnController {
                 }
             }
             else {
-                //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
                 guiController.displayChancecardGUI(card.getMessage());
                 player.deposit(card.getReward());
             }
@@ -325,6 +321,7 @@ public class TurnController {
     private void playerBankrupt(Player player, int fieldNumber){
         guiController.getUserResponse(Language.lostGame());
         Field field = calculator.getField(fieldNumber);
+
         if (field instanceof Ownable){
             int[] fields = calculator.valuesTransfer(player, fieldNumber);
             int newOwnerNumber = 0;
@@ -344,6 +341,7 @@ public class TurnController {
             }
             guiController.remmovePlayerOwned(fields);
         }
+
         guiController.updatePlayerBalanceGUI(playerIndex, -1);
         removePlayer();
         playerIndex--;

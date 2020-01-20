@@ -7,7 +7,6 @@ public class Deck {
     public static Deck getInstance() {
         if (single_instance == null)
             single_instance = new Deck();
-        // single_instance.shuffle();
 
         return single_instance;
     }
@@ -47,17 +46,7 @@ public class Deck {
     };
 
     public ChanceCard draw() {
-        //  if((cards.length % this.drawCounter) == 0)
-        //    this.drawCounter = 0;
-        //return cards[this.drawCounter++];
-
         return this.cards[(int) (Math.random() * (cards.length))];
-
-    }
-
-    private void shuffle() {
-
-
     }
 }
 

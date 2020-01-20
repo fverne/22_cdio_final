@@ -10,7 +10,6 @@ public class Property extends Ownable {
     private int hotelAmount = 0;
     private int hotelCost;
 
-
     public int getHouseAmount() {
         return houseAmount;
     }
@@ -56,6 +55,4 @@ public class Property extends Ownable {
         this.houseCost = houseCost;
         this.hotelCost = hotelCost;
     }
-
-
 }

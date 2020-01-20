@@ -8,7 +8,6 @@ import field.FieldProperty;
 import model.Player;
 
 public class Calculator {
-
     private FieldProperty fieldProperty;
 
     public Calculator() {
@@ -35,6 +34,7 @@ public class Calculator {
     private int getPlayerTotalValues(Player player) {
         int totalValues = player.getBalance();
         int[] playerOwnedFields = player.getOwnedFields();
+
         for (int playerOwnedField : playerOwnedFields) {
             Ownable field = (Ownable) fieldProperty.getField(playerOwnedField);
             totalValues += field.getCost();
@@ -42,6 +42,7 @@ public class Calculator {
                 totalValues += ((Property) field).getHouseAmount() * ((Property) field).getHouseCost();
             }
         }
+
         return totalValues;
     }
 
@@ -83,7 +84,6 @@ public class Calculator {
     public Player payRent(model.Player player, int fieldNumber, Die[] die) {
         int rent = fieldProperty.getRent(fieldNumber);
         model.Player owner = fieldProperty.getOwner(fieldNumber);
-
         int[] fields = fieldProperty.getFieldCategory(fieldNumber);
         int temp = 0;
 
@@ -96,19 +96,23 @@ public class Calculator {
                 System.out.println(player.getPosition() + " " + fieldNumber);
             }
         }
+
         if (fieldProperty.getField(fieldNumber) instanceof Property && ((Property) fieldProperty.getField(fieldNumber)).getHouseAmount() == 0 &&
                 fields.length == temp) {
             rent = rent * 2;
         }
+
         if (fieldProperty.getField(fieldNumber) instanceof field.Ownable.Buildings.Ferry) {
             rent = fieldProperty.getRent(fieldNumber, temp);
         }
+
         if (fieldProperty.getField(fieldNumber) instanceof field.Ownable.Buildings.Brewery) {
             rent = fieldProperty.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
         }
 
         player.withdraw(rent);
         owner.deposit(rent);
+
         return owner;
     }
 
@@ -120,7 +124,6 @@ public class Calculator {
     public void buyHouse(Player player, int fieldNumber, int amount) {
         int price = (fieldProperty.getHousePrice(fieldNumber) * amount);
         player.withdraw(price);
-        //fieldProperty.changeHouseAmount(fieldNumber, player, amount);
     }
 
     //kan der bygges på felt? er feltet ejet, så nej, er feltet frit, så ja
@@ -139,6 +142,7 @@ public class Calculator {
         if (fieldProperty.getField(fieldNumber) instanceof Property && fields.length == temp) {
             buildable = true;
         }
+
         return buildable;
     }
 
@@ -159,6 +163,7 @@ public class Calculator {
         int transfer = player.getBalance();
         player.withdraw(transfer);
         newOwner.deposit(transfer);
+
         return fields;
     }
 
@@ -173,6 +178,7 @@ public class Calculator {
         }
         int transfer = player.getBalance();
         player.withdraw(transfer);
+
         return fields;
     }
 }

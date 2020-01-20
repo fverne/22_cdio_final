@@ -35,6 +35,10 @@ public class Language {
         return "Indtast Antal Spillere";
     }
 
+    public static String enterCorrectPlayerAmount() {
+        return "Indtast mellem 3-6 spillere";
+    }
+
     public static String throwDies() {
         return "Kast terningerne";
     }
