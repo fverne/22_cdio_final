@@ -5,7 +5,7 @@ import model.field.notOwnable.ChanceField;
 import model.field.ownable.Property;
 import model.field.ownable.Ownable;
 import model.chancecard.ChanceCard;
-import language.Language;
+import model.language.Language;
 import model.Player;
 
 public class TurnController {

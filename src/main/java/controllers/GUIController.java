@@ -3,7 +3,7 @@ package controllers;
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
-import language.Language;
+import model.language.Language;
 import view.GUIGameBoard;
 
 import java.awt.*;

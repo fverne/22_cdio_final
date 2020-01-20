@@ -1,8 +1,8 @@
-package language;
+package model.language;
 
 public class Language {
 
-    // To use this language class, simply replace the string returned with a translation to the language you want.
+    // To use this model.language class, simply replace the string returned with a translation to the model.language you want.
 
 
     // -------

@@ -2,7 +2,7 @@ package view;
 
 import gui_fields.*;
 import gui_main.GUI;
-import language.Language;
+import model.language.Language;
 
 import java.awt.*;
 
