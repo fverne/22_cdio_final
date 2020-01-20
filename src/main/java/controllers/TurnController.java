@@ -101,6 +101,7 @@ public class TurnController {
                 if (plField instanceof ChanceField) {
                     landOnChancecard(player, plField);
                 }
+                
                 //Gå i fængsel-felt
                 if (plField instanceof field.NotOwnable.GoToJail) {
                     movementController.landOnJailField(playerIndex);
@@ -135,6 +136,7 @@ public class TurnController {
                 }
 
             }
+
             if (!playerBankrupt) {
                 //opdaterer spiller balance i GUI
                 guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
@@ -219,7 +221,6 @@ public class TurnController {
 
             } else if (winner == null) {
                 n = false;
-
             }
             if (!n) {
                 for (Player pl : movementController.getPlayers()) {
@@ -344,6 +345,7 @@ public class TurnController {
         playerIndex--;
         playerBankrupt = true;
     }
+
     private void removePlayer(){
         // GUI remove
         Player pl = movementController.getPlayers()[playerIndex];
