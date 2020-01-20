@@ -1,4 +1,4 @@
-package field.NotOwnable.Chancecard;
+package model.chancecard;
 
 public class ChanceCard {
     private String message;

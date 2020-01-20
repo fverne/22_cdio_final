@@ -2,7 +2,7 @@ package controllers;
 
 import model.DiceHolder;
 import model.Die;
-import model.Language;
+import language.Language;
 import model.Player;
 
 public class MovementController {

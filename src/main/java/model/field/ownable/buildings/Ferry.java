@@ -1,4 +1,4 @@
-package field.Ownable.Buildings;
+package model.field.ownable.buildings;
 
 public class Ferry extends Building {
 

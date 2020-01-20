@@ -1,4 +1,4 @@
-package field;
+package model.field;
 
 
 public abstract class Field {

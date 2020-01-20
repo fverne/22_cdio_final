@@ -3,20 +3,20 @@ package controllers;
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
-import model.Language;
-import model.GameBoard;
+import language.Language;
+import view.GUIGameBoard;
 
 import java.awt.*;
 
 public class GUIController {
-    private GameBoard gameBoard = new GameBoard();
+    private GUIGameBoard guiGameBoard = new GUIGameBoard();
     private GUI gui;
     private GUI_Player[] gui_player;
     private Color[] colors = new Color[]{Color.red, Color.BLACK, Color.blue, Color.GREEN, Color.CYAN, Color.DARK_GRAY};
     private int numberOfPlayers;
 
     public GUIController() {
-        gui = gameBoard.initGUI();
+        gui = guiGameBoard.initGUI();
     }
 
     //knap i gui
@@ -48,16 +48,16 @@ public class GUIController {
     //Tilføjer et hus til GUI
     public void addHouseToGUI(int fieldNumber, int amountToAdd, int housesAlreadyOnField) {
 
-        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
-            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+        if (guiGameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) guiGameBoard.getGUIField(fieldNumber);
             street.setHouses((amountToAdd + housesAlreadyOnField));
         }
     }
 
     //tilføjer et hotel til GUI
     public void addHotelToGUI(int fieldNumber) {
-        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
-            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+        if (guiGameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) guiGameBoard.getGUIField(fieldNumber);
             street.setHotel(true);
         }
     }
@@ -121,8 +121,8 @@ public class GUIController {
 
     //ændrer feltets ramme når feltet er ejet, samt ændrer feltets substring til ejerens navn
     public void setFieldBorderGUI(int fieldNumber, int playerNumber) {
-        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
-            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+        if (guiGameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) guiGameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.red);
             street.setSubText(Language.ownedBy() + ": " + gui_player[playerNumber].getName());
         }
@@ -130,8 +130,8 @@ public class GUIController {
 
     //fjerner border og substring fra felt
     private void removeFieldBorderGUI(int fieldNumber) {
-        if (gameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
-            GUI_Street street = (GUI_Street) gameBoard.getGUIField(fieldNumber);
+        if (guiGameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
+            GUI_Street street = (GUI_Street) guiGameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.WHITE);
             street.setSubText(Language.notOwned());
         }

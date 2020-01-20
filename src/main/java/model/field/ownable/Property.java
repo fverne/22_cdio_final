@@ -1,4 +1,4 @@
-package field.Ownable;
+package model.field.ownable;
 
 import model.Player;
 

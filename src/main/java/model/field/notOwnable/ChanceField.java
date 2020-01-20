@@ -1,7 +1,8 @@
-package field.NotOwnable.Chancecard;
+package model.field.notOwnable;
 
 
-import field.NotOwnable.NotOwnable;
+import model.chancecard.ChanceCard;
+import model.chancecard.Deck;
 
 public class ChanceField extends NotOwnable {
     private Deck deck = Deck.getInstance();

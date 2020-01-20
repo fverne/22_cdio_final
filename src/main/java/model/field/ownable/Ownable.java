@@ -1,6 +1,6 @@
-package field.Ownable;
+package model.field.ownable;
 
-import field.Field;
+import model.field.Field;
 import model.*;
 
 

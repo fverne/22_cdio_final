@@ -1,6 +1,6 @@
-package field.Ownable.Buildings;
+package model.field.ownable.buildings;
 
-import field.Ownable.Ownable;
+import model.field.ownable.Ownable;
 
 public abstract class Building extends Ownable {
     int[] rentList;

@@ -1,4 +1,4 @@
-package model;
+package language;
 
 public class Language {
 

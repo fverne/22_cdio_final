@@ -1,18 +1,18 @@
-package calculation;
+package controllers;
 
-import field.Field;
-import field.Ownable.Ownable;
-import field.Ownable.Property;
+import model.field.Field;
+import model.field.ownable.Ownable;
+import model.field.ownable.Property;
 import model.Die;
-import field.FieldProperty;
+import model.GameBoard;
 import model.Player;
 
 public class Calculator {
 
-    private FieldProperty fieldProperty;
+    private GameBoard gameBoard;
 
     public Calculator() {
-        fieldProperty = new FieldProperty();
+        gameBoard = new GameBoard();
     }
 
     //betal 10% indkomstskat
@@ -23,12 +23,12 @@ public class Calculator {
 
     //betal fast beløb i tax
     public void payTax(Player player, int fieldNumber) {
-        player.withdraw(fieldProperty.getTax(fieldNumber));
+        player.withdraw(gameBoard.getTax(fieldNumber));
     }
 
     //har en spiller nok penge til at købe ejendom
     public boolean getCredibilityBuy(model.Player player, int fieldNumber) {
-        return player.getBalance() >= fieldProperty.getPrice(fieldNumber);
+        return player.getBalance() >= gameBoard.getPrice(fieldNumber);
     }
 
     //få spillerens totalt "networth"
@@ -37,7 +37,7 @@ public class Calculator {
         int[] playerOwnedFields = player.getOwnedFields();
 
         for (int playerOwnedField : playerOwnedFields) {
-            Ownable field = (Ownable) fieldProperty.getField(playerOwnedField);
+            Ownable field = (Ownable) gameBoard.getField(playerOwnedField);
             totalValues += field.getCost();
             if (field instanceof Property) {
                 totalValues += ((Property) field).getHouseAmount() * ((Property) field).getHouseCost();
@@ -49,12 +49,12 @@ public class Calculator {
 
     //har en spiller nok penge til at betale leje
     public boolean getCredibilityRent(model.Player player, int fieldNumber) {
-        return player.getBalance() >= fieldProperty.getRent(fieldNumber);
+        return player.getBalance() >= gameBoard.getRent(fieldNumber);
     }
 
     //har en spiller nok penge til at betale tax
     public boolean getCredibilityTax(Player player, int fieldNumber) {
-        return player.getBalance() >= fieldProperty.getTax(fieldNumber);
+        return player.getBalance() >= gameBoard.getTax(fieldNumber);
     }
 
     //har en spiller nok penge til at betale 10% tax
@@ -64,34 +64,34 @@ public class Calculator {
 
     //har en spiller nok penge til at betale hus
     public boolean getCredibilityHouse(model.Player player, int fieldNumber, int amount) {
-        return player.getBalance() >= fieldProperty.getHousePrice(fieldNumber) * amount;
+        return player.getBalance() >= gameBoard.getHousePrice(fieldNumber) * amount;
     }
 
     //betal for ejendom med bestemt pris, sætter owner og ownership
     public void buyWithPrice(model.Player player, int fieldNumber, int price) {
         player.withdraw(price);
-        fieldProperty.setOwned(player, fieldNumber);
+        gameBoard.setOwned(player, fieldNumber);
         player.setOwnership(fieldNumber);
     }
 
     //betal for ejendom for feltets pris, sætter owner og ownership
     public void buyField(model.Player player, int fieldNumber) {
-        player.withdraw(fieldProperty.getPrice(fieldNumber));
-        fieldProperty.setOwned(player, fieldNumber);
+        player.withdraw(gameBoard.getPrice(fieldNumber));
+        gameBoard.setOwned(player, fieldNumber);
         player.setOwnership(fieldNumber);
     }
 
     //betal husleje, beregner forskellig leje, alt efter hvor mange huse man har/om grunden er et rederi eller et bryggeri
     public Player payRent(model.Player player, int fieldNumber, Die[] die) {
-        int rent = fieldProperty.getRent(fieldNumber);
-        model.Player owner = fieldProperty.getOwner(fieldNumber);
+        int rent = gameBoard.getRent(fieldNumber);
+        model.Player owner = gameBoard.getOwner(fieldNumber);
 
-        int[] fields = fieldProperty.getFieldCategory(fieldNumber);
+        int[] fields = gameBoard.getFieldCategory(fieldNumber);
         int temp = 0;
 
         for (int field : fields) {
             try {
-                if (owner.equals(fieldProperty.getOwner(field))) {
+                if (owner.equals(gameBoard.getOwner(field))) {
                     temp++;
                 }
             } catch (NullPointerException e) {
@@ -99,17 +99,17 @@ public class Calculator {
             }
         }
 
-        if (fieldProperty.getField(fieldNumber) instanceof Property && ((Property) fieldProperty.getField(fieldNumber)).getHouseAmount() == 0 &&
+        if (gameBoard.getField(fieldNumber) instanceof Property && ((Property) gameBoard.getField(fieldNumber)).getHouseAmount() == 0 &&
                 fields.length == temp) {
             rent = rent * 2;
         }
 
-        if (fieldProperty.getField(fieldNumber) instanceof field.Ownable.Buildings.Ferry) {
-            rent = fieldProperty.getRent(fieldNumber, temp);
+        if (gameBoard.getField(fieldNumber) instanceof model.field.ownable.buildings.Ferry) {
+            rent = gameBoard.getRent(fieldNumber, temp);
         }
 
-        if (fieldProperty.getField(fieldNumber) instanceof field.Ownable.Buildings.Brewery) {
-            rent = fieldProperty.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
+        if (gameBoard.getField(fieldNumber) instanceof model.field.ownable.buildings.Brewery) {
+            rent = gameBoard.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
         }
 
         player.withdraw(rent);
@@ -119,30 +119,30 @@ public class Calculator {
     }
 
     public Field getField(int fieldNumber) {
-        return fieldProperty.getField(fieldNumber);
+        return gameBoard.getField(fieldNumber);
     }
 
     //køber hus
     public void buyHouse(Player player, int fieldNumber, int amount) {
-        int price = (fieldProperty.getHousePrice(fieldNumber) * amount);
+        int price = (gameBoard.getHousePrice(fieldNumber) * amount);
         player.withdraw(price);
-        fieldProperty.changeHouseAmount(fieldNumber, player, amount);
+        gameBoard.changeHouseAmount(fieldNumber, player, amount);
     }
 
     //kan der bygges på felt? er feltet ejet, så nej, er feltet frit, så ja
     public boolean isBuildable(int fieldNumber) {
         boolean buildable = false;
-        int[] fields = fieldProperty.getFieldCategory(fieldNumber);
-        model.Player owner = fieldProperty.getOwner(fieldNumber);
+        int[] fields = gameBoard.getFieldCategory(fieldNumber);
+        model.Player owner = gameBoard.getOwner(fieldNumber);
 
         int temp = 0;
         for (int field : fields) {
-            if (owner.equals(fieldProperty.getOwner(field))) {
+            if (owner.equals(gameBoard.getOwner(field))) {
                 temp++;
             }
         }
 
-        if (fieldProperty.getField(fieldNumber) instanceof Property && fields.length == temp) {
+        if (gameBoard.getField(fieldNumber) instanceof Property && fields.length == temp) {
             buildable = true;
         }
 
@@ -158,9 +158,9 @@ public class Calculator {
     //sælges et felt på auktion skal ejerskab mm overføres til ny spiller og væk fra gammel spiller
     public int[] valuesTransfer(Player player, int fieldNumber) {
         int[] fields = player.getOwnedFields();
-        Player newOwner = ((Ownable) fieldProperty.getField(fieldNumber)).getOwnedBy();
+        Player newOwner = ((Ownable) gameBoard.getField(fieldNumber)).getOwnedBy();
         for (int field : fields) {
-            ((Ownable) fieldProperty.getField(field)).setOwnedBy(newOwner);
+            ((Ownable) gameBoard.getField(field)).setOwnedBy(newOwner);
             newOwner.setOwnership(field);
         }
         int transfer = player.getBalance();
@@ -173,9 +173,9 @@ public class Calculator {
     public int[] valuesTransfer(Player player) {
         int[] fields = player.getOwnedFields();
         for (int field : fields) {
-            ((Ownable) fieldProperty.getField(field)).setOwnedBy(null);
-            if (fieldProperty.getField(field) instanceof Property) {
-                ((Property) fieldProperty.getField(field)).setHouseAmount(0);
+            ((Ownable) gameBoard.getField(field)).setOwnedBy(null);
+            if (gameBoard.getField(field) instanceof Property) {
+                ((Property) gameBoard.getField(field)).setHouseAmount(0);
             }
         }
         int transfer = player.getBalance();
