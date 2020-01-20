@@ -42,7 +42,7 @@ public class TurnController {
             model.Player player = movementController.makeMove(playerIndex);
             int die1 = movementController.getLatestRoll()[0].getFaceValue();
             int die2 = movementController.getLatestRoll()[1].getFaceValue();
-            int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
+            int diesum = die1 + die2;
 
             guiController.displayRollGUI(die1,die2);
 
@@ -50,9 +50,10 @@ public class TurnController {
                 guiController.movePlayerGUI(playerIndex, movementController.getLatestPosition(player, diesum), diesum);
             }
 
-            boolean playerInJail = movementController.getPlayers()[playerIndex].getInJail();
+            boolean playerInJail = player.getInJail();
             if (!playerInJail) {
-                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
+                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum)
+                        , player.getPosition()));
                 guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
 
                 int fieldNumber = player.getPosition();
@@ -80,7 +81,6 @@ public class TurnController {
                         //Hvis feltet ejes og du er ejer, kan du byg hus
                         if (plField instanceof field.Ownable.Property && player.equals(((Ownable) plField).getOwnedBy()) &&
                         calculator.getCredibilityHouse(player, fieldNumber, 1)) {
-
                             if (calculator.isBuildable(fieldNumber)) {
                                 build(playerIndex, player, fieldNumber, (Property) plField);
                             }
@@ -127,11 +127,11 @@ public class TurnController {
                             }
                         }
                     } else {
-                    if (calculator.getCredibilityTax(player, fieldNumber)) {
-                        calculator.payTax(player, fieldNumber);
-                    } else {
-                        playerBankrupt(player, fieldNumber);
-                    }
+                        if (calculator.getCredibilityTax(player, fieldNumber)) {
+                            calculator.payTax(player, fieldNumber);
+                        } else {
+                            playerBankrupt(player, fieldNumber);
+                        }
                     }
                 }
 
@@ -204,7 +204,7 @@ public class TurnController {
                 if (pl.isInAuction())
                     x++;
             }
-            //System.out.println("x is " + x);
+
             if ((x == 1) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
                 int a = 0;
                 for (int i = 0; i < movementController.getPlayers().length; i++) {
@@ -216,11 +216,9 @@ public class TurnController {
                 guiController.updatePlayerBalanceGUI(a, winner.getBalance());
                 guiController.setFieldBorderGUI(player.getPosition(), a);
 
-                System.out.println("fundet en køber");
                 n = false;
 
             } else if (winner == null) {
-                //System.out.println("ikke fundet en køber");
                 n = false;
 
             }
@@ -252,7 +250,6 @@ public class TurnController {
                 }
             }
             else {
-                //System.out.println("Besked" +card.getMessage() + " reward: " + card.getReward());
                 guiController.displayChancecardGUI(card.getMessage());
                 player.deposit(card.getReward());
             }
@@ -262,10 +259,6 @@ public class TurnController {
     //når et felt købes, sættes border, sørger for at spiller kan bygge og betaler for felt
     private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
         calculator.buyField(player, fieldNumber);
-
-        if (plField instanceof Property) {
-            ((Property) plField).setCanBuild(true);
-        }
         guiController.setFieldBorderGUI(fieldNumber, turnTimer);
     }
 
@@ -276,7 +269,7 @@ public class TurnController {
 
         if (plField.getHouseAmount() == 4) {
             if (guiController.yesNoButton(Language.queryHotelBuy(plField.getHotelCost())))
-                plField.setHotelAmount(1);
+                calculator.buyHouse(player, fieldNumber, 1);
             guiController.addHotelToGUI(fieldNumber);
         }
 
@@ -326,6 +319,7 @@ public class TurnController {
     private void playerBankrupt(Player player, int fieldNumber){
         guiController.getUserResponse(Language.lostGame());
         Field field = calculator.getField(fieldNumber);
+
         if (field instanceof Ownable){
             int[] fields = calculator.valuesTransfer(player, fieldNumber);
             int newOwnerNumber = 0;
@@ -345,6 +339,7 @@ public class TurnController {
             }
             guiController.remmovePlayerOwned(fields);
         }
+
         guiController.updatePlayerBalanceGUI(playerIndex, -1);
         removePlayer();
         playerIndex--;

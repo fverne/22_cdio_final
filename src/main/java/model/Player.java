@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class Player {
 
     //information holding variables
-
     private int balance;
     private int position;
     private String name;
@@ -61,18 +60,6 @@ public class Player {
     public int getPosition() {
         return position;
     }
-
-/*
-    public void setPosition(int moveLength) {
-        if (moveLength + position > 39){
-            position = (position + moveLength) - 40;
-            deposit(4000);
-        } else {
-            position += moveLength;
-        }
-    }
-
- */
 
     public void setOwnership(int field) {
         if (ownedFields.length == 0) {

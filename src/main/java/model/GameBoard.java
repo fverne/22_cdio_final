@@ -63,7 +63,8 @@ public class GameBoard {
             text = text + "\n " + Language.hotel() + ": " + desc[desc.length - 2] + Language.currency();
         }
 
-        //text = text + "\n Pantsætningsværdi: " + desc[desc.length-1] + "kr."; // denne er udkommenteret da vi ikke fik indført pantsætning af ejendomme
+        // denne del er udkommenteret da vi ikke fik indført pantsætning af ejendomme
+        //text = text + "\n Pantsætningsværdi: " + desc[desc.length-1] + "kr.";
 
         return text;
     }

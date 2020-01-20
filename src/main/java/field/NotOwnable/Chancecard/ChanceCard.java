@@ -17,6 +17,7 @@ public class ChanceCard {
     public int getReward() {
         return reward;
     }
+
     public String getMessage() {
         return message;
     }

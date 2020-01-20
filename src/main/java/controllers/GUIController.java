@@ -154,6 +154,7 @@ public class GUIController {
 
     public int getUserIntWithString(String text) {
         int price = gui.getUserInteger(text);
+
         return price;
     }
 
@@ -167,9 +168,10 @@ public class GUIController {
         int numberOfPlayers = gui.getUserInteger(Language.enterPlayerAmount() + ": ");
 
         while (numberOfPlayers < 3 || numberOfPlayers > 6) {
-            gui.showMessage("Indtast mellem 3-6 spillere");
-            numberOfPlayers = gui.getUserInteger("Indtast antal spillere: ");
+            gui.showMessage(Language.enterCorrectPlayerAmount() + ": ");
+            numberOfPlayers = gui.getUserInteger(Language.enterPlayerAmount() + ": ");
         }
+
         return numberOfPlayers;
     }
 
@@ -179,8 +181,7 @@ public class GUIController {
         boolean nametaken;
         for (int i = 0; i < numberOfPlayers; i++) {
             String name;
-            do
-            {                                                 // do while checker om spillerens navn eksisterer i forvejen
+            do {                                                 // do while checker om spillerens navn eksisterer i forvejen
                 name = gui.getUserString(Language.enterName() + ": ");
                 nametaken = false;
 
@@ -214,7 +215,6 @@ public class GUIController {
 
     // Fjern spillern fra gui player arrayet
     public void deleteCar(int playerNr, int pos) {
-
         removeCarGUI(playerNr, pos);
         GUI_Player[] newGuiPl = new GUI_Player[gui_player.length - 1];
         int x = 0;
@@ -225,10 +225,8 @@ public class GUIController {
             }
         }
         gui_player = newGuiPl;
-        System.out.println("Updater number of player = " + gui_player.length);
-        System.out.println("new player aarya er = " + newGuiPl.length);
-        this.numberOfPlayers = gui_player.length;
 
+        this.numberOfPlayers = gui_player.length;
     }
 
     //fjerner spillers owned border

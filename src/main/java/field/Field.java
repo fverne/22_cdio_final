@@ -9,10 +9,7 @@ public abstract class Field {
     public Field(String name, String text) {
         this.name = name;
         this.text = text;
-    }/*
-    public void landOn(Player pl){
-
-    }*/
+    }
 
     public String getName() {
         return name;
@@ -29,6 +26,4 @@ public abstract class Field {
     public void setText(String text) {
         this.text = text;
     }
-
-
 }

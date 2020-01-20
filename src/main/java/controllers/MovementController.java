@@ -6,10 +6,8 @@ import model.Language;
 import model.Player;
 
 public class MovementController {
-
     private DiceHolder dice;
     private Player[] players;
-
 
     public MovementController(int numberOfPlayers) {
         players = new Player[numberOfPlayers];
@@ -71,6 +69,7 @@ public class MovementController {
                 }
             }
         }
+
         return players[player];
     }
 
@@ -93,6 +92,7 @@ public class MovementController {
             msg = Language.passedStart() + ".";
             return msg;
         }
+
         return null;
     }
 
@@ -100,6 +100,7 @@ public class MovementController {
     public Player landOnJailField(int player) {
         players[player].setPosition(10);
         players[player].setInJail(true);
+
         return players[player];
     }
 

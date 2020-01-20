@@ -13,8 +13,6 @@ public abstract class Building extends Ownable {
     public int getRent(int fieldsOwned) {
         return rentList[fieldsOwned];
     }
-
-
 }
 
 
