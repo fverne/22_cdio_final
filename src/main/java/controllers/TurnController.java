@@ -50,9 +50,10 @@ public class TurnController {
                 guiController.movePlayerGUI(playerIndex, movementController.getLatestPosition(player, diesum), diesum);
             }
 
-            boolean playerInJail = movementController.getPlayers()[playerIndex].getInJail();
+            boolean playerInJail = player.getInJail();
             if (!playerInJail) {
-                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
+                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum)
+                        , player.getPosition()));
                 guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
 
                 int fieldNumber = player.getPosition();
