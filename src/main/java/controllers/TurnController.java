@@ -42,7 +42,7 @@ public class TurnController {
             model.Player player = movementController.makeMove(playerIndex);
             int die1 = movementController.getLatestRoll()[0].getFaceValue();
             int die2 = movementController.getLatestRoll()[1].getFaceValue();
-            int diesum = movementController.getLatestRoll()[0].getFaceValue() + movementController.getLatestRoll()[1].getFaceValue();
+            int diesum = die1 + die2;
 
             guiController.displayRollGUI(die1,die2);
 
@@ -50,9 +50,10 @@ public class TurnController {
                 guiController.movePlayerGUI(playerIndex, movementController.getLatestPosition(player, diesum), diesum);
             }
 
-            boolean playerInJail = movementController.getPlayers()[playerIndex].getInJail();
+            boolean playerInJail = player.getInJail();
             if (!playerInJail) {
-                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum), player.getPosition()));
+                guiController.displayGUIMsg(movementController.passedStart(movementController.getLatestPosition(player,diesum)
+                        , player.getPosition()));
                 guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
 
                 int fieldNumber = player.getPosition();
@@ -257,10 +258,6 @@ public class TurnController {
     //når et felt købes, sættes border, sørger for at spiller kan bygge og betaler for felt
     private void buyField(int turnTimer, Player player, int fieldNumber, Field plField) {
         calculator.buyField(player, fieldNumber);
-
-        if (plField instanceof Property) {
-            ((Property) plField).setCanBuild(true);
-        }
         guiController.setFieldBorderGUI(fieldNumber, turnTimer);
     }
 
@@ -271,7 +268,7 @@ public class TurnController {
 
         if (plField.getHouseAmount() == 4) {
             if (guiController.yesNoButton(Language.queryHotelBuy(plField.getHotelCost())))
-                plField.setHotelAmount(1);
+                calculator.buyHouse(player, fieldNumber, 1);
             guiController.addHotelToGUI(fieldNumber);
         }
 

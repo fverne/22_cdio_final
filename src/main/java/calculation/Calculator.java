@@ -8,6 +8,7 @@ import field.FieldProperty;
 import model.Player;
 
 public class Calculator {
+
     private FieldProperty fieldProperty;
 
     public Calculator() {
@@ -84,6 +85,7 @@ public class Calculator {
     public Player payRent(model.Player player, int fieldNumber, Die[] die) {
         int rent = fieldProperty.getRent(fieldNumber);
         model.Player owner = fieldProperty.getOwner(fieldNumber);
+
         int[] fields = fieldProperty.getFieldCategory(fieldNumber);
         int temp = 0;
 
@@ -124,6 +126,7 @@ public class Calculator {
     public void buyHouse(Player player, int fieldNumber, int amount) {
         int price = (fieldProperty.getHousePrice(fieldNumber) * amount);
         player.withdraw(price);
+        fieldProperty.changeHouseAmount(fieldNumber, player, amount);
     }
 
     //kan der bygges på felt? er feltet ejet, så nej, er feltet frit, så ja
@@ -173,7 +176,6 @@ public class Calculator {
             ((Ownable) fieldProperty.getField(field)).setOwnedBy(null);
             if (fieldProperty.getField(field) instanceof Property) {
                 ((Property) fieldProperty.getField(field)).setHouseAmount(0);
-                ((Property) fieldProperty.getField(field)).setHotelAmount(0);
             }
         }
         int transfer = player.getBalance();
