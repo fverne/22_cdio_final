@@ -59,6 +59,11 @@ public class TurnController {
                 int fieldNumber = player.getPosition();
                 field.Field plField = calculator.getField(fieldNumber);
 
+                //hvis chancefelt
+                if(plField instanceof ChanceField){
+                    landOnChancecard(player, plField);
+                }
+
                 //hvis købbart felt
                 if (plField instanceof Ownable) {
 
@@ -97,11 +102,6 @@ public class TurnController {
                     }
                 }
 
-                //chancekort
-                if (plField instanceof ChanceField) {
-                    landOnChancecard(player, plField);
-                }
-                
                 //Gå i fængsel-felt
                 if (plField instanceof field.NotOwnable.GoToJail) {
                     movementController.landOnJailField(playerIndex);
@@ -221,6 +221,7 @@ public class TurnController {
 
             } else if (winner == null) {
                 n = false;
+
             }
             if (!n) {
                 for (Player pl : movementController.getPlayers()) {
