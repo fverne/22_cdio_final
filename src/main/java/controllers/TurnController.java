@@ -1,9 +1,9 @@
 package controllers;
 
-import model.field.Field;
-import model.field.notOwnable.ChanceField;
-import model.field.ownable.Property;
-import model.field.ownable.Ownable;
+import model.fields.Field;
+import model.fields.notOwnable.ChanceField;
+import model.fields.ownable.Property;
+import model.fields.ownable.Ownable;
 import model.chancecard.ChanceCard;
 import model.language.Language;
 import model.Player;
@@ -58,7 +58,7 @@ public class TurnController {
                 guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
 
                 int fieldNumber = player.getPosition();
-                model.field.Field plField = calculator.getField(fieldNumber);
+                model.fields.Field plField = calculator.getField(fieldNumber);
 
                 //hvis chancefelt
                 if(plField instanceof ChanceField){
@@ -80,7 +80,7 @@ public class TurnController {
                         }
                     } else {
                         //Hvis feltet ejes og du er ejer, kan du byg hus
-                        if (plField instanceof model.field.ownable.Property && player.equals(((Ownable) plField).getOwnedBy()) &&
+                        if (plField instanceof model.fields.ownable.Property && player.equals(((Ownable) plField).getOwnedBy()) &&
                         calculator.getCredibilityHouse(player, fieldNumber, 1)) {
                             if (calculator.isBuildable(fieldNumber)) {
                                 build(playerIndex, player, fieldNumber, (Property) plField);
@@ -104,14 +104,14 @@ public class TurnController {
                 }
 
                 //Gå i fængsel-felt
-                if (plField instanceof model.field.notOwnable.GoToJail) {
+                if (plField instanceof model.fields.notOwnable.GoToJail) {
                     movementController.landOnJailField(playerIndex);
                     guiController.removeCarGUI(playerIndex, 30);
                     guiController.teleportPlayerGUI(playerIndex, 10);
                 }
 
                 //tax
-                if (plField instanceof model.field.notOwnable.Tax) {
+                if (plField instanceof model.fields.notOwnable.Tax) {
                     if (fieldNumber == 4) {
                         if (guiController.getUserDecision(Language.queryPayTax(),
                                 Language.pay() + " 10%", Language.pay() + " 4000 " + Language.currency())) {

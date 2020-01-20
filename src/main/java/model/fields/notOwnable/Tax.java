@@ -1,4 +1,4 @@
-package model.field.notOwnable;
+package model.fields.notOwnable;
 
 public class Tax extends NotOwnable {
     private int rent;

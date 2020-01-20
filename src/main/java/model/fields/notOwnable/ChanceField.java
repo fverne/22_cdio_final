@@ -1,4 +1,4 @@
-package model.field.notOwnable;
+package model.fields.notOwnable;
 
 
 import model.chancecard.ChanceCard;

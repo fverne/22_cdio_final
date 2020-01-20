@@ -1,4 +1,4 @@
-package model.field.ownable.buildings;
+package model.fields.ownable.buildings;
 
 public class Brewery extends Building {
 

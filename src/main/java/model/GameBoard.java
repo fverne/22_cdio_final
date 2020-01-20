@@ -1,15 +1,15 @@
 package model;
 
-import model.field.Field;
-import model.field.notOwnable.ChanceField;
-import model.field.notOwnable.GoToJail;
-import model.field.notOwnable.Tax;
-import model.field.notOwnable.Refuge;
-import model.field.ownable.buildings.Building;
-import model.field.ownable.buildings.Brewery;
-import model.field.ownable.buildings.Ferry;
-import model.field.ownable.Property;
-import model.field.ownable.Ownable;
+import model.fields.Field;
+import model.fields.notOwnable.ChanceField;
+import model.fields.notOwnable.GoToJail;
+import model.fields.notOwnable.Tax;
+import model.fields.notOwnable.Refuge;
+import model.fields.ownable.buildings.Building;
+import model.fields.ownable.buildings.Brewery;
+import model.fields.ownable.buildings.Ferry;
+import model.fields.ownable.Property;
+import model.fields.ownable.Ownable;
 
 
 public class GameBoard {
@@ -96,12 +96,12 @@ public class GameBoard {
     }
 
     public int getHousePrice(int fieldNumber) {
-        model.field.ownable.Property field = (model.field.ownable.Property) fieldProperty[fieldNumber];
+        model.fields.ownable.Property field = (model.fields.ownable.Property) fieldProperty[fieldNumber];
         return field.getHouseCost();
     }
 
     public void changeHouseAmount(int fieldNumber, model.Player player, int amount) {
-        model.field.ownable.Property field = (model.field.ownable.Property) fieldProperty[fieldNumber];
+        model.fields.ownable.Property field = (model.fields.ownable.Property) fieldProperty[fieldNumber];
         field.changeHouseAmount(amount, player);
     }
 

@@ -1,7 +1,7 @@
-package model.field.notOwnable;
+package model.fields.notOwnable;
 
 
-import model.field.Field;
+import model.fields.Field;
 
 public abstract class NotOwnable extends Field {
     public NotOwnable(String name, String text) {

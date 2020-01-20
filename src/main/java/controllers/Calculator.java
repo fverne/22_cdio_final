@@ -1,8 +1,8 @@
 package controllers;
 
-import model.field.Field;
-import model.field.ownable.Ownable;
-import model.field.ownable.Property;
+import model.fields.Field;
+import model.fields.ownable.Ownable;
+import model.fields.ownable.Property;
 import model.Die;
 import model.GameBoard;
 import model.Player;
@@ -104,11 +104,11 @@ public class Calculator {
             rent = rent * 2;
         }
 
-        if (gameBoard.getField(fieldNumber) instanceof model.field.ownable.buildings.Ferry) {
+        if (gameBoard.getField(fieldNumber) instanceof model.fields.ownable.buildings.Ferry) {
             rent = gameBoard.getRent(fieldNumber, temp);
         }
 
-        if (gameBoard.getField(fieldNumber) instanceof model.field.ownable.buildings.Brewery) {
+        if (gameBoard.getField(fieldNumber) instanceof model.fields.ownable.buildings.Brewery) {
             rent = gameBoard.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
         }
 
