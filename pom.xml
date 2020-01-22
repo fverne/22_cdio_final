@@ -33,5 +33,12 @@
             <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>22_cdio_final</groupId>
+            <artifactId>sample</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/22_cdio_final.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

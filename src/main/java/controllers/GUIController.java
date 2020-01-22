@@ -128,8 +128,11 @@ public class GUIController {
         }
     }
 
-    //fjerner border og substring fra felt
-    private void removeFieldBorderGUI(int fieldNumber) {
+    /**
+     * fjerner border og substring fra felt
+     * @param fieldNumber felt index
+     */
+    public void removeFieldBorderGUI(int fieldNumber) {
         if (guiGameBoard.getGUIField(fieldNumber) instanceof GUI_Street) {
             GUI_Street street = (GUI_Street) guiGameBoard.getGUIField(fieldNumber);
             street.setBorder(Color.BLACK, Color.WHITE);
@@ -150,12 +153,6 @@ public class GUIController {
     //tager imod integer fra bruger
     public int getUserIntGUI() {
         return gui.getUserInteger(Language.enterPrice());
-    }
-
-    public int getUserIntWithString(String text) {
-        int price = gui.getUserInteger(text);
-
-        return price;
     }
 
     //tager imod en int fra bruger
