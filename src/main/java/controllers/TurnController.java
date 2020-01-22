@@ -168,8 +168,8 @@ public class TurnController {
     private void auction(Player player, Field plField) {
         int highestBid = ((Ownable) plField).getCost();
         Player winner = null;
-        boolean n = true;
-        while (n) {
+        boolean runAuction = true;
+        while (runAuction) {
             player.setInAuction(false);
             for (Player pl : movementController.getPlayers()) {
                 if (pl.isInAuction()) {
@@ -200,13 +200,13 @@ public class TurnController {
                     }
                 }
             }
-            int x = 0;
+            int playerInAuction = 0;
             for (Player pl : movementController.getPlayers()) {
                 if (pl.isInAuction())
-                    x++;
+                    playerInAuction++;
             }
 
-            if ((x == 1) && winner != null) { //x er 2 fordi spillern der landede på feltet er med i in
+            if ((playerInAuction == 1) && winner != null) {
                 int a = 0;
                 for (int i = 0; i < movementController.getPlayers().length; i++) {
                     if (movementController.getPlayers()[i].equals(winner)) {
@@ -217,13 +217,13 @@ public class TurnController {
                 guiController.updatePlayerBalanceGUI(a, winner.getBalance());
                 guiController.setFieldBorderGUI(player.getPosition(), a);
 
-                n = false;
+                runAuction = false;
 
             } else if (winner == null) {
-                n = false;
+                runAuction = false;
 
             }
-            if (!n) {
+            if (!runAuction) {
                 for (Player pl : movementController.getPlayers()) {
                     pl.setInAuction(true);
                 }
