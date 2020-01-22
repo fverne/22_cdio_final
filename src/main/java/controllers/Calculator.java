@@ -133,7 +133,7 @@ public class Calculator {
      * @param die - terning array
      * @return - feltets ejer
      */
-    public Player payRent(Player player, int fieldNumber, Die[] die) {
+    public Player payRent(Player player, int fieldNumber/*, Die[] die*/) {
         int rent = gameBoard.getRent(fieldNumber);
         Player owner = gameBoard.getOwner(fieldNumber);
 
@@ -159,9 +159,9 @@ public class Calculator {
             rent = gameBoard.getRent(fieldNumber, temp);
         }
 
-        if (gameBoard.getField(fieldNumber) instanceof model.fields.ownable.buildings.Brewery) {
-            rent = gameBoard.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
-        }
+        //if (gameBoard.getField(fieldNumber) instanceof model.fields.ownable.buildings.Brewery) {
+          //  rent = gameBoard.getRent(fieldNumber, temp) * (die[0].getFaceValue() + die[1].getFaceValue());
+        //}
 
         player.withdraw(rent);
         owner.deposit(rent);
@@ -181,8 +181,8 @@ public class Calculator {
      * @param amount - antal ønskede huse
      */
     public void buyHouse(Player player, int fieldNumber, int amount) {
-        int price = (gameBoard.getHousePrice(fieldNumber) * amount);
-        player.withdraw(price);
+            int price = (gameBoard.getHousePrice(fieldNumber) * amount);
+            player.withdraw(price);
         gameBoard.changeHouseAmount(fieldNumber, player, amount);
     }
 

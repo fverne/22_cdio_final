@@ -22,20 +22,20 @@ public class Deck {
             new ChanceCard("Du har fået en parkeringsbøde, betal 200 kr.", -200, 1, "Parkeringsbøde", false),
             new ChanceCard("Du har vundet i Klasselotteriet, modtag 500 kr.", 500, 1, "Klasselotteriet", false),
             new ChanceCard("Kommunen har eftergivet et kvartals skat. Hæv 3000kr. i banken", 3000, 1, "Kvartalsskat", false),
-            new ChanceCard("Lønforhøjsen", 1000, 0, "Lønforhøjelse! modtog 1000 kr.", false),
+          //  new ChanceCard("Lønforhøjsen", 1000, 0, "Lønforhøjelse! modtog 1000 kr.", false),
             new ChanceCard("Deres præmieobligation er kommet ud. Du modtager 1000 kr. fra banken", 1000, 1, "Præmieobligation", false),
             new ChanceCard("De har modtaget deres aktieudbytte. Modtag 1000 kr. fra banken", 1000, 1, "Aktieudbytte", false),
             new ChanceCard("Værdien af egen avl fra nyttehaven udgør 200, som du modtager fra banken", 200, 1, "Nyttehave udbytte", false),
             new ChanceCard("Modtag udbytte af Deres aktier, modtag 1000 kr.", 1000, 1, "Aktieudbytte", false),
             new ChanceCard("De havde en række med elleve rigtige, modtag 1000 kr. banken", 1000, 1, "", false),
-            new ChanceCard("Modtag udbytte af Deres aktier, modtag 1000 kr.", 1000, 1, "Aktieudbytte", false),
+  /*          new ChanceCard("Modtag udbytte af Deres aktier, modtag 1000 kr.", 1000, 1, "Aktieudbytte", false),
             new ChanceCard("Gå i fængsel. Ryk direkte i fængslet. Selv om start passeres, modtager de ikke 4000 kr.", 0, 10, "Gå i Fængsel", true),
             new ChanceCard("Ryk frem til frederiksberg alle, hvis start passeres, inkassér 4000 kr.", 0, 11, "Ryk til frb. alle", false),
             new ChanceCard("Ryk frem til grønningen, hvis start passeres, inkassér 4000 kr.", 0, 24, "Ryk til Grønningen", false),
             new ChanceCard("Ryk frem til start", 0, 0, "START", false),
             new ChanceCard("Tag med øresundsbåden - Flyt brikken frem, hvis start passeres, modtag 4000 kr.", 0, 5, "Øresundsbåden", false),
             new ChanceCard("Besøg rådhuspladsen", 0, 39, "", false),
-
+*/
             // Nedenstående chancekort er kommenteret ud, da vi ikke nåede at få implementeret disse.
             //new ChanceCard("Ryk brikken frem til det nærmeste rederi og betal ejen to gange den leje, han ellers er berettiget til. Hvis selvskabet ikke ejes af nogen kan du købe det af banken",0,0,"",false),
             //new ChanceCard("Ryk tre felter tilbage",0,0,"",false),

@@ -1,12 +1,13 @@
 package controllers;
 
+import model.DemoDie;
 import model.DiceHolder;
 import model.Die;
 import model.language.Language;
 import model.Player;
 
 public class MovementController {
-    private DiceHolder dice;
+    private DemoDie dice;
     private Player[] players;
 
     public MovementController(int numberOfPlayers) {
@@ -14,14 +15,14 @@ public class MovementController {
         for (int i = 0; i < numberOfPlayers; i++) {
             players[i] = new Player();
         }
-        dice = new DiceHolder();
+        dice = new DemoDie();
     }
 
     public Player[] getPlayers() {
         return players;
     }
 
-    public Die[] getLatestRoll() {
+    public int[] getLatestRoll() {
         return dice.getFaceValues();
     }
 
@@ -37,7 +38,7 @@ public class MovementController {
     //logikken bag spillerens bevægelser på spillepladen
     public Player makeMove(int player) {
         //hvis spilleren er i fængsel
-        if (players[player].getInJail()) {
+        /*if (players[player].getInJail()) {
             //hvis man ruller to ens
             if (dice.rollDice()[0].getFaceValue() == getLatestRoll()[1].getFaceValue()) {
                 setPosition(players[player], getLatestRoll()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
@@ -58,9 +59,9 @@ public class MovementController {
                     players[player].setTurnsInARow(0);
                     //hvis man ikke ruller to ens
                 } else {
-                    players[player].setTurnsInARow(0);
-                    setPosition(players[player], getLatestRoll()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
-                }
+                    players[player].setTurnsInARow(0);*/
+                    setPosition(players[player], getLatestRoll()[0] + getLatestRoll()[1]);
+                /*}
                 //hvis det ikke er ens tredje tur
             } else {
                 setPosition(players[player], dice.rollDice()[0].getFaceValue() + getLatestRoll()[1].getFaceValue());
@@ -68,8 +69,7 @@ public class MovementController {
                     players[player].setTurnsInARow(0);
                 }
             }
-        }
-
+        }*/
         return players[player];
     }
 
@@ -120,4 +120,9 @@ public class MovementController {
         }
         players = newPlayers;
     }
+
+    public void setCounter(){
+        dice.setCounter();
+    }
 }
+

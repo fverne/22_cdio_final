@@ -18,8 +18,8 @@ public class Property extends Ownable {
     }
 
     public void changeHouseAmount(int amount, Player pl) {
-        if (pl == this.getOwnedBy() && amount >= this.houseAmount) {
-            setHouseAmount(houseAmount + amount);
+        if (pl == this.getOwnedBy()) {
+            setHouseAmount(this. houseAmount + amount);
         }
     }
 
