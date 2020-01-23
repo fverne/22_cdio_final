@@ -323,6 +323,7 @@ public class TurnController {
         if (player.getTurnsInJail() == 3 ||
                 guiController.yesNoButton(Language.queryPayBail() + "?")) {
             calculator.payBail(player);
+            guiController.updatePlayerBalanceGUI(playerIndex, player.getBalance());
             movementController.getPlayers()[playerIndex].setTurnsInJail(0);
         }
     }
