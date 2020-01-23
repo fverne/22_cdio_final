@@ -95,7 +95,11 @@ public class TurnController {
                         //ellers betal husleje
                         if (((Ownable) plField).getOwnedBy() != null && ((Ownable) plField).getOwnedBy() != player) {
                             if (calculator.getCredibilityRent(player, fieldNumber)) {
-                                guiController.getUserResponse(Language.payRentToPlayer(((Ownable) plField).getOwnedBy().getName(), ((Ownable) plField).getRent()));
+                                if (calculator.getOwnerAll(fieldNumber)) {
+                                    guiController.getUserResponse(Language.payRentToPlayer(((Ownable) plField).getOwnedBy().getName(), ((Ownable) plField).getRent() * 2));
+                                } else {
+                                    guiController.getUserResponse(Language.payRentToPlayer(((Ownable) plField).getOwnedBy().getName(), ((Ownable) plField).getRent()));
+                                }
                                 Player owner = calculator.payRent(player, fieldNumber/*, movementController.getLatestRoll()*/);
                                 for (int i = 0; i < guiController.getNumberOfPlayers(); i++) {
                                     if (movementController.getPlayers()[i].equals(owner)) {

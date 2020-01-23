@@ -169,6 +169,27 @@ public class Calculator {
         return owner;
     }
 
+    public boolean getOwnerAll(int fieldNumber){
+        boolean temp1 = false;
+        Player owner = gameBoard.getOwner(fieldNumber);
+
+        int[] fields = gameBoard.getFieldCategory(fieldNumber);
+        int temp = 0;
+
+        for (int field : fields) {
+            if (owner.equals(gameBoard.getOwner(field))) {
+                    temp++;
+            }
+        }
+
+        if (gameBoard.getField(fieldNumber) instanceof Property && ((Property) gameBoard.getField(fieldNumber)).getHouseAmount() == 0 &&
+                fields.length == temp) {
+            temp1 = true;
+        }
+
+        return temp1;
+    }
+
 
     public Field getField(int fieldNumber) {
         return gameBoard.getField(fieldNumber);
